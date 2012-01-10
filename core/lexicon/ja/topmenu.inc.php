@@ -8,13 +8,14 @@
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
+ * @author honda http://kogus.org
  */
 $_lang['about'] = 'MODXについて';
 $_lang['about_desc'] = 'MODX Revolutionに関する情報';
 $_lang['access_permissions'] = 'アクセス許可';
 $_lang['access_permissions_desc'] = 'リソースとコンテキストへのユーザーアクセス管理';
 $_lang['api_docs'] = 'APIドキュメント';
-$_lang['api_docs_desc'] = 'Complete API documentation for MODX Revolution.';
+$_lang['api_docs_desc'] = 'MODX Revolution APIドキュメント（英語）を表示';
 $_lang['components'] = 'コンポーネント';
 $_lang['content_types'] = 'コンテンツタイプ';
 $_lang['content_types_desc'] = 'リソースのコンテンツタイプを管理。フレンドリーURL設定時に付加される拡張子もここで設定';
@@ -106,4 +107,4 @@ $_lang['view_logging_desc'] = '管理ログを閲覧';
 $_lang['view_sysinfo'] = 'システム情報';
 $_lang['view_sysinfo_desc'] = 'phpinfo・mysql他サーバー情報の閲覧';
 $_lang['wiki'] = 'Wiki';
-$_lang['wiki_desc'] = 'Launch the official MODX documentation.';
+$_lang['wiki_desc'] = 'MODX公式ドキュメント（英語）を表示';
