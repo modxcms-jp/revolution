@@ -10,6 +10,8 @@
 * @author yamamoto http://kyms.jp
 * @author honda http://kogus.org
 */
+$_lang['area'] = 'Area';
+$_lang['areas'] = 'Areas';
 $_lang['class_name'] = 'クラス名';
 $_lang['default'] = '初期値';
 $_lang['duplicate_of'] = '[[+name]]の複製';
@@ -28,8 +30,12 @@ $_lang['properties_import_err_upload'] = '有効なプロパティファイル�
 $_lang['properties_import_msg'] = '有効なプロパティファイルを選択してください。';
 $_lang['properties_remove'] = 'これらのプロパティを削除';
 $_lang['properties_remove_confirm'] = 'これらのプロパティを削除してよろしいですか？';
+$_lang['property'] = 'プロパティ';
+$_lang['property_area_desc'] = 'The area, or group, this property belongs to.';
 $_lang['property_create'] = '新規作成';
-$_lang['property_update'] = '編集';
+$_lang['property_description_desc'] = 'A short description of the property. This can be a lexicon key of the property\'s lexicon.';
+$_lang['property_lexicon_desc'] = 'Optional. The lexicon that this property\'s fields can be translated with.';
+$_lang['property_name_desc'] = 'The name of the property, which will be accessible via: [[+propertyName]]';
 $_lang['property_option_create'] = 'プロパティオプションを新規作成';
 $_lang['property_option_remove'] = 'プロパティオプションを削除';
 $_lang['property_option_remove_confirm'] = 'プロパティオプションを削除してよろしいですか？';
@@ -40,6 +46,8 @@ $_lang['property_revert_all'] = '全てデフォルトに戻す';
 $_lang['property_revert_all_confirm'] = '全てのプロパティをデフォルトに戻してよろしいですか？';
 $_lang['property_remove'] = '削除';
 $_lang['property_remove_confirm'] = 'このプロパティを削除してよろしいですか？';
+$_lang['property_update'] = '編集';
+$_lang['property_xtype_desc'] = 'The input type of the property.';
 $_lang['propertyset'] = 'プロパティセット';
 $_lang['propertyset_add'] = 'プロパティセットを追加';
 $_lang['propertyset_create'] = '新規作成';

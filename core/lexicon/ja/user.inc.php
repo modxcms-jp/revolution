@@ -11,7 +11,7 @@
 * @author honda http://kogus.org
 */
 $_lang['active'] = '有効';
-$_lang['address'] = '都道府県';
+$_lang['address'] = '住所';
 $_lang['administrator'] = '管理者';
 $_lang['authority'] = '特権レベル';
 $_lang['change_password'] = 'パスワードの変更';
@@ -136,6 +136,7 @@ $_lang['user_group_err_nf'] = 'ユーザーグループが見つかりません'
 $_lang['user_group_err_not_found'] = 'ユーザーグループが見つかりません';
 $_lang['user_group_err_not_specified'] = 'ユーザーグループが指定されていません';
 $_lang['user_group_err_ns'] = 'ユーザーグループが指定されていません';
+$_lang['user_group_err_ns_name'] = 'Please specify a name for this user group.';
 $_lang['user_group_err_remove'] = 'ユーザーグループの削除中にエラーが発生しました。';
 $_lang['user_group_err_remove_admin'] = '管理者のグループを削除できません。';
 $_lang['user_group_err_save'] = 'ユーザーグループの保存中にエラーが発生しました。';
