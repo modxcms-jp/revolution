@@ -1,6 +1,6 @@
 <?php
 /**
- * Japanese language files for Revolution 2.0.5 setup
+ * Japanese language files for Revolution 2.2 setup
  *
  * @package setup
  * @author KUROI Enogu http://twitter.com/enogu
@@ -76,7 +76,7 @@ $_lang['db_err_show_charsets'] = 'MySQLサーバーから利用可能なキャ�
 $_lang['db_err_show_collations'] = 'MySQLサーバから利用可能な照合順序を得ることができませんでした。';
 $_lang['db_success'] = '問題ありません';
 $_lang['db_test_coll_msg'] = 'ここをクリックしてデータベースの選択を確認してください。<br />指定のデータベースが存在しない場合は新規作成を試みます。';
-$_lang['db_test_conn_msg'] = 'ここをクリックしてMySQLサーバへの接続をテストしてください';
+$_lang['db_test_conn_msg'] = 'ここをクリックしてデータベース接続をテストしてください';
 $_lang['default_admin_user'] = 'デフォルト管理ユーザー';
 $_lang['delete_setup_dir'] = 'セットアップディレクトリを削除する';
 $_lang['dir'] = 'ltr:左から右';
@@ -151,7 +151,7 @@ $_lang['modx_class_err_nf'] = 'MODXクラスの読み込みに失敗しました
 $_lang['modx_configuration_file'] = 'MODX設定ファイル';
 $_lang['modx_err_instantiate'] = 'MODXオブジェクトを生成できません。';
 $_lang['modx_err_instantiate_mgr'] = '管理画面コンテキストの初期化に失敗しました。';
-$_lang['modx_footer1'] = '&copy; 2005-2011 the <a href="http://modx.com/" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"  style="color: green; text-decoration:underline">MODX</a> Content Management Framework (CMF) project. All rights reserved. MODX is licensed under the GNU GPL.';
+$_lang['modx_footer1'] = '&copy; 2005-2012 the <a href="http://modx.com/" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;">MODX</a> Content Management Framework (CMF) project. All rights reserved. MODX is licensed under the GNU GPL.';
 $_lang['modx_footer2'] = 'MODX is free software.  We encourage you to be creative and make use of MODX in any way you see fit. Just make sure that if you do make changes and decide to redistribute your modified MODX, that you keep the source code free!';
 $_lang['modx_install'] = 'MODX Revolutionのインストール';
 $_lang['modx_install_complete'] = 'MODXのインストールが完了しました';
@@ -216,7 +216,7 @@ $_lang['username_err_ns'] = 'ユーザー名が不正です。';
 $_lang['version'] = 'version';
 $_lang['warning'] = 'Warning';
 $_lang['welcome'] = 'MODX Revolutionへようこそ！';
-$_lang['welcome_message'] = '<p>期待の新世代フレームワーク「MODX Revolution」を、このサーバーにインストールします。<br />このインストーラを使う限りにおいては事前の準備作業は不要。パーミッション変更・オプション選択など、必要に応じてナビゲーションいたします。</p>
+$_lang['welcome_message'] = '<p>期待の新世代フレームワーク「MODX Revolution」を、このサーバーにインストールします。<br />パーミッション変更・オプション選択など、必要に応じてナビゲーションいたします。</p>
 	<p>[次へ] をクリックしてください。</p>
 ';
 $_lang['workspace_err_nf'] = '現在の作業ディレクトリが発見できませんでした。';
