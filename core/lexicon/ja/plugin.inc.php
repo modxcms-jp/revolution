@@ -1,14 +1,15 @@
 <?php
 /**
- * Plugin Japanese lexicon topic
- *
- * @language ja
- * @package modx
- * @subpackage lexicon
- * @author Nick http://smallworld.west-tokyo.com
- * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
- */
+* Plugin Japanese lexicon topic
+*
+* @language ja
+* @package modx
+* @subpackage lexicon
+* @author Nick http://smallworld.west-tokyo.com
+* @author shimojo http://www.priqia.com/
+* @author yamamoto http://kyms.jp
+* @author honda http://kogus.org
+*/
 $_lang['event'] = 'イベント';
 $_lang['events'] = 'イベント';
 $_lang['plugin'] = 'プラグイン';
@@ -17,9 +18,9 @@ $_lang['plugin_add_to_event'] = 'イベントへプラグインを追加';
 $_lang['plugin_code'] = 'プラグイン コード (php)';
 $_lang['plugin_config'] = 'プラグイン設定';
 $_lang['plugin_desc'] = '説明';
-$_lang['plugin_desc_category'] = 'The Category this Plugin belongs in.';
-$_lang['plugin_desc_description'] = 'A short description of this Plugin.';
-$_lang['plugin_desc_name'] = 'The name of this Plugin.';
+$_lang['plugin_desc_category'] = 'このプラグインが所属するカテゴリー';
+$_lang['plugin_desc_description'] = 'プラグインの簡単な説明';
+$_lang['plugin_desc_name'] = 'このプラグインの名前';
 $_lang['plugin_delete_confirm'] = 'プラグインを削除しますか?';
 $_lang['plugin_disabled'] = 'プラグインの停止';
 $_lang['plugin_duplicate_confirm'] = 'プラグインを複製しますか?';
