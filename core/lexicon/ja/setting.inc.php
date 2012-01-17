@@ -1,14 +1,15 @@
 <?php
 /**
- * Setting Japanese lexicon topic
- *
- * @language ja
- * @package modx
- * @subpackage lexicon
- * @author Nick http://smallworld.west-tokyo.com
- * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
- */
+* Setting Japanese lexicon topic
+*
+* @language ja
+* @package modx
+* @subpackage lexicon
+* @author Nick http://smallworld.west-tokyo.com
+* @author shimojo http://www.priqia.com/
+* @author yamamoto http://kyms.jp
+* @author honda http://kogus.org
+*/
 $_lang['area'] = 'エリア';
 $_lang['area_authentication'] = '認証とセキュリティ';
 $_lang['area_caching'] = 'キャッシュ';
@@ -83,30 +84,30 @@ $_lang['setting_allow_manager_login_forgot_password'] = 'Allow Forgot Password i
 $_lang['setting_allow_manager_login_forgot_password_desc'] = 'Setting this to "No" will disable the forgot password ability on the manager login screen.';
 $_lang['setting_allow_tags_in_post'] = 'POSTアクションでHTMLタグを許可';
 $_lang['setting_allow_tags_in_post_desc'] = '無効に設定すると、管理画面の全てのPOSTアクションは、タグを削除します。「有効」とすることを推奨します。';
-$_lang['setting_archive_with'] = 'Force PCLZip Archives';
-$_lang['setting_archive_with_desc'] = 'If true, will use PCLZip instead of ZipArchive as the zip extension. Turn this on if you are getting extractTo errors or are having problems with unzipping in Package Management.';
+$_lang['setting_archive_with'] = '強制的にPCLZipを使用';
+$_lang['setting_archive_with_desc'] = 'この設定が有効の場合、zipアーカイブに対して、ZipArchiveの代わりにPCLZipを使用します。<br />この設定は、ZipArchiveのextractToエラー時、またはパッケージの展開に問題がある場合に有効にしてください。';
 $_lang['setting_auto_menuindex'] = 'メニューインデックスを自動インクリメント';
 $_lang['setting_auto_menuindex_desc'] = '「はい」を選択すると、デフォルトでメニューのインデックスが自動的に1ずつ増加します。';
 $_lang['setting_auto_check_pkg_updates'] = 'パッケージのアップデートを自動で確認する';
 $_lang['setting_auto_check_pkg_updates_desc'] = '「はい」を選択すると、パッケージマネージャからパッケージのアップデートを自動的に確認します。ただし、一覧の読み込みが遅くなるかもしれません。';
-$_lang['setting_auto_check_pkg_updates_cache_expire'] = 'Cache Expiration Time for Automatic Package Updates Check';
-$_lang['setting_auto_check_pkg_updates_cache_expire_desc'] = 'The number of minutes that Package Management will cache the results for checking for package updates.';
+$_lang['setting_auto_check_pkg_updates_cache_expire'] = 'パッケージ自動アップデートチェックのキャッシュ有効時間';
+$_lang['setting_auto_check_pkg_updates_cache_expire_desc'] = 'パッケージの更新チェック時に、結果をキャッシュする有効時間を指定します（分数）。';
 $_lang['setting_allow_multiple_emails'] = '登録メールアドレスの重複を許可';
 $_lang['setting_allow_multiple_emails_desc'] = '有効にすると、同じメールアドレスで複数のユーザを登録することができます。';
 $_lang['setting_automatic_alias'] = 'エイリアスの自動付加';
 $_lang['setting_automatic_alias_desc'] = '「はい」を選択すると、保存時にシステムがリソースのページタイトルからエイリアスを生成します。';
-$_lang['setting_base_help_url'] = 'Base Help URL';
-$_lang['setting_base_help_url_desc'] = 'The base URL by which to build the Help links in the top right of pages in the manager.';
+$_lang['setting_base_help_url'] = 'ヘルプの基準URL';
+$_lang['setting_base_help_url_desc'] = '管理画面右上に表示される、ヘルプへのリンクの基準となるURL。';
 $_lang['setting_blocked_minutes'] = 'ブロックする時間';
 $_lang['setting_blocked_minutes_desc'] = 'ユーザーがログイン失敗許可数を超過した場合にブロックを行う時間を数値で指定できます。この値は数値のみを入力してください。（カンマやスペース等は使えません）';
 $_lang['setting_cache_action_map'] = 'アクションマップキャッシュを有効';
-$_lang['setting_cache_action_map_desc'] = 'When enabled, actions (or controller maps) will be cached to reduce manager page load times.';
+$_lang['setting_cache_action_map_desc'] = '「はい」を選択すると、アクション（またはコントローラーマップ）をキャッシュして、管理画面のページ読み込み時間を減らします。';
 $_lang['setting_cache_context_settings'] = 'コンテキスト設定キャッシュを有効';
-$_lang['setting_cache_context_settings_desc'] = 'When enabled, context settings will be cached to reduce load times.';
+$_lang['setting_cache_context_settings_desc'] = '「はい」を選択すると、コンテキストの設定をキャッシュして、読み込み時間を減らします。';
 $_lang['setting_cache_db'] = 'データベースキャッシュを有効';
-$_lang['setting_cache_db_desc'] = 'When enabled, objects and raw result sets from SQL queries are cached to significantly reduce database loads.';
+$_lang['setting_cache_db_desc'] = '「はい」を選択すると、SQLクエリの結果セットをキャッシュし、データベースの負荷を大幅に減らします。';
 $_lang['setting_cache_db_expires'] = 'データベースキャッシュの有効秒数';
-$_lang['setting_cache_db_expires_desc'] = 'This value (in seconds) sets the amount of time cache files last for DB result-set caching.';
+$_lang['setting_cache_db_expires_desc'] = 'データベース結果セットのキャッシュの有効時間を指定します（秒数）。';
 $_lang['setting_cache_db_session'] = 'DBセッションキャッシュを有効にする';
 $_lang['setting_cache_db_session_desc'] = 'When enabled, and cache_db is enabled, database sessions will be cached in the DB result-set cache.';
 $_lang['setting_cache_db_session_lifetime'] = 'DBセッションキャッシュの有効秒数';
@@ -130,7 +131,7 @@ $_lang['setting_cache_lexicon_topics_desc'] = 'When enabled, all Lexicon Topics 
 $_lang['setting_cache_noncore_lexicon_topics'] = 'コア以外のレキシコンを有効';
 $_lang['setting_cache_noncore_lexicon_topics_desc'] = 'When disabled, non-core Lexicon Topics will be not be cached. This is useful to disable when developing your own Extras.';
 $_lang['setting_cache_resource'] = '部分的なリソースキャッシュを有効';
-$_lang['setting_cache_resource_desc'] = 'Partial resource caching is configurable by resource when this feature is enabled.  Disabling this feature will disable it globally.';
+$_lang['setting_cache_resource_desc'] = 'Partial resource caching is configurable by resource when this feature is enabled. Disabling this feature will disable it globally.';
 $_lang['setting_cache_resource_expires'] = '部分的なリソースキャッシュの有効秒数';
 $_lang['setting_cache_resource_expires_desc'] = 'This value (in seconds) sets the amount of time cache files last for partial Resource caching.';
 $_lang['setting_cache_scripts'] = 'スクリプトキャッシュを有効';
@@ -178,7 +179,7 @@ $_lang['setting_editor_css_path_desc'] = 'Enter the path to your CSS file that y
 $_lang['setting_editor_css_selectors'] = 'スタイルセレクタ(RTE用)';
 $_lang['setting_editor_css_selectors_desc'] = 'A comma-separated list of CSS selectors for a richtext editor.';
 $_lang['setting_emailsender'] = '送信者メールアドレス';
-$_lang['setting_emailsender_desc'] = '   ユーザー名とパスワードを送信時の送信元メールアドレスを指定してください。';
+$_lang['setting_emailsender_desc'] = ' ユーザー名とパスワードを送信時の送信元メールアドレスを指定してください。';
 $_lang['setting_emailsender_err'] = '送信者メールアドレスを指定してください。';
 $_lang['setting_emailsubject'] = 'メールのタイトル';
 $_lang['setting_emailsubject_desc'] = 'サインアップメールのタイトルを指定してください。';
@@ -264,7 +265,7 @@ $_lang['setting_mail_smtp_auth_desc'] = 'SMTP認証をセットします。mail_
 $_lang['setting_mail_smtp_helo'] = 'SMTPようこそメッセージ';
 $_lang['setting_mail_smtp_helo_desc'] = 'Sets the SMTP HELO of the message (Defaults to the hostname).';
 $_lang['setting_mail_smtp_hosts'] = 'SMTPのホスト';
-$_lang['setting_mail_smtp_hosts_desc'] = 'Sets the SMTP hosts.  All hosts must be separated by a semicolon.  You can also specify a different port for each host by using this format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com"). Hosts will be tried in order.';
+$_lang['setting_mail_smtp_hosts_desc'] = 'Sets the SMTP hosts. All hosts must be separated by a semicolon. You can also specify a different port for each host by using this format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com"). Hosts will be tried in order.';
 $_lang['setting_mail_smtp_keepalive'] = 'SMTP Keep-Alive';
 $_lang['setting_mail_smtp_keepalive_desc'] = 'Prevents the SMTP connection from being closed after each mail sending. Not recommended.';
 $_lang['setting_mail_smtp_pass'] = 'SMTPのパスワード';
@@ -416,7 +417,7 @@ $_lang['setting_server_protocol_https'] = 'https';
 $_lang['setting_session_cookie_domain'] = 'Session Cookie Domain';
 $_lang['setting_session_cookie_domain_desc'] = 'Use this setting to customize the session cookie domain.';
 $_lang['setting_session_cookie_lifetime'] = 'Session Cookie Lifetime';
-$_lang['setting_session_cookie_lifetime_desc'] = 'Use this setting to customize the session cookie lifetime in seconds.  This is used to set the lifetime of a client session cookie when they choose the \'remember me\' option on login.';
+$_lang['setting_session_cookie_lifetime_desc'] = 'Use this setting to customize the session cookie lifetime in seconds. This is used to set the lifetime of a client session cookie when they choose the \'remember me\' option on login.';
 $_lang['setting_session_cookie_path'] = 'Session Cookie Path';
 $_lang['setting_session_cookie_path_desc'] = 'Use this setting to customize the cookie path for identifying site specific session cookies.';
 $_lang['setting_session_cookie_secure'] = 'Session Cookie Secure';
@@ -424,7 +425,7 @@ $_lang['setting_session_cookie_secure_desc'] = 'Enable this setting to use secur
 $_lang['setting_session_gc_maxlifetime'] = 'Session Garbage Collector Max Lifetime';
 $_lang['setting_session_gc_maxlifetime_desc'] = 'Allows customization of the session.gc_maxlifetime PHP ini setting when using \'modSessionHandler\'.';
 $_lang['setting_session_handler_class'] = 'Session Handler Classname';
-$_lang['setting_session_handler_class_desc'] = 'For database managed sessions, use \'modSessionHandler\'.  Leave this blank to use standard PHP session management.';
+$_lang['setting_session_handler_class_desc'] = 'For database managed sessions, use \'modSessionHandler\'. Leave this blank to use standard PHP session management.';
 $_lang['setting_session_name'] = 'セッション名';
 $_lang['setting_session_name_desc'] = 'Use this setting to customize the session name used for the sessions in MODX.';
 $_lang['setting_settings_version'] = 'コアのバージョン';
@@ -498,7 +499,7 @@ $_lang['setting_webpwdreminder_message_desc'] = 'ウェブユーザが、メー�
 $_lang['setting_webpwdreminder_message_default'] = 'こんにちは [[+uid]]さん\n\nパスワードを有効化するために、下記のリンクをクリックしてください。:\n\n[[+surl]]\n\n有効化が完了後、下記のパスワードでログインできます。:\n\nパスワード:[[+pwd]]\n\nこのメール内容に心当たりがない場合は、破棄してください。\n\n\n管理者';
 $_lang['setting_websignupemail_message'] = 'ウェブサインアップのメールアドレス';
 $_lang['setting_websignupemail_message_desc'] = 'ユーザー自らがウェブユーザーアカウントを作成した時に、ユーザー名とパスワードを記載したメールを送信することができます。このメールの内容を設定してください。 <br /><strong>注意:</strong> 下記の差し込み文字列は送信時に自動的に置き換えられます。<br /><br />[[+sname]] - サイトの名前, <br />[[+saddr]] - サイト管理者のメールアドレス, <br />[[+surl]] - サイトのURL, <br />[[+uid]] - ユーザーのログイン名, <br />[[+pwd]] - ユーザーのパスワード, <br />[[+ufn]] - ユーザーのフルネーム. <br /><br /><strong>メールの文章を編集するときは、[[+uid]]と[[+pwd]]を残すようにしてください。記述されてないとユーザー名とパスワードが分からないため、ユーザーはログインできません。</strong>';
-$_lang['setting_websignupemail_message_default'] = 'こんにちは  [[+uid]]さん \n\n[[+sname]] の管理画面へのログイン情報をお送りします。:\n\nユーザー名: [[+uid]]\nパスワード: [[+pwd]]\n\n[[+sname]]( [[+surl]] )の管理画面へログイン後、パスワードを変更できます。\n\n管理者';
+$_lang['setting_websignupemail_message_default'] = 'こんにちは [[+uid]]さん \n\n[[+sname]] の管理画面へのログイン情報をお送りします。:\n\nユーザー名: [[+uid]]\nパスワード: [[+pwd]]\n\n[[+sname]]( [[+surl]] )の管理画面へログイン後、パスワードを変更できます。\n\n管理者';
 $_lang['setting_welcome_screen'] = 'ようこそ画面の表示';
 $_lang['setting_welcome_screen_desc'] = '「はい」を選択すると、ようこそページの読み込みが完了したときに、ようこそ画面を表示します。そしてそれ以降は表示しません。';
 $_lang['setting_welcome_screen_url'] = 'WelcomeスクリーンのURL';
