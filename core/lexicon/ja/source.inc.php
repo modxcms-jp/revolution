@@ -1,30 +1,31 @@
 <?php
 /**
- * Sources Japanese lexicon topic
- *
- * @language ja
- * @package modx
- * @subpackage lexicon
- * @author yamamoto http://kyms.jp
- */
-$_lang['access'] = 'Access Permissions';
-$_lang['base_path'] = 'Base Path';
+* Sources Japanese lexicon topic
+*
+* @language ja
+* @package modx
+* @subpackage lexicon
+* @author yamamoto http://kyms.jp
+* @author honda http://kogus.org
+*/
+$_lang['access'] = 'アクセス権限';
+$_lang['base_path'] = 'ベースパス';
 $_lang['base_path_relative'] = 'Base Path Relative?';
-$_lang['base_url'] = 'Base URL';
+$_lang['base_url'] = 'ベースURL';
 $_lang['base_url_relative'] = 'Base URL Relative?';
-$_lang['minimum_role'] = 'Minimum Role';
+$_lang['minimum_role'] = '最低限必要なロール';
 $_lang['path_options'] = 'パスオプション';
 $_lang['policy'] = 'ポリシー';
 $_lang['source'] = 'メディアソース';
-$_lang['source_access_add'] = 'ユーザーグループ追加';
-$_lang['source_access_remove'] = 'Remove Access';
-$_lang['source_access_remove_confirm'] = 'Are you sure you want to remove Access to this Source for this User Group?';
-$_lang['source_access_update'] = 'Update Access';
-$_lang['source_create'] = 'Create New Media Source';
-$_lang['source_description_desc'] = 'A short description of the Media Source.';
-$_lang['source_duplicate'] = 'Duplicate Media Source';
-$_lang['source_err_ae_name'] = 'A Media Source with that name already exists! Please specify a new name.';
-$_lang['source_err_nf'] = 'Media Source not found!';
+$_lang['source_access_add'] = 'ユーザーグループの追加';
+$_lang['source_access_remove'] = 'アクセスの削除';
+$_lang['source_access_remove_confirm'] = 'このメディアソースへのユーザーグループのアクセスを削除してもよろしいですか？';
+$_lang['source_access_update'] = 'アクセスの更新';
+$_lang['source_create'] = 'メディアソースの新規作成';
+$_lang['source_description_desc'] = 'このメディアソースの概要';
+$_lang['source_duplicate'] = 'メディアソースの複製';
+$_lang['source_err_ae_name'] = 'すでにその名前のメディアソースが存在しています。別の名前を指定してくださ。';
+$_lang['source_err_nf'] = 'メディアソースが見つかりません。';
 $_lang['source_err_nfs'] = 'No Media Source can be found with the id: [[+id]].';
 $_lang['source_err_ns'] = 'Please specify the Media Source.';
 $_lang['source_err_ns_name'] = 'Please specify a name for the Media Source.';
@@ -34,18 +35,18 @@ $_lang['source_remove'] = 'Delete Media Source';
 $_lang['source_remove_confirm'] = 'Are you sure you want to remove this Media Source? This might break any TVs you have assigned to this source.';
 $_lang['source_remove_multiple'] = 'Delete Multiple Media Sources';
 $_lang['source_remove_multiple_confirm'] = 'Are you sure you want to delete these Media Sources? This might break any TVs you have assigned to these sources.';
-$_lang['source_update'] = 'Update Media Source';
+$_lang['source_update'] = 'メディアソースの更新';
 $_lang['source_type'] = 'ソースタイプ';
 $_lang['source_type_desc'] = 'The type, or driver, of the Media Source. The Source will use this driver to connect to when gathering its data. For example: File System will grab files from the file system. S3 will get files from an S3 bucket.';
 $_lang['source_type.file'] = 'ファイルシステム';
-$_lang['source_type.file_desc'] = 'A filesystem-based source that navigates your server\'s files.';
+$_lang['source_type.file_desc'] = 'サーバー上のファイルをナビゲートする、ファイルシステムベースのメディアソース';
 $_lang['source_type.s3'] = 'Amazon S3';
-$_lang['source_type.s3_desc'] = 'Navigates an Amazon S3 bucket.';
+$_lang['source_type.s3_desc'] = 'Amazon S3のバケットをナビゲートするメディアソース';
 $_lang['source_types'] = 'ソースタイプの管理';
-$_lang['source_types.intro_msg'] = 'This is a list of all the installed Media Source Types you have on this MODX instance.';
-$_lang['source.access.intro_msg'] = 'Here you can restrict a Media Source to specific User Groups and apply policies for those User Groups. A Media Source with no User Groups attached to it is available to all manager users.';
+$_lang['source_types.intro_msg'] = 'MODXにインストールされているメディアソースタイプの一覧です。';
+$_lang['source.access.intro_msg'] = 'このメディアソースへのアクセスを、特定のユーザーグループに制限できます。ユーザーグループが指定されていない場合、全ての管理画面ユーザーがアクセス可能になります。';
 $_lang['sources'] = 'メディアソース';
-$_lang['sources.intro_msg'] = 'Manage all your Media Sources here.';
+$_lang['sources.intro_msg'] = 'ここでは全てのメディアソースを管理します。';
 $_lang['user_group'] = 'ユーザーグループ';
 $_lang['prop_file.allowedFileTypes_desc'] = 'If set, will restrict the files shown to only the specified extensions. Please specify in a comma-separated list, without the .';
 $_lang['prop_file.basePath_desc'] = 'The file path to point the Source to.';
