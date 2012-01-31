@@ -1,29 +1,30 @@
 <?php
 /**
- * Access Japanese lexicon topic
- *
- * @language ja
- * @package modx
- * @subpackage lexicon
- * @author Nick http://smallworld.west-tokyo.com
- * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
- */
+* Access Japanese lexicon topic
+*
+* @language ja
+* @package modx
+* @subpackage lexicon
+* @author Nick http://smallworld.west-tokyo.com
+* @author shimojo http://www.priqia.com/
+* @author yamamoto http://kyms.jp
+* @author honda http://kogus.org
+*/
 $_lang['access_category_management_msg'] = 'Manage User Group member access to Elements via Categories and optionally apply access policies.';
-$_lang['access_category_err_ae'] = 'An ACL for that Category already exists';
-$_lang['access_category_err_nf'] = 'Category ACL not found.';
-$_lang['access_category_err_ns'] = 'Category ACL not specified.';
-$_lang['access_category_err_remove'] = 'An error occurred while trying to remove the Category ACL.';
-$_lang['access_category_remove'] = 'Remove Category Access';
-$_lang['access_category_update'] = 'Update Category Access';
+$_lang['access_category_err_ae'] = 'そのカテゴリーにはACLがすでに存在しています。';
+$_lang['access_category_err_nf'] = 'カテゴリーACLが見つかりません。';
+$_lang['access_category_err_ns'] = 'カテゴリーACLが指定されていません。';
+$_lang['access_category_err_remove'] = 'カテゴリーACLの削除時に、エラーが発生しました。';
+$_lang['access_category_remove'] = 'カテゴリーアクセスを削除';
+$_lang['access_category_update'] = 'カテゴリーアクセスを更新';
 $_lang['access_confirm_remove'] = '本当にこのセキュリティアクセスコントロールコードを削除しますか？';
 $_lang['access_context_management_msg'] = 'ユーザーグループメンバーをコンテキストとオプションアクセスポリシーへアクセス可能にする';
-$_lang['access_context_err_ae'] = 'An ACL for that Context already exists';
-$_lang['access_context_err_nf'] = 'Context ACL not found.';
-$_lang['access_context_err_ns'] = 'Context ACL not specified.';
-$_lang['access_context_err_remove'] = 'An error occurred while trying to remove the Context ACL.';
-$_lang['access_context_remove'] = 'Remove Context Access';
-$_lang['access_context_update'] = 'Update Context Access';
+$_lang['access_context_err_ae'] = 'そのコンテキストにはすでにACLが存在しています。';
+$_lang['access_context_err_nf'] = 'コンテキストACLが見つかりません。';
+$_lang['access_context_err_ns'] = 'コンテキストACLが指定されていません。';
+$_lang['access_context_err_remove'] = 'コンテキストACLの削除時に、エラーが発生しました。';
+$_lang['access_context_remove'] = 'コンテキストアクセスを削除';
+$_lang['access_context_update'] = '小テキストアクセスを更新';
 $_lang['access_err_ae'] = 'ACLは既に存在しています';
 $_lang['access_err_create_md'] = 'ACLを生成できません。データが消失しています';
 $_lang['access_err_nf'] = 'ACLを特定できませんでした';
@@ -47,8 +48,8 @@ $_lang['access_permissions_users_in_group'] = '<strong>グループ内ユーザ�
 $_lang['access_permissions_users_tab'] = 'ユーザーグループの設定一覧を表示します。グループの作成・リネーム・削除もここで操作します。また、ユーザーがどのグループのメンバーになっているかを閲覧することができます。ユーザーをグループに追加したり、グループから削除するには、個々のユーザー設定を直接編集してください。<br />※管理者(ロールID 1が割り当てられているユーザー)は常に全てのドキュメントにアクセスすることができるため、管理者をグループに追加する必要はありません。';
 $_lang['access_permissions_user_group'] = 'ユーザーグループ:';
 $_lang['access_permissions_user_groups'] = 'ユーザーグループ:';
-$_lang['access_permissions_user_group_access'] = 'Resource Groups this User Group has access to:';
-$_lang['access_permissions_user_message'] = 'Here you can select which User Groups this user belongs to. You can drag and drop each row to reorder the rank of each User Group. The User Group that has a rank of 0 will be declared the User\'s Primary Group, and will be the User Group that determines the User\'s Dashboard.';
+$_lang['access_permissions_user_group_access'] = 'このユーザーグループがアクセスしているリソースグループ：';
+$_lang['access_permissions_user_message'] = 'ユーザーが属するユーザーグループを選択します。各行をドラッグしてユーザーグループの並び替えができます。ランクが"0"のユーザーグループはプライマリーグループとなり、このユーザーのダッシュボードを決定します。';
 $_lang['access_permission_denied'] = 'このドキュメントにアクセスする権限がありません。';
 $_lang['access_permission_parent_denied'] = 'ここにドキュメントを作成する権限がありません';
 $_lang['access_policy_err_nf'] = 'アクセスポリシーが見つかりませんでした。.';
@@ -56,14 +57,14 @@ $_lang['access_policy_err_ns'] = 'アクセスポリシーが指定されてい�
 $_lang['access_policy_grid_empty'] = '表示するポリシーがありません。';
 $_lang['access_policy_grid_paginate'] = '{0} - {1} 中 {2}のポリシーを表示';
 $_lang['access_resourcegroup_management_msg'] = 'ユーザーグループに対して、リソースグループへのアクセス権および設定してください。';
-$_lang['access_rgroup_err_ae'] = 'An ACL for that Resource Group already exists';
-$_lang['access_rgroup_err_nf'] = 'Resource Group ACL not found.';
-$_lang['access_rgroup_err_ns'] = 'Resource Group ACL not specified.';
-$_lang['access_rgroup_err_remove'] = 'An error occurred while trying to remove the Resource Group ACL.';
-$_lang['access_rgroup_remove'] = 'Remove Resource Group Access';
-$_lang['access_rgroup_update'] = 'Update Resource Group Access';
-$_lang['access_source_remove'] = 'Remove Media Source Access';
-$_lang['access_source_update'] = 'Update Media Source Access';
+$_lang['access_rgroup_err_ae'] = 'そのリソースグループにはすでにACLが存在しています。';
+$_lang['access_rgroup_err_nf'] = 'リソースグループACLが見つかりません。';
+$_lang['access_rgroup_err_ns'] = 'リソースグループACLが指定されていません。';
+$_lang['access_rgroup_err_remove'] = 'リソースグループACLの削除時に、エラーが発生しました。';
+$_lang['access_rgroup_remove'] = 'リソースグループアクセスを削除';
+$_lang['access_rgroup_update'] = 'リソースグループアクセスを更新';
+$_lang['access_source_remove'] = 'メディアソースアクセスを削除';
+$_lang['access_source_update'] = 'メディアソースアクセスを更新';
 $_lang['access_to_contexts'] = 'コンテキストへアクセス';
 $_lang['access_to_resource_groups'] = 'リソースグループへアクセス';
 $_lang['access_type_err_ns'] = 'ターゲットタイプもしくはIDタイプが特定されていません';
@@ -77,11 +78,11 @@ $_lang['filter_by_policy'] = 'ポリシーで絞り込む';
 $_lang['filter_by_resource_group'] = 'リソースグループで絞り込む';
 $_lang['filter_by_category'] = 'カテゴリーで絞り込む';
 $_lang['filter_by_source'] = 'Filter by Media Source...';
-$_lang['no_policy_option'] = ' (no policy) ';
-$_lang['permissions_in_policy'] = 'Permissions in Selected Policy';
+$_lang['no_policy_option'] = ' (ポリシーなし) ';
+$_lang['permissions_in_policy'] = '選択したポリシーの権限';
 $_lang['resource_group'] = 'リソースグループ';
 $_lang['resource_group_add'] = 'リソースグループを追加';
-$_lang['resource_group_access_remove'] = 'Remove Resource from Group';
+$_lang['resource_group_access_remove'] = 'リソースグループからリソースを削除';
 $_lang['resource_group_access_remove_confirm'] = 'リソースグループからリソースを削除しますか？';
 $_lang['resource_group_create'] = 'リソースグループを作成';
 $_lang['resource_group_err_ae'] = '同名のリソースグループが存在します。';
