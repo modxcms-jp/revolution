@@ -10,14 +10,14 @@
  * @author honda http://kogus.org
  */
 $_lang['action'] = '操作内容';
-$_lang['action_desc'] = 'このルールはアクションに適用されます。';
+$_lang['action_desc'] = '指定したアクションにこのルールが適用されます。';
 $_lang['activate'] = '有効化';
 $_lang['constraint'] = '制約の条件';
 $_lang['constraint_class'] = 'このルールの対象';
-$_lang['constraint_class_desc'] = 'オプション。「テンプレートIDが4の場合にこのルールを有効にする」などの条件をここでセットします。投稿画面の場合「modResource」でよいみたいです(※注・日本チーム) Optional. If set, along with the Constraint Field and Constraint options, will restrict this rule to the constraints applied.';
-$_lang['constraint_desc'] = 'オプション。有効条件と見なす値をセットします。たとえば「テンプレートIDが4の場合にこのルールを有効にする」の場合「4」をここにセットします。Optional. The value of the Constraint Field that should be checked against.';
+$_lang['constraint_class_desc'] = '任意。「テンプレートIDが4の場合にこのルールを有効にする」などの条件をここでセットします。投稿画面の場合「modResource」でよいみたいです(※注・日本チーム) Optional. If set, along with the Constraint Field and Constraint options, will restrict this rule to the constraints applied.';
+$_lang['constraint_desc'] = '任意。有効条件と見なす値をセットします。たとえば「テンプレートIDが4の場合にこのルールを有効にする」の場合「4」をここにセットします。Optional. The value of the Constraint Field that should be checked against.';
 $_lang['constraint_field'] = '制約フィールド';
-$_lang['constraint_field_desc'] = 'オプション。対象フィールドの名前を記述します。たとえば「template」など。Optional. The field by which this constraint should be applied.';
+$_lang['constraint_field_desc'] = '任意。制約条件としたいフィールドの名前を記述します。たとえば「template」など。Optional. The field by which this constraint should be applied.';
 $_lang['containing_panel'] = 'これを含む領域';
 $_lang['containing_panel_desc'] = '対象オブジェクト(フィールドやタブ)を含むDIV領域のID名。modx-panel-resource・modx-page-settings・modx-resource-tabsのうちのいずれか。This is sometimes necessary for certain rules, so that the system can know what form or panel the field is in.';
 $_lang['deactivate'] = '無効化';
@@ -47,7 +47,7 @@ $_lang['profile_err_nfs'] = 'ID [[+id]]のカスタマイズプロファイル�
 $_lang['profile_err_ns'] = 'カスタマイズのプロファイルが選択されていません。';
 $_lang['profile_err_remove'] = 'プロファイルの削除時、エラーが発生しました。';
 $_lang['profile_err_save'] = 'プロファイルの保存時、エラーが発生しました。';
-$_lang['profile_msg'] = 'ここでは、このプロファイルの詳細と、それに属する「セット」を管理します。<br />セットは、指定したページ（リソースの作成または更新ページ）に適用される、カスタマイズの規則をひとまとめにしたものです。<br />They can also be restricted to certain Templates, or other field values on the Resource. Constraints for the Create Resource Sets will execute based on the parent of the newly created Resource&apos;s value.';
+$_lang['profile_msg'] = 'ここでは、このプロファイルの詳細と、それに属する「セット」を管理します。セットとは、指定したページ（リソースの作成または更新ページ）に適用される、カスタマイズの規則をひとまとめにしたものです。<br />セットが適用される対象は、リソースが使用するテンプレートやフィールドの値によって制限可能です。リソースの新規作成時は、親リソースの値によって制限が判断されます。';
 $_lang['profile_new'] = '新しいプロファイル';
 $_lang['profile_remove'] = 'プロファイルを削除';
 $_lang['profile_remove_confirm'] = 'このプロファイルを完全に削除してもよろしいですか？　この操作は取り消しできません。';
@@ -80,7 +80,7 @@ $_lang['set'] = 'Set';
 $_lang['set_and_fields'] = '基本設定とフィールド構成';
 $_lang['set_change_template'] = '適用するテンプレートの変更';
 $_lang['set_change_template_confirm'] = 'テンプレートを変更してもよろしいですか？<br />ルールを適用するテンプレートを変更すると、まず現在の変更内容が保存されてから、新しいテンプレートとテンプレート変数がリフレッシュされます。';
-$_lang['set_constraint_field_desc'] = 'ここにフィールド名を指定した場合、リソースの持つ指定フィールドの値が「制約条件」の値と一致した場合にのみ、このカスタマイズが適用されます。';
+$_lang['set_constraint_field_desc'] = 'カスタマイズ適用の条件に使用したいフィールド名を指定します。指定した場合、リソースの持つ指定フィールドの値が「制約条件」と一致した場合にのみ、このカスタマイズが適用されます。';
 $_lang['set_constraint_desc'] = 'ここに指定した値と、リソース上の「制約フィールド」の値が一致した場合のみ、このセットが適用されます。';
 $_lang['set_create'] = 'セットを新規作成';
 $_lang['set_err_nfs'] = 'ID [[+id]]のセットは見つかりません。';
