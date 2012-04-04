@@ -160,3 +160,5 @@ $_lang['weblink_create_here'] = 'ここにウェブリンクを作成';
 $_lang['weblink_help'] = 'このウェブリンクによって参照させたいオブジェクトのアドレスを設定します。';
 $_lang['weblink_message'] = 'ウェブリンクは、インターネット上のあらゆるオブジェクトに対するショートカットのようなものです。オブジェクトとは、MODX内のリソース・他サイトのページや画像などを含みます。基本的にはリンク先のオブジェクトへリダイレクトします。<p>';
 $_lang['weblink_new'] = '新しいウェブリンク';
+$_lang['weblink_response_code'] = 'Response Code';
+$_lang['weblink_response_code_help'] = 'The HTTP response code that should be sent for the weblink.';

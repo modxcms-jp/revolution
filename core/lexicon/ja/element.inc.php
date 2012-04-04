@@ -12,6 +12,7 @@ $_lang['element'] = 'エレメント';
 $_lang['element_err_nf'] = 'エレメントが見つかりません。';
 $_lang['element_err_ns'] = 'エレメントを特定できません。';
 $_lang['element_static_source_immutable'] = 'エレメントのソースとして指定されたファイルは書き込み可能ではありません。管理画面ではこの要素を編集する事ができません。';
+$_lang['element_static_source_protected_invalid'] = 'You cannot point your Element to the MODX configuration directory; this is a protected, non-accessible directory.';
 $_lang['is_static'] = 'Is Static';
 $_lang['is_static_msg'] = 'エレメントのソースが、外部の静的ファイルであるかを示します。';
 $_lang['quick_create'] = 'クイック作成';

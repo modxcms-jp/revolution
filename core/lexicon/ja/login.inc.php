@@ -9,6 +9,7 @@
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
  */
+$_lang['login_language'] = 'Language';
 $_lang['login_activation_key_err'] = '認証キーが一致しません。認証メールを確認し、正しいURLにアクセスしているか確認してください。';
 $_lang['login_blocked_admin'] = '管理画面へのアクセスを制限されています。';
 $_lang['login_blocked_error'] = '一時的にログインを制限されています。しばらくたってから再度ログインしてください。';
