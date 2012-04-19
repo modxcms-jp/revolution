@@ -52,10 +52,7 @@ MODx.grid.Grid = function(config) {
                 ,'render': {fn: function(cmp) {
                     new Ext.KeyMap(cmp.getEl(), {
                         key: Ext.EventObject.ENTER
-                        ,fn: function() {
-                            this.fireEvent('change',this.getValue());
-                            this.blur();
-                            return true;}
+                        ,fn: this.blur
                         ,scope: cmp
                     });
                 },scope:this}
@@ -112,10 +109,8 @@ MODx.grid.Grid = function(config) {
     this.getStore().load({
         params: {
             start: config.pageStart || 0
-            ,limit: config.pageSize || (parseInt(MODx.config.default_per_page) || 20)
+            ,limit: config.hasOwnProperty('pageSize') ? config.pageSize : (parseInt(MODx.config.default_per_page) || 20)
         }
-        ,scope: this
-        ,callback: function() { this.getStore().reload(); } /* fixes comboeditor bug */
     });
     this.getStore().on('exception',this.onStoreException,this);
     this.config = config;
@@ -266,10 +261,15 @@ Ext.extend(MODx.grid.Grid,Ext.grid.EditorGridPanel,{
                     field: this.config.sortBy || 'id'
                     ,direction: this.config.sortDir || 'ASC'
                 }
-                ,remoteSort: this.config.remoteSort != false ? true : false
+                ,remoteSort: this.config.remoteSort || false
                 ,groupField: this.config.groupBy || 'name'
                 ,storeId: this.config.storeId || Ext.id()
                 ,autoDestroy: true
+				,listeners:{
+                    load: function(){
+						Ext.getCmp('modx-content').doLayout(); /* Fix layout bug with absolute positioning */
+					}
+                }
             });
         } else {
             this.store = new Ext.data.JsonStore({
@@ -281,6 +281,11 @@ Ext.extend(MODx.grid.Grid,Ext.grid.EditorGridPanel,{
                 ,remoteSort: this.config.remoteSort || false
                 ,storeId: this.config.storeId || Ext.id()
                 ,autoDestroy: true
+				,listeners:{
+                    load: function(){
+						Ext.getCmp('modx-content').doLayout(); /* Fix layout bug with absolute positioning */
+					}
+                }
             });
         }
     }
@@ -298,9 +303,14 @@ Ext.extend(MODx.grid.Grid,Ext.grid.EditorGridPanel,{
                 }
                 if (typeof(c[i].editor) == 'object' && c[i].editor.xtype) {
                     var r = c[i].editor.renderer;
+                    if (Ext.isEmpty(c[i].editor.id)) { c[i].editor.id = Ext.id(); }
                     c[i].editor = Ext.ComponentMgr.create(c[i].editor);
                     if (r === true) {
-                        c[i].renderer = MODx.combo.Renderer(c[i].editor);
+                        if (c[i].editor && c[i].editor.store && !c[i].editor.store.isLoaded && c[i].editor.config.mode != 'local') {
+                            c[i].editor.store.load();
+                            c[i].editor.store.isLoaded = true;
+                        }
+                        c[i].renderer = Ext.util.Format.comboRenderer(c[i].editor);
                     } else if (c[i].editor.initialConfig.xtype === 'datefield') {
                         c[i].renderer = Ext.util.Format.dateRenderer(c[i].editor.initialConfig.format || 'Y-m-d');
                     } else if (r === 'boolean') {
@@ -396,7 +406,7 @@ Ext.extend(MODx.grid.Grid,Ext.grid.EditorGridPanel,{
 
         var cs = '';
         for (var i=0;i<sels.length;i++) {
-            cs += ','+sels[i].data.id;
+            cs += ','+sels[i].data[this.config.primaryKey || 'id'];
         }
 
         if (cs[0] == ',') {
@@ -570,11 +580,17 @@ Ext.extend(MODx.grid.LocalGrid,Ext.grid.EditorGridPanel,{
                     var r = c[i].editor.renderer;
                     c[i].editor = Ext.ComponentMgr.create(c[i].editor);
                     if (r === true) {
-                        c[i].renderer = MODx.combo.Renderer(c[i].editor);
+                        if (c[i].editor && c[i].editor.store && !c[i].editor.store.isLoaded && c[i].editor.config.mode != 'local') {
+                            c[i].editor.store.load();
+                            c[i].editor.store.isLoaded = true;
+                        }
+                        c[i].renderer = Ext.util.Format.comboRenderer(c[i].editor);
                     } else if (c[i].editor.initialConfig.xtype === 'datefield') {
                         c[i].renderer = Ext.util.Format.dateRenderer(c[i].editor.initialConfig.format || 'Y-m-d');
                     } else if (r === 'boolean') {
                         c[i].renderer = this.rendYesNo;
+                    } else if (r === 'password') {
+                        c[i].renderer = this.rendPassword;
                     } else if (r === 'local' && typeof(c[i].renderer) == 'string') {
                         c[i].renderer = eval(c[i].renderer);
                     }
@@ -713,6 +729,14 @@ Ext.extend(MODx.grid.LocalGrid,Ext.grid.EditorGridPanel,{
                 c.css = 'green';
                 return _('yes');
         }
+    }
+
+    ,rendPassword: function(v,md) {
+        var z = '';
+        for (i=0;i<v.length;i++) {
+            z = z+'*';
+        }
+        return z;
     }
 });
 Ext.reg('grid-local',MODx.grid.LocalGrid);

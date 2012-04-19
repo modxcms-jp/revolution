@@ -90,14 +90,9 @@ Ext.extend(MODx.DataView,Ext.DataView,{
             url: config.url
             ,baseParams: config.baseParams || { 
                 action: 'getList'
-                ,prependPath: config.prependPath || null
-                ,prependUrl: config.prependUrl || null
                 ,wctx: config.wctx || MODx.ctx
                 ,dir: config.openTo || ''
-                ,basePath: config.basePath || ''
-                ,basePathRelative: config.basePathRelative || null
-                ,baseUrl: config.baseUrl || ''
-                ,baseUrlRelative: config.baseUrlRelative || null
+                ,source: config.source || 0
             }
             ,root: config.root || 'results'
             ,fields: config.fields
@@ -134,6 +129,7 @@ MODx.Browser = function(config) {
     Ext.applyIf(config,{
         onSelect: function(data) {}
         ,scope: this
+        ,source: config.source || 1
         ,cls: 'modx-browser'
     });
     MODx.Browser.superclass.constructor.call(this,config);
@@ -145,6 +141,13 @@ MODx.Browser = function(config) {
 Ext.extend(MODx.Browser,Ext.Component,{
     show: function(el) { if (this.win) { this.win.show(el); } }
     ,hide: function() { if (this.win) { this.win.hide(); } }
+
+    ,setSource: function(source) {
+        this.config.source = source;
+        this.win.tree.config.baseParams.source = source;
+        this.win.view.config.baseParams.source = source;
+    }
+    
 });
 Ext.reg('modx-browser',MODx.Browser);
 
@@ -154,34 +157,40 @@ MODx.browser.Window = function(config) {
     this.view = MODx.load({
         xtype: 'modx-browser-view'
         ,onSelect: {fn: this.onSelect, scope: this}
-        ,prependPath: config.prependPath || null
-        ,prependUrl: config.prependUrl || null
-        ,basePath: config.basePath || ''
-        ,basePathRelative: config.basePathRelative || null
-        ,baseUrl: config.baseUrl || ''
-        ,baseUrlRelative: config.baseUrlRelative || null
+        ,source: config.source || MODx.config.default_media_source
         ,allowedFileTypes: config.allowedFileTypes || ''
         ,wctx: config.wctx || 'web'
         ,openTo: config.openTo || ''
         ,ident: this.ident
+        ,id: this.ident+'-view'
     });
     this.tree = MODx.load({
         xtype: 'modx-tree-directory'
         ,onUpload: function() { this.view.run(); }
         ,scope: this
-        ,prependPath: config.prependPath || null
-        ,basePath: config.basePath || ''
-        ,basePathRelative: config.basePathRelative || null
-        ,baseUrl: config.baseUrl || ''
-        ,baseUrlRelative: config.baseUrlRelative || null
+        ,source: config.source || MODx.config.default_media_source
         ,hideFiles: config.hideFiles || false
         ,openTo: config.openTo || ''
         ,ident: this.ident
-        ,rootId: '/'
+        ,rootId: config.rootId || '/'
         ,rootName: _('files')
-        ,rootVisible: true
+        ,rootVisible: config.rootVisible == undefined || !Ext.isEmpty(config.rootId)
+        ,id: this.ident+'-tree'
+        ,hideSourceCombo: config.hideSourceCombo || false
         ,listeners: {
             'afterUpload': {fn:function() { this.view.run(); },scope:this}
+            ,'changeSource': {fn:function(s) {
+                this.config.source = s;
+                this.view.config.source = s;
+                this.view.baseParams.source = s;
+                this.view.run();
+            },scope:this}
+            ,'nodeclick': {fn:function(n,e) {
+                n.select();
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            },scope:this}
         }
     });
     this.tree.on('click',function(node,e) {
@@ -207,12 +216,15 @@ MODx.browser.Window = function(config) {
             ,height: '100%'
             ,items: this.tree
             ,autoScroll: true
+            ,split: true
+            ,border: false
         },{
             id: this.ident+'-browser-view'
             ,cls: 'modx-pb-view-ct'
             ,region: 'center'
             ,autoScroll: true
             ,width: 450
+            ,border: false
             ,items: this.view
             ,tbar: this.getToolbar()
         },{
@@ -220,6 +232,7 @@ MODx.browser.Window = function(config) {
             ,cls: 'modx-pb-details-ct'
             ,region: 'east'
             ,split: true
+            ,border: false
             ,width: 150
             ,minWidth: 150
             ,maxWidth: 250
@@ -264,13 +277,11 @@ Ext.extend(MODx.browser.Window,Ext.Window,{
         dir = dir || (Ext.isEmpty(this.config.openTo) ? '' : this.config.openTo);
         this.view.run({
             dir: dir
-            ,basePath: this.config.basePath || ''
-            ,basePathRelative: this.config.basePathRelative || null
-            ,baseUrl: this.config.baseUrl || ''
-            ,baseUrlRelative: this.config.baseUrlRelative || null
+            ,source: this.config.source
             ,allowedFileTypes: this.config.allowedFileTypes || ''
             ,wctx: this.config.wctx || 'web'
         });
+        this.sortImages();
     }
     
     ,sortImages : function(){
@@ -316,7 +327,7 @@ Ext.extend(MODx.browser.Window,Ext.Window,{
             ,displayField: 'desc'
             ,valueField: 'name'
             ,lazyInit: false
-            ,value: 'name'
+            ,value: MODx.config.modx_browser_default_sort || 'name'
             ,store: new Ext.data.SimpleStore({
                 fields: ['name', 'desc'],
                 data : [['name',_('name')],['size',_('file_size')],['lastmod',_('last_modified')]]
@@ -369,13 +380,14 @@ MODx.browser.View = function(config) {
             action: 'getFiles'
             ,prependPath: config.prependPath || null
             ,prependUrl: config.prependUrl || null
-            ,basePath: config.basePath || ''
-            ,basePathRelative: config.basePathRelative || null
-            ,baseUrl: config.baseUrl || ''
-            ,baseUrlRelative: config.baseUrlRelative || null
+            ,source: config.source || 1
             ,allowedFileTypes: config.allowedFileTypes || ''
             ,wctx: config.wctx || 'web'
             ,dir: config.openTo || ''
+        }
+        ,sortInfo: {
+            field: MODx.config.modx_browser_default_sort || 'name'
+            ,direction: 'ASC'
         }
         ,tpl: this.templates.thumb
         ,listeners: {
@@ -400,16 +412,13 @@ Ext.extend(MODx.browser.View,MODx.DataView,{
             ,params: {
                 action: 'remove'
                 ,file: d+'/'+node.id
-                ,prependPath: this.config.prependPath
-
-                ,basePath: this.config.basePath || ''
-                ,basePathRelative: this.config.basePathRelative || null
-                ,baseUrl: this.config.baseUrl || ''
-                ,baseUrlRelative: this.config.baseUrlRelative || null
+                ,source: this.config.source
                 ,wctx: this.config.wctx || 'web'
             }
             ,listeners: {
-                'success': {fn:function(r) { this.run({ ctx: MODx.ctx }); },scope:this}
+                'success': {fn:function(r) {
+                    this.run({ ctx: MODx.ctx });
+                },scope:this}
             }
         });
     }
@@ -420,13 +429,12 @@ Ext.extend(MODx.browser.View,MODx.DataView,{
         Ext.applyIf(p,{
             action: 'getFiles'
             ,dir: this.dir
-            ,basePath: this.config.basePath || ''
-            ,basePathRelative: this.config.basePathRelative || null
-            ,baseUrl: this.config.baseUrl || ''
-            ,baseUrlRelative: this.config.baseUrlRelative || null
+            ,source: this.config.source || MODx.config.default_media_source
         });
         this.store.load({
             params: p
+            ,callback: function() { this.refresh(); }
+            ,scope: this
         });
     }
     
@@ -454,8 +462,8 @@ Ext.extend(MODx.browser.View,MODx.DataView,{
             }
         };
         data.shortName = Ext.util.Format.ellipsis(data.name,18);
-        data.sizeString = formatSize(data.size);
-        data.dateString = new Date(data.lastmod).format("m/d/Y g:i a");
+        data.sizeString = data.size != 0 ? formatSize(data.size) : 0;
+        data.dateString = !Ext.isEmpty(data.lastmod) ? new Date(data.lastmod).format("m/d/Y g:i a") : 0;
         this.lookup[data.name] = data;
         return data;
     }
@@ -476,13 +484,21 @@ Ext.extend(MODx.browser.View,MODx.DataView,{
                 ,'<div class="modx-pb-details-info">'
                 ,'<b>'+_('file_name')+':</b>'
                 ,'<span>{name}</span>'
-                ,'<b>'+_('file_size')+':</b>'
-                ,'<span>{sizeString}</span>'
-                ,'<b>'+_('last_modified')+':</b>'
-                ,'<span>{dateString}</span></div>'
+                ,'<tpl if="this.isEmpty(sizeString) == false">'
+                    ,'<b>'+_('file_size')+':</b>'
+                    ,'<span>{sizeString}</span>'
+                ,'</tpl>'
+                ,'<tpl if="this.isEmpty(dateString) == false">'
+                    ,'<b>'+_('last_modified')+':</b>'
+                    ,'<span>{dateString}</span></div>'
+                ,'</tpl>'
             ,'</tpl>'
             ,'</div>'
-        );
+        ,{
+            isEmpty: function (v) {
+                return (v == '' || v == null || v == undefined || v === 0);
+            }
+        });
         this.templates.details.compile(); 
     }
     ,showFullView: function(name,ident) {

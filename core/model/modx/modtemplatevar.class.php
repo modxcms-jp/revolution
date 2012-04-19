@@ -1,15 +1,37 @@
 <?php
 /**
+ * @package modx
+ */
+/**
  * Represents a template variable element.
  *
+ * @property string $type The input type of this TV
+ * @property string $name The name of this TV, and key by which it will be referenced in tags
+ * @property string $caption The caption that will be used to display the name of this TV when on the Resource page
+ * @property string $description A user-provided description of this TV
+ * @property int $editor_type Deprecated
+ * @property int $category The Category for this TV, or 0 if not in one
+ * @property boolean $locked Whether or not this TV can only be edited by an Administrator
+ * @property string $elements Default values for this TV
+ * @property int $rank The rank of the TV when sorted and displayed relative to other TVs in its Category
+ * @property string $display The output render type of this TV
+ * @property string $default_text The default value of this TV if no other value is set
+ * @property string $properties An array of default properties for this TV
+ * @property string $input_properties An array of input properties related to the rendering of the input of this TV
+ * @property string $output_properties An array of output properties related to the rendering of the output of this TV
+ * 
  * @todo Refactor this to allow user-defined and configured input and output
  * widgets.
+ * @see modTemplateVarResource
+ * @see modTemplateVarResourceGroup
+ * @see modTemplateVarResourceTemplate
+ * @see modTemplate
  * @package modx
  */
 class modTemplateVar extends modElement {
     /**
-     * @var array Supported bindings for MODX
-     * @access public
+     * Supported bindings for MODX
+     * @var array $bindings
      */
     public $bindings= array (
         'FILE',
@@ -21,6 +43,9 @@ class modTemplateVar extends modElement {
         'INHERIT',
         'DIRECTORY'
     );
+    /** @var modX $xpdo */
+    public $xpdo;
+
     /**
      * Creates a modTemplateVar instance, and sets the token of the class to *
      *
@@ -46,7 +71,8 @@ class modTemplateVar extends modElement {
                 'cacheFlag' => $cacheFlag,
             ));
         }
-        $saved = parent :: save($cacheFlag);
+
+        $saved = parent::save($cacheFlag);
 
         if ($saved && $this->xpdo instanceof modX) {
             $this->xpdo->invokeEvent('OnTemplateVarSave',array(
@@ -108,7 +134,16 @@ class modTemplateVar extends modElement {
 
                 /* collect element tags in the content and process them */
                 $maxIterations= intval($this->xpdo->getOption('parser_max_iterations',null,10));
-                $this->xpdo->parser->processElementTags($this->_tag, $this->_output, false, false, '[[', ']]', array(), $maxIterations);
+                $this->xpdo->parser->processElementTags(
+                    $this->_tag,
+                    $this->_output,
+                    $this->xpdo->parser->isProcessingUncacheable(),
+                    $this->xpdo->parser->isRemovingUnprocessed(),
+                    '[[',
+                    ']]',
+                    array(),
+                    $maxIterations
+                );
 
                 /* remove the placeholders set from the properties of this element and restore global values */
                 if (isset($scope['keys'])) $this->xpdo->unsetPlaceholders($scope['keys']);
@@ -125,31 +160,6 @@ class modTemplateVar extends modElement {
         }
         /* finally, return the processed element content */
         return $this->_output;
-    }
-
-    /**
-     * Get the source content of this template variable.
-     *
-     * {@inheritdoc}
-     */
-    public function getContent(array $options = array()) {
-        if (!is_string($this->_content) || $this->_content === '') {
-            if (isset($options['content'])) {
-                $this->_content = $options['content'];
-            } else {
-                $this->_content = $this->get('default_text');
-            }
-        }
-        return $this->_content;
-    }
-
-    /**
-     * Set the source content of this template variable.
-     *
-     * {@inheritdoc}
-     */
-    public function setContent($content, array $options = array()) {
-        return $this->set('default_text', $content);
     }
 
     /**
@@ -255,23 +265,44 @@ class modTemplateVar extends modElement {
             $params = array_merge($params,$outputProperties);
         }
 
-        /* for base_url in image/file tvs */
-        if (!empty($value) && in_array($this->get('type'),array('image','file'))) {
-            $ips = $this->get('input_properties');
-            $fmu = $this->xpdo->getOption('filemanager_url',null,'');
-            $absValCheck = substr($value,0,1) == '/' || substr($value,0,7) == 'http://' || substr($value,0,8) == 'https://';
-            if (empty($ips['baseUrlPrependCheckSlash']) || !($absValCheck)) {
-                if (!empty($ips['baseUrl'])) {
-                    $value = $ips['baseUrl'].$value;
-                } else if (!empty($fmu)) {
-                    $value = $fmu.$value;
-                }
-            }
-        }
+        /* run prepareOutput to allow for custom overriding */
+        $value = $this->prepareOutput($value);
 
         /* find the render */
         $outputRenderPaths = $this->getRenderDirectories('OnTVOutputRenderList','output');
         return $this->getRender($params,$value,$outputRenderPaths,'output',$resourceId,$this->get('display'));
+    }
+
+    /**
+     * Prepare the output in this method to allow processing of this without depending on the actual render of the output
+     * @param string $value
+     * @return string
+     */
+    public function prepareOutput($value) {
+        /* Allow custom source types to manipulate the output URL for image/file tvs */
+        $mTypes = $this->xpdo->getOption('manipulatable_url_tv_output_types',null,'image,file');
+        $mTypes = explode(',',$mTypes);
+        if (!empty($value) && in_array($this->get('type'),$mTypes)) {
+            $sourceCache = $this->getSourceCache($this->xpdo->context->get('key'));
+            if (!empty($sourceCache) && !empty($sourceCache['class_key'])) {
+                $coreSourceClasses = $this->xpdo->getOption('core_media_sources',null,'modFileMediaSource,modS3MediaSource');
+                $coreSourceClasses = explode(',',$coreSourceClasses);
+                $classKey = in_array($sourceCache['class_key'],$coreSourceClasses) ? 'sources.'.$sourceCache['class_key'] : $sourceCache['class_key'];
+                if ($this->xpdo->loadClass($classKey)) {
+                    /** @var modMediaSource $source */
+                    $source = $this->xpdo->newObject($classKey);
+                    if ($source) {
+                        $source->fromArray($sourceCache,'',true,true);
+                        $source->initialize();
+                        $isAbsolute = strpos($value,'http://') === 0 || strpos($value,'https://') === 0 || strpos($value,'ftp://') === 0;
+                        if (!$isAbsolute) {
+                            $value = $source->prepareOutputUrl($value);
+                        }
+                    }
+                }
+            }
+        }
+        return $value;
     }
 
     /**
@@ -280,100 +311,36 @@ class modTemplateVar extends modElement {
      * @access public
      * @param integer $resourceId The id of the resource; 0 defaults to the
      * current resource.
-     * @param string $style Extra style parameters. (deprecated)
+     * @param mixed $options Array of options ('value', 'style') or deprecated $style string
      * @return mixed The rendered input for the template variable.
      */
-    public function renderInput($resourceId= 0, $style= '') {
+    public function renderInput($resourceId= 0, $options) {
+
+        if(is_string($options) && !empty($options)) {
+            // fall back to deprecated $style setting
+            $style = $options;
+        } else {
+            $style = is_array($options) && isset($options['style']) ? strval($options['style']) : '';
+            $value = is_array($options) && isset($options['value']) ? strval($options['value']) : '';
+        }
         if (!isset($this->smarty)) {
             $this->xpdo->getService('smarty', 'smarty.modSmarty', '', array(
                 'template_dir' => $this->xpdo->getOption('manager_path') . 'templates/' . $this->xpdo->getOption('manager_theme',null,'default') . '/',
             ));
         }
         $this->xpdo->smarty->assign('style',$style);
-        $value = $this->getValue($resourceId);
+        if(!isset($value) || empty($value)) {
+            $value = $this->getValue($resourceId);
+        }
 
         /* process only @INHERIT bindings in value, since we're inputting */
-        $bdata = $this->getBindingDataFromValue($value);
-        if ($bdata['cmd'] == 'INHERIT') {
-            $value = $this->processInheritBinding($bdata['param'], $resourceId);
+        $bindingData = $this->getBindingDataFromValue($value);
+        if ($bindingData['cmd'] == 'INHERIT') {
+            $value = $this->processInheritBinding($bindingData['param'], $resourceId);
         }
 
         /* if any FC tvDefault rules, set here */
-        if ($this->xpdo->request && $this->xpdo->user instanceof modUser) {
-            if (!empty($resourceId)) {
-                $resource = $this->xpdo->getObject('modResource',$resourceId);
-            }
-            $userGroups = $this->xpdo->user->getUserGroups();
-            $c = $this->xpdo->newQuery('modActionDom');
-            $c->innerJoin('modFormCustomizationSet','FCSet');
-            $c->innerJoin('modFormCustomizationProfile','Profile','FCSet.profile = Profile.id');
-            $c->leftJoin('modFormCustomizationProfileUserGroup','ProfileUserGroup','Profile.id = ProfileUserGroup.profile');
-            $c->leftJoin('modFormCustomizationProfile','UGProfile','UGProfile.id = ProfileUserGroup.profile');
-            $ruleFieldName = $this->xpdo->escape('rule');
-            $c->where(array(
-                array(
-                    "(modActionDom.{$ruleFieldName} = 'tvDefault'
-                   OR modActionDom.{$ruleFieldName} = 'tvVisible'
-                   OR modActionDom.{$ruleFieldName} = 'tvTitle')"
-                ),
-                "'tv{$this->get('id')}' IN ({$this->xpdo->escape('modActionDom')}.{$this->xpdo->escape('name')})",
-                'FCSet.active' => true,
-                'Profile.active' => true,
-            ));
-            $c->where(array(
-                array(
-                    'ProfileUserGroup.usergroup:IN' => $userGroups,
-                    array(
-                        'OR:ProfileUserGroup.usergroup:IS' => null,
-                        'AND:UGProfile.active:=' => true,
-                    ),
-                ),
-                'OR:ProfileUserGroup.usergroup:=' => null,
-            ),xPDOQuery::SQL_AND,null,2);
-            if (!empty($this->xpdo->request) && !empty($this->xpdo->request->action)) {
-                $c->where(array(
-                    'modActionDom.action' => $this->xpdo->request->action,
-                ));
-            }
-            $c->select(array(
-                'modActionDom.*',
-                'FCSet.constraint_class',
-                'FCSet.constraint_field',
-                'FCSet.' . $this->xpdo->escape('constraint'),
-                'FCSet.template',
-            ));
-            $c->sortby('FCSet.template','ASC');
-            $c->sortby('modActionDom.rank','ASC');
-            $domRules = $this->xpdo->getCollection('modActionDom',$c);
-            foreach ($domRules as $rule) {
-                if (!empty($resourceId)) {
-                    $template = $rule->get('template');
-                    if (!empty($template)) {
-                        if ($resource && $template != $resource->get('template')) continue;
-                    }
-                }
-                switch ($rule->get('rule')) {
-                    case 'tvVisible':
-                        if ($rule->get('value') == 0) {
-                            $this->set('type','hidden');
-                        }
-                        break;
-                    case 'tvDefault':
-                        $v = $rule->get('value');
-                        if (empty($resourceId)) {
-                            $value = $v;
-                            $this->set('value',$v);
-                        }
-                        $this->set('default_text',$v);
-                        break;
-                    case 'tvTitle':
-                        $v = $rule->get('value');
-                        $this->set('caption',$v);
-                        break;
-                }
-            }
-            unset($domRules,$rule,$userGroups,$v,$c);
-        }
+        $value = $this->checkForFormCustomizationRules($value,$resourceId);
         /* properly set value back if any FC rules, resource values, or bindings have adjusted it */
         $this->set('value',$value);
         $this->set('processedValue',$value);
@@ -381,9 +348,6 @@ class modTemplateVar extends modElement {
 
         /* strip tags from description */
         $this->set('description',strip_tags($this->get('description')));
-
-        $this->xpdo->smarty->assign('tv',$this);
-        $this->xpdo->smarty->assign('ctx',isset($_REQUEST['ctx']) ? $_REQUEST['ctx'] : 'web');
 
         $params= array ();
         if ($paramstring= $this->get('display_params')) {
@@ -400,8 +364,6 @@ class modTemplateVar extends modElement {
         $params = $this->get('input_properties');
         /* default required status to no */
         if (!isset($params['allowBlank'])) $params['allowBlank'] = 1;
-        $this->xpdo->smarty->assign('params',$params);
-        $this->xpdo->lexicon->load('tv_widget');
 
         /* find the correct renderer for the TV, if not one, render a textbox */
         $inputRenderPaths = $this->getRenderDirectories('OnTVInputRenderList','input');
@@ -420,41 +382,96 @@ class modTemplateVar extends modElement {
      * @return string
      */
     public function getRender($params,$value,array $paths,$method,$resourceId = 0,$type = 'text') {
-        /* backwards compat stuff */
-        $name= $this->get('name');
-        $id= "tv$name";
-        $format= $this->get('display');
-        $tvtype= $this->get('type');
-        /* end backwards compat */
-        
-        $modx =& $this->xpdo;
-        if (empty($modx->resource)) {
+        if (empty($type)) $type = 'text';
+        if (empty($this->xpdo->resource)) {
             if (!empty($resourceId)) {
-                $modx->resource = $modx->getObject('modResource',$resourceId);
+                $this->xpdo->resource = $this->xpdo->getObject('modResource',$resourceId);
             }
-            if (empty($modx->resource) || empty($resourceId)) {
-                $modx->resource = $modx->newObject('modResource');
-                $modx->resource->set('id',0);
+            if (empty($this->xpdo->resource) || empty($resourceId)) {
+                $this->xpdo->resource = $this->xpdo->newObject('modResource');
+                $this->xpdo->resource->set('id',0);
             }
         }
 
-        $output = '';
-        foreach ($paths as $path) {
-            $renderFile = $path.$type.'.php';
-            if (file_exists($renderFile)) {
-                $output = include $renderFile;
-                break;
+        if ($className = $this->checkForRegisteredRenderMethod($type,$method)) {
+            /** @var modTemplateVarOutputRender $render */
+            $render = new $className($this);
+            $output = $render->render($value,$params);
+        } else {
+            $deprecatedClassName = $method == 'input' ? 'modTemplateVarInputRenderDeprecated' : 'modTemplateVarOutputRenderDeprecated';
+            $render = new $deprecatedClassName($this);
+
+            foreach ($paths as $path) {
+                $renderFile = $path.$type.'.class.php';
+                if (file_exists($renderFile)) {
+                    $className = include $renderFile;
+                    $this->registerRenderMethod($type,$method,$className);
+                    if (class_exists($className)) {
+                        /** @var modTemplateVarOutputRender $render */
+                        $render = new $className($this);
+                    }
+                    break;
+                }
+
+                /* 2.1< backwards compat */
+                $renderFile = $path.$type.'.php';
+                if (file_exists($renderFile)) {
+                    $render = new $deprecatedClassName($this);
+                    $params['modx.renderFile'] = $renderFile;
+                    break;
+                }
             }
-        }
-        if (empty($output)) {
-            $p = $this->xpdo->getOption('processors_path').'element/tv/renders/'.$this->xpdo->context->get('key').'/'.$method.'/';
-            if (file_exists($p.'text.php')) {
-                $output = include $p.'text.php';
-            } else {
-                $output = include $this->xpdo->getOption('processors_path').'element/tv/renders/'.($method == 'input' ? 'mgr' : 'web').'/'.$method.'/text.php';
+
+            $output = $render->render($value,$params);
+
+            /* if no output, fallback to text */
+            if (empty($output)) {
+                $p = $this->xpdo->getOption('processors_path').'element/tv/renders/mgr/'.$method.'/';
+                $className = $method == 'output' ? 'modTemplateVarOutputRenderText' : 'modTemplateVarInputRenderText';
+                if (!class_exists($className) && file_exists($p.'text.class.php')) {
+                    $className = include $p.'text.class.php';
+                }
+                if (class_exists($className)) {
+                    $render = new $className($this);
+                    $output = $render->render($value,$params);
+                }
             }
         }
         return $output;
+    }
+
+    /**
+     * Check for a registered TV render
+     * @param string $type
+     * @param string $method
+     * @return bool
+     */
+    public function checkForRegisteredRenderMethod($type,$method) {
+        $v = false;
+        if (!isset($this->xpdo->tvRenders)) $this->xpdo->tvRenders = array();
+        if (!isset($this->xpdo->tvRenders[$method])) {
+            $this->xpdo->tvRenders[$method] = array();
+        }
+        if (!empty($this->xpdo->tvRenders[$method][$type])) {
+            $v = $this->xpdo->tvRenders[$method][$type];
+        }
+        return $v;
+    }
+
+    /**
+     * Register a render method to the array cache to prevent double loading of the class
+     * @param string $type
+     * @param string $method
+     * @param string $className
+     * @return mixed
+     */
+    public function registerRenderMethod($type,$method,$className) {
+        if (!isset($this->xpdo->tvRenders)) $this->xpdo->tvRenders = array();
+        if (!isset($this->xpdo->tvRenders[$method])) {
+            $this->xpdo->tvRenders[$method] = array();
+        }
+        $this->xpdo->tvRenders[$method][$type] = $className;
+        return $className;
     }
 
     /**
@@ -499,6 +516,103 @@ class modTemplateVar extends modElement {
     }
 
     /**
+     * Check for any Form Customization rules for this TV
+     * @param string $value
+     * @param int $resourceId
+     * @return mixed
+     */
+    public function checkForFormCustomizationRules($value,$resourceId = 0) {
+        if ($this->xpdo->request && $this->xpdo->user instanceof modUser) {
+            $resource = false;
+            if (!empty($resourceId)) {
+                /** @var modResource $resource */
+                $resource = $this->xpdo->getObject('modResource',$resourceId);
+            }
+            if ($this->xpdo->getOption('form_customization_use_all_groups',null,false)) {
+                $userGroups = $this->xpdo->user->getUserGroups();
+            } else {
+                $primaryGroup = $this->xpdo->user->getPrimaryGroup();
+                if ($primaryGroup) {
+                    $userGroups = array($primaryGroup->get('id'));
+                }
+            }
+            $c = $this->xpdo->newQuery('modActionDom');
+            $c->innerJoin('modFormCustomizationSet','FCSet');
+            $c->innerJoin('modFormCustomizationProfile','Profile','FCSet.profile = Profile.id');
+            $c->leftJoin('modFormCustomizationProfileUserGroup','ProfileUserGroup','Profile.id = ProfileUserGroup.profile');
+            $c->leftJoin('modFormCustomizationProfile','UGProfile','UGProfile.id = ProfileUserGroup.profile');
+            $ruleFieldName = $this->xpdo->escape('rule');
+            $c->where(array(
+                array(
+                    "(modActionDom.{$ruleFieldName} = 'tvDefault'
+                   OR modActionDom.{$ruleFieldName} = 'tvVisible'
+                   OR modActionDom.{$ruleFieldName} = 'tvTitle')"
+                ),
+                "'tv{$this->get('id')}' IN ({$this->xpdo->escape('modActionDom')}.{$this->xpdo->escape('name')})",
+                'FCSet.active' => true,
+                'Profile.active' => true,
+            ));
+            if (!empty($userGroups)) {
+                $c->where(array(
+                    array(
+                        'ProfileUserGroup.usergroup:IN' => $userGroups,
+                        array(
+                            'OR:ProfileUserGroup.usergroup:IS' => null,
+                            'AND:UGProfile.active:=' => true,
+                        ),
+                    ),
+                    'OR:ProfileUserGroup.usergroup:=' => null,
+                ),xPDOQuery::SQL_AND,null,2);
+            }
+            if (!empty($this->xpdo->request) && !empty($this->xpdo->request->action)) {
+                $c->where(array(
+                    'modActionDom.action' => $this->xpdo->request->action,
+                ));
+            }
+            $c->select($this->xpdo->getSelectColumns('modActionDom','modActionDom'));
+            $c->select(array(
+                'FCSet.constraint_class',
+                'FCSet.constraint_field',
+                'FCSet.' . $this->xpdo->escape('constraint'),
+                'FCSet.template',
+            ));
+            $c->sortby('FCSet.template','ASC');
+            $c->sortby('modActionDom.rank','ASC');
+            $domRules = $this->xpdo->getCollection('modActionDom',$c);
+            /** @var modActionDom $rule */
+            foreach ($domRules as $rule) {
+                if (!empty($resourceId)) {
+                    $template = $rule->get('template');
+                    if (!empty($template)) {
+                        if ($resource && $template != $resource->get('template')) continue;
+                    }
+                }
+                switch ($rule->get('rule')) {
+                    case 'tvVisible':
+                        if ($rule->get('value') == 0) {
+                            $this->set('type','hidden');
+                        }
+                        break;
+                    case 'tvDefault':
+                        $v = $rule->get('value');
+                        if (empty($resourceId)) {
+                            $value = $v;
+                            $this->set('value',$v);
+                        }
+                        $this->set('default_text',$v);
+                        break;
+                    case 'tvTitle':
+                        $v = $rule->get('value');
+                        $this->set('caption',$v);
+                        break;
+                }
+            }
+            unset($domRules,$rule,$userGroups,$v,$c);
+        }
+        return $value;
+    }
+
+    /**
      * Decodes special function-based chars from a parameter value.
      *
      * @access public
@@ -522,8 +636,8 @@ class modTemplateVar extends modElement {
         $ps = explode('&',$params);
         foreach ($ps as $p) {
             $param = explode('=',$p);
-            if ($p[0] != '') {
-                $v = $param[1];
+            if (!empty($p[0])) {
+                $v = !empty($param[1]) ? $param[1] : 0;
                 if ($v == 'true') $v = 1;
                 if ($v == 'false') $v = 0;
                 $settings[$param[0]] = $v;
@@ -916,5 +1030,229 @@ class modTemplateVar extends modElement {
             'templateid' => is_object($template) ? $template->get('id') : $template,
         ));
         return !empty($templateVarTemplate) && is_object($templateVarTemplate);
+    }
+
+    /**
+     * Check to see if the
+     * @param modUser|null $user
+     * @param string $context
+     * @return bool
+     */
+    public function checkResourceGroupAccess($user = null,$context = '') {
+        $context = !empty($context) ? $context : $this->xpdo->context;
+        $user = !empty($user) ? $user : $this->xpdo->user;
+
+        $c = $this->xpdo->newQuery('modResourceGroup');
+        $c->innerJoin('modTemplateVarResourceGroup','TemplateVarResourceGroups',array(
+            'TemplateVarResourceGroups.documentgroup = modResourceGroup.id',
+            'TemplateVarResourceGroups.tmplvarid' => $this->get('id'),
+        ));
+        $resourceGroups = $this->xpdo->getCollection('modResourceGroup',$c);
+        $hasAccess = true;
+        if (!empty($resourceGroups)) {
+            $hasAccess = false;
+            /** @var modResourceGroup $resourceGroup */
+            foreach ($resourceGroups as $resourceGroup) {
+                if ($resourceGroup->hasAccess($user,$context)) {
+                    $hasAccess = true;
+                    break;
+                }
+            }
+        }
+        return $hasAccess;
+    }
+}
+
+/**
+ * An abstract class meant to be used by TV renders. Do not extend this class directly; use its Input or Output
+ * derivatives instead.
+ *
+ * @package modx
+ */
+abstract class modTemplateVarRender {
+    /** @var modTemplateVar $tv */
+    public $tv;
+    /** @var modX $modx */
+    public $modx;
+    /** @var array $config */
+    public $config = array();
+
+    function __construct(modTemplateVar $tv,array $config = array()) {
+        $this->tv =& $tv;
+        $this->modx =& $tv->xpdo;
+        $this->config = array_merge($this->config,$config);
+    }
+
+    /**
+     * Get any lexicon topics for your render. You may override this method in your render to provide an array of
+     * lexicon topics to load.
+     * @return array
+     */
+    public function getLexiconTopics() {
+        return array('tv_widget');
+    }
+
+    /**
+     * Render the TV render.
+     * @param string $value
+     * @param array $params
+     * @return mixed|void
+     */
+    public function render($value,array $params = array()) {
+        $this->_loadLexiconTopics();
+        return $this->process($value,$params);
+    }
+
+    /**
+     * Load any specified lexicon topics for the render
+     */
+    protected function _loadLexiconTopics() {
+        $topics = $this->getLexiconTopics();
+        if (!empty($topics) && !is_array($topics)) {
+            foreach ($topics as $topic) {
+                $this->modx->lexicon->load($topic);
+            }
+        }
+    }
+
+    /**
+     * @param string $value
+     * @param array $params
+     * @return void|mixed
+     */
+    public function process($value,array $params = array()) {
+        return $value;
+    }
+}
+/**
+ * An abstract class for extending Output Renders for TVs.
+ * @package modx
+ */
+abstract class modTemplateVarOutputRender extends modTemplateVarRender {}
+/**
+ * An abstract class for extending Input Renders for TVs.
+ * @package modx
+ */
+abstract class modTemplateVarInputRender extends modTemplateVarRender {
+    public function render($value,array $params = array()) {
+        $this->setPlaceholder('tv',$this->tv);
+        $this->setPlaceholder('id',$this->tv->get('id'));
+        $this->setPlaceholder('ctx',isset($_REQUEST['ctx']) ? $_REQUEST['ctx'] : 'web');
+        $this->setPlaceholder('params',$params);
+
+        $output = parent::render($value,$params);
+
+        $tpl = $this->getTemplate();
+        return !empty($tpl) ? $this->modx->controller->fetchTemplate($tpl) : $output;
+    }
+
+    /**
+     * Set a placeholder to be used in the template
+     * @param string $k
+     * @param mixed $v
+     */
+    public function setPlaceholder($k,$v) {
+        $this->modx->controller->setPlaceholder($k,$v);
+    }
+
+    /**
+     * Return the template path to load
+     * @return string
+     */
+    public function getTemplate() {
+        return '';
+    }
+
+    /**
+     * Return the input options parsed for the TV
+     * @return mixed
+     */
+    public function getInputOptions() {
+        return $this->tv->parseInputOptions($this->tv->processBindings($this->tv->get('elements'),$this->modx->resource->get('id')));
+    }
+}
+
+/**
+ * Backwards support for <2.2-style output renders
+ * @package modx
+ */
+class modTemplateVarOutputRenderDeprecated extends modTemplateVarOutputRender {
+    /** @var modX $xpdo */
+    public $xpdo;
+
+    public function process($value,array $params = array()) {
+        $output = '';
+        $modx =& $this->modx;
+        $this->xpdo =& $this->modx;
+
+        /* simulate hydration */
+        $tvArray = $this->tv->toArray();
+        foreach ($tvArray as $k => $v) {
+            $this->$k = $v;
+        }
+
+        $name= $this->tv->get('name');
+        $id= "tv$name";
+        $format= $this->tv->get('display');
+        $tvtype= $this->tv->get('type');
+        if (empty($type)) $type = 'default';
+
+        if (!empty($params['modx.renderFile']) && file_exists($params['modx.renderFile'])) {
+            $output = include $params['modx.renderFile'];
+        }
+        return $output;
+    }
+
+    public function get($k) {
+        return $this->tv->get($k);
+    }
+
+    public function set($k,$v) {
+        return $this->tv->set($k,$v);
+    }
+}
+
+/**
+ * Backwards support for <2.2-style input renders
+ * @package modx
+ */
+class modTemplateVarInputRenderDeprecated extends modTemplateVarInputRender {
+    /** @var modX $xpdo */
+    public $xpdo;
+
+    public function process($value,array $params = array()) {
+        $this->setPlaceholder('tv',$this->tv);
+        $this->setPlaceholder('id',$this->tv->get('id'));
+        $this->setPlaceholder('ctx',isset($_REQUEST['ctx']) ? $_REQUEST['ctx'] : 'web');
+        $this->setPlaceholder('params',$params);
+
+        $modx =& $this->modx;
+        $this->xpdo =& $this->modx;
+
+        /* simulate hydration */
+        $tvArray = $this->tv->toArray();
+        foreach ($tvArray as $k => $v) {
+            $this->$k = $v;
+        }
+
+        $name= $this->tv->get('name');
+        $id= "tv$name";
+        $format= $this->tv->get('display');
+        $tvtype= $this->tv->get('type');
+        if (empty($type)) $type = 'default';
+
+        $output = '';
+        if (!empty($params['modx.renderFile']) && file_exists($params['modx.renderFile'])) {
+            $output = include $params['modx.renderFile'];
+        }
+        return $output;
+    }
+
+    public function get($k) {
+        return $this->tv->get($k);
+    }
+
+    public function set($k,$v) {
+        return $this->tv->set($k,$v);
     }
 }

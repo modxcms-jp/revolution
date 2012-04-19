@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  *
- * Copyright 2006-2011 by MODX, LLC.
+ * Copyright 2006-2012 by MODX, LLC.
  *
  * All rights reserved.
  *
@@ -21,9 +21,9 @@
  * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
-
 /**
  * @package modx
+ * @subpackage rest
  */
 /**
  * An extendable class for handling REST requests.

@@ -6,6 +6,7 @@ MODx.panel.Messages = function(config) {
         ,url: MODx.config.connectors_url+'security/message.php'
         ,layout: 'fit'
         ,bodyStyle: 'background: none;'
+        ,cls: 'container form-with-labels'
         ,border: false
         ,items: [{
             html: '<h2>'+_('messages')+'</h2>'
@@ -16,9 +17,10 @@ MODx.panel.Messages = function(config) {
             ,anchor: '100%'
         },MODx.getPageStructure([{
             title: _('messages')
-            ,bodyStyle: 'padding: 15px;'
+            ,cls: 'main-wrapper'
             ,id: 'modx-messages-tab'
             ,autoHeight: true
+            ,border: false
             ,items: [{
                 html: ''
                 ,id: 'modx-messages-msg'
@@ -30,7 +32,6 @@ MODx.panel.Messages = function(config) {
             }]
         }],{
             border: true
-            ,defaults: { bodyStyle: 'padding: 15px; '}
         })]
     });
     MODx.panel.Messages.superclass.constructor.call(this,config);
@@ -52,7 +53,7 @@ MODx.grid.Message = function(config) {
     this.exp = new Ext.grid.RowExpander({
         tpl : new Ext.Template(
             '<span style="float: right;">'
-            ,'<i>'+_('sent_by')+': {sender_name} <br />'+_('sent_on')+': {postdate}</i><br /><br />'
+            ,'<i>'+_('sent_by')+': {sender_name} <br />'+_('sent_on')+': {date_sent}</i><br /><br />'
             ,'</span>'
             ,'<h3>{subject}</h3>'
             ,'<p>{message}</p>'
@@ -106,10 +107,7 @@ MODx.grid.Message = function(config) {
                 ,'render': {fn: function(cmp) {
                     new Ext.KeyMap(cmp.getEl(), {
                         key: Ext.EventObject.ENTER
-                        ,fn: function() {
-                            this.fireEvent('change',this.getValue());
-                            this.blur();
-                            return true;}
+                        ,fn: this.blur
                         ,scope: cmp
                     });
                 },scope:this}
@@ -272,6 +270,7 @@ MODx.window.CreateMessage = function(config) {
         ,listeners: {
             'show': {fn: this.initRecipient, scope: this}
         }
+        ,keys: []
     });
     MODx.window.CreateMessage.superclass.constructor.call(this,config);
     this.on('show',function() {

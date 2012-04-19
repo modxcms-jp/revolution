@@ -7,6 +7,7 @@ $xpdo_meta_map['modTemplate']= array (
   'package' => 'modx',
   'version' => '1.1',
   'table' => 'site_templates',
+  'extends' => 'modElement',
   'fields' => 
   array (
     'templatename' => '',
@@ -18,6 +19,8 @@ $xpdo_meta_map['modTemplate']= array (
     'content' => '',
     'locked' => 0,
     'properties' => NULL,
+    'static' => 0,
+    'static_file' => '',
   ),
   'fieldMeta' => 
   array (
@@ -91,6 +94,22 @@ $xpdo_meta_map['modTemplate']= array (
       'phptype' => 'array',
       'null' => true,
     ),
+    'static' => 
+    array (
+      'dbtype' => 'bit',
+      'phptype' => 'boolean',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
+    ),
+    'static_file' => 
+    array (
+      'dbtype' => 'nvarchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
   ),
   'indexes' => 
   array (
@@ -142,6 +161,48 @@ $xpdo_meta_map['modTemplate']= array (
         ),
       ),
     ),
+    'static' => 
+    array (
+      'alias' => 'static',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'static' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+  ),
+  'composites' => 
+  array (
+    'PropertySets' => 
+    array (
+      'class' => 'modElementPropertySet',
+      'local' => 'id',
+      'foreign' => 'element',
+      'owner' => 'local',
+      'cardinality' => 'many',
+      'criteria' => 
+      array (
+        'foreign' => 
+        array (
+          'element_class' => 'modTemplate',
+        ),
+      ),
+    ),
+    'TemplateVarTemplates' => 
+    array (
+      'class' => 'modTemplateVarTemplate',
+      'local' => 'id',
+      'foreign' => 'templateid',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
   ),
   'aggregates' => 
   array (
@@ -158,17 +219,6 @@ $xpdo_meta_map['modTemplate']= array (
       'class' => 'modResource',
       'local' => 'id',
       'foreign' => 'template',
-      'cardinality' => 'many',
-      'owner' => 'local',
-    ),
-  ),
-  'composites' => 
-  array (
-    'TemplateVarTemplates' => 
-    array (
-      'class' => 'modTemplateVarTemplate',
-      'local' => 'id',
-      'foreign' => 'templateid',
       'cardinality' => 'many',
       'owner' => 'local',
     ),

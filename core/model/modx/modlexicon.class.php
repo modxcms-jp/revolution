@@ -1,8 +1,8 @@
 <?php
-/*
+/**
  * MODX Revolution
  *
- * Copyright 2006-2011 by MODX, LLC.
+ * Copyright 2006-2012 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -18,15 +18,12 @@
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
- */
-/**
- * modLexicon
  *
  * @package modx
  */
 /**
- * The lexicon handling class.
- * Eventually needs to be reworked to allow for context/area-specific lexicons.
+ * The lexicon handling class. Handles all lexicon topics by loading and storing their entries into a cached array.
+ * Also considers database-based overrides for specific lexicon entries that preserve the originals and allow reversion.
  *
  * @package modx
  */
@@ -68,15 +65,15 @@ class modLexicon {
      * Creates the modLexicon instance.
      *
      * @constructor
-     * @param modX &$modx A reference to the modX instance.
-     * @return modLexicon
+     * @param xPDO $modx A reference to the modX instance.
+     * @param array $config An array of configuration properties
      */
     function __construct(xPDO &$modx,array $config = array()) {
         $this->modx =& $modx;
         $this->_paths = array(
              'core' => $this->modx->getOption('core_path') . 'cache/lexicon/',
         );
-        $this->_lexicon = array();
+        $this->_lexicon = array($this->modx->getOption('cultureKey',null,'en') => array());
         $this->config = array_merge($config,array());
     }
 
@@ -99,8 +96,9 @@ class modLexicon {
      * @param string $index
      * @return boolean True if exists.
      */
-    public function exists($index) {
-        return (is_string($index) && isset($this->_lexicon[$index]));
+    public function exists($index,$language = '') {
+        $language = !empty($language) ? $language : $this->modx->getOption('cultureKey',null,'en');
+        return (is_string($index) && isset($this->_lexicon[$language][$index]));
     }
 
     /**
@@ -108,13 +106,15 @@ class modLexicon {
      *
      * @access public
      * @param string $prefix If set, will only return the lexicon entries with this prefix.
-     * @param boolean If true, will strip the prefix from the returned indexes
+     * @param boolean $removePrefix If true, will strip the prefix from the returned indexes
+     * @param string $language
      * @return array The internal lexicon.
      */
-    public function fetch($prefix = '',$removePrefix = false) {
+    public function fetch($prefix = '',$removePrefix = false,$language = '') {
+        $language = !empty($language) ? $language : $this->modx->getOption('cultureKey',null,'en');
         if (!empty($prefix)) {
             $lex = array();
-            $lang = $this->_lexicon;
+            $lang = $this->_lexicon[$language];
             if (is_array($lang)) {
                 foreach ($lang as $k => $v) {
                     if (strpos($k,$prefix) !== false) {
@@ -125,7 +125,7 @@ class modLexicon {
             }
             return $lex;
         }
-        return $this->_lexicon;
+        return $this->_lexicon[$language];
     }
 
     /**
@@ -175,7 +175,8 @@ class modLexicon {
                 foreach ($this->_paths as $namespace => $path) {
                     $entries = $this->loadCache($namespace,$topic);
                     if (is_array($entries)) {
-                        $this->_lexicon = is_array($this->_lexicon) ? array_merge($this->_lexicon,$entries) : $entries;
+                        if (!array_key_exists($defaultLanguage,$this->_lexicon)) $this->_lexicon[$defaultLanguage] = array();
+                        $this->_lexicon[$defaultLanguage] = is_array($this->_lexicon[$defaultLanguage]) ? array_merge($this->_lexicon[$defaultLanguage],$entries) : $entries;
                     }
                 }
             } else { /* if namespace, search specified lexicon */
@@ -192,12 +193,17 @@ class modLexicon {
 
                 $englishEntries = $language != 'en' ? $this->loadCache($namespace,$topic_parsed,'en') : false;
                 $entries = $this->loadCache($namespace,$topic_parsed,$language);
+                if (!is_array($entries)) {
+                    if (is_string($entries) && !empty($entries)) $entries = $this->modx->fromJSON($entries);
+                    if (empty($entries)) $entries = array();
+                }
                 if (is_array($englishEntries) && !empty($englishEntries)) {
                     $entries = array_merge($englishEntries,$entries);
                 }
                 if (is_array($entries)) {
                     $this->_loadedTopics[] = $topicStr;
-                    $this->_lexicon = is_array($this->_lexicon) ? array_merge($this->_lexicon, $entries) : $entries;
+                    if (!array_key_exists($language,$this->_lexicon)) $this->_lexicon[$language] = array();
+                    $this->_lexicon[$language] = is_array($this->_lexicon[$language]) ? array_merge($this->_lexicon[$language], $entries) : $entries;
                 }
             }
         }
@@ -246,6 +252,7 @@ class modLexicon {
             $c->sortby($this->modx->getSelectColumns('modLexiconEntry','modLexiconEntry','',array('name')),'ASC');
             $entries= $this->modx->getCollection('modLexiconEntry',$c);
             if (!empty($entries)) {
+                /** @var modLexiconEntry $entry */
                 foreach ($entries as $entry) {
                     $results[$entry->get('name')]= $entry->get('value');
                 }
@@ -302,9 +309,10 @@ class modLexicon {
     public function getNamespacePath($namespace = 'core') {
         $corePath = $this->modx->getOption('core_path',null,MODX_CORE_PATH);
         if ($namespace != 'core') {
+            /** @var modNamespace $namespaceObj */
             $namespaceObj = $this->modx->getObject('modNamespace',$namespace);
             if ($namespaceObj) {
-                $corePath = $namespaceObj->get('path');
+                $corePath = $namespaceObj->getCorePath();
             }
         }
         return $corePath;
@@ -323,6 +331,7 @@ class modLexicon {
 
         $topics = array();
         if (!is_dir($lexPath)) return $topics;
+        /** @var DirectoryIterator $topic */
         foreach (new DirectoryIterator($lexPath) as $topic) {
             if (in_array($topic,array('.','..','.svn','.git','_notes'))) continue;
             if (!$topic->isReadable()) continue;
@@ -347,6 +356,7 @@ class modLexicon {
         $corePath = $this->getNamespacePath($namespace);
         $lexPath = str_replace('//','/',$corePath.'/lexicon/');
         $languages = array();
+        /** @var DirectoryIterator $language */
         foreach (new DirectoryIterator($lexPath) as $language) {
             if (in_array($language,array('.','..','.svn','.git','_notes','country'))) continue;
             if (!$language->isReadable()) continue;
@@ -365,18 +375,20 @@ class modLexicon {
      * @param string $key The key of the lexicon string.
      * @param array $params An assocative array of placeholder
      * keys and values to parse
+     * @param string $language
      * @return string The text of the lexicon key, blank if not found.
      */
-    public function process($key,array $params = array()) {
+    public function process($key,array $params = array(),$language = '') {
+        $language = !empty($language) ? $language : $this->modx->getOption('cultureKey',null,'en');
         /* make sure key exists */
-        if (!is_string($key) || !isset($this->_lexicon[$key])) {
+        if (!is_string($key) || !isset($this->_lexicon[$language][$key])) {
             $this->modx->log(xPDO::LOG_LEVEL_DEBUG,'Language string not found: "'.$key.'"');
             return $key;
         }
         /* if params are passed, allow for parsing of [[+key]] values to strings */
         return empty($params)
-            ? $this->_lexicon[$key]
-            : $this->_parse($this->_lexicon[$key],$params);
+            ? $this->_lexicon[$language][$key]
+            : $this->_parse($this->_lexicon[$language][$key],$params);
     }
 
     /**
@@ -384,18 +396,20 @@ class modLexicon {
      * database.
      *
      * @access public
-     * @param string/array $keys Either an array of array pairs of key/values or
+     * @param string|array $keys Either an array of array pairs of key/values or
      * a key string.
      * @param string $text The text to set, if the first parameter is a string.
+     * @param string $language The language to set the key in. Defaults to current.
      */
-    public function set($keys, $text = '') {
+    public function set($keys, $text = '', $language = '') {
+        $language = !empty($language) ? $language : $this->modx->getOption('cultureKey',null,$language);
         if (is_array($keys)) {
             foreach ($keys as $key => $str) {
                 if ($key == '') continue;
-                $this->_lexicon[$key] = $str;
+                $this->_lexicon[$language][$key] = $str;
             }
         } else if (is_string($keys) && $keys != '') {
-            $this->_lexicon[$keys] = $text;
+            $this->_lexicon[$language][$keys] = $text;
         }
     }
 
@@ -416,5 +430,28 @@ class modLexicon {
             $str = str_replace('[[+'.$k.']]',$v,$str);
         }
         return $str;
+    }
+
+    /**
+     * Returns the total # of entries in the active lexicon
+     * @param string $language
+     * @return int
+     */
+    public function total($language = '') {
+        $language = !empty($language) ? $language : $this->modx->getOption('cultureKey',null,'en');
+        return count($this->_lexicon[$language]);
+    }
+
+    /**
+     * Completely clears the lexicon
+     * @param string $language
+     * @return void
+     */
+    public function clear($language = '') {
+        if (!empty($language)) {
+            $this->_lexicon[$language] = array();
+        } else {
+            $this->_lexicon = array($this->modx->getOption('cultureKey',null,'en') => array());
+        }
     }
 }

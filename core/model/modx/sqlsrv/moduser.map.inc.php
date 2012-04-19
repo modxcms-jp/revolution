@@ -7,6 +7,7 @@ $xpdo_meta_map['modUser']= array (
   'package' => 'modx',
   'version' => '1.1',
   'table' => 'users',
+  'extends' => 'modPrincipal',
   'fields' => 
   array (
     'username' => '',
@@ -18,6 +19,9 @@ $xpdo_meta_map['modUser']= array (
     'remote_data' => NULL,
     'hash_class' => 'hashing.modPBKDF2',
     'salt' => '',
+    'primary_group' => 0,
+    'session_stale' => NULL,
+    'sudo' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -93,6 +97,30 @@ $xpdo_meta_map['modUser']= array (
       'null' => false,
       'default' => '',
     ),
+    'primary_group' => 
+    array (
+      'dbtype' => 'int',
+      'phptype' => 'integer',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
+    ),
+    'session_stale' => 
+    array (
+      'dbtype' => 'nvarchar',
+      'precision' => 'max',
+      'phptype' => 'array',
+      'null' => true,
+    ),
+    'sudo' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'attributes' => 'unsigned',
+      'null' => false,
+      'default' => 0,
+    ),
   ),
   'indexes' => 
   array (
@@ -143,6 +171,49 @@ $xpdo_meta_map['modUser']= array (
           'null' => false,
         ),
       ),
+    ),
+    'primary_group' => 
+    array (
+      'alias' => 'primary_group',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'primary_group' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+  ),
+  'composites' => 
+  array (
+    'Profile' => 
+    array (
+      'class' => 'modUserProfile',
+      'local' => 'id',
+      'foreign' => 'internalKey',
+      'cardinality' => 'one',
+      'owner' => 'local',
+    ),
+    'UserSettings' => 
+    array (
+      'class' => 'modUserSetting',
+      'local' => 'id',
+      'foreign' => 'user',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'UserGroupMembers' => 
+    array (
+      'class' => 'modUserGroupMember',
+      'local' => 'id',
+      'foreign' => 'member',
+      'cardinality' => 'many',
+      'owner' => 'local',
     ),
   ),
   'aggregates' => 
@@ -195,32 +266,13 @@ $xpdo_meta_map['modUser']= array (
       'cardinality' => 'many',
       'owner' => 'local',
     ),
-  ),
-  'composites' => 
-  array (
-    'Profile' => 
+    'PrimaryGroup' => 
     array (
-      'class' => 'modUserProfile',
-      'local' => 'id',
-      'foreign' => 'internalKey',
+      'class' => 'modUserGroup',
+      'local' => 'primary_group',
+      'foreign' => 'id',
       'cardinality' => 'one',
-      'owner' => 'local',
-    ),
-    'UserSettings' => 
-    array (
-      'class' => 'modUserSetting',
-      'local' => 'id',
-      'foreign' => 'user',
-      'cardinality' => 'many',
-      'owner' => 'local',
-    ),
-    'UserGroupMembers' => 
-    array (
-      'class' => 'modUserGroupMember',
-      'local' => 'id',
-      'foreign' => 'member',
-      'cardinality' => 'many',
-      'owner' => 'local',
+      'owner' => 'foreign',
     ),
   ),
 );

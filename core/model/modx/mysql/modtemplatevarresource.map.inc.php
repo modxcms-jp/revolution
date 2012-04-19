@@ -7,6 +7,7 @@ $xpdo_meta_map['modTemplateVarResource']= array (
   'package' => 'modx',
   'version' => '1.1',
   'table' => 'site_tmplvar_contentvalues',
+  'extends' => 'xPDOSimpleObject',
   'fields' => 
   array (
     'tmplvarid' => 0,
@@ -35,7 +36,7 @@ $xpdo_meta_map['modTemplateVarResource']= array (
     ),
     'value' => 
     array (
-      'dbtype' => 'text',
+      'dbtype' => 'mediumtext',
       'phptype' => 'string',
       'null' => false,
     ),

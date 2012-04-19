@@ -153,7 +153,7 @@ function fetch_rss ($url) {
         // setup headers
         if ( $cache_status == 'STALE' ) {
             $rss = $cache->get( $cache_key );
-            if ( $rss and $rss->etag and $rss->last_modified ) {
+            if ( $rss and isset($rss->etag) and !empty($rss->etag) and isset($rss->last_modified) and !empty($rss->last_modified) ) {
                 $request_headers['If-None-Match'] = $rss->etag;
                 $request_headers['If-Last-Modified'] = $rss->last_modified;
             }
@@ -354,7 +354,7 @@ function init () {
     }
 
     if ( !defined('MAGPIE_OUTPUT_ENCODING') ) {
-        define('MAGPIE_OUTPUT_ENCODING', 'ISO-8859-1');
+        define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
     }
     
     if ( !defined('MAGPIE_INPUT_ENCODING') ) {

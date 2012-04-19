@@ -10,6 +10,7 @@ MODx.panel.Namespaces = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'modx-panel-namespaces'
+		,cls: 'container'
         ,bodyStyle: ''
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
@@ -19,12 +20,13 @@ MODx.panel.Namespaces = function(config) {
             ,cls: 'modx-page-header'
         },{
             layout: 'form'
-            ,bodyStyle: 'padding: 15px;'
             ,items: [{
                 html: '<p>'+_('namespaces_desc')+'</p>'
+				,bodyCssClass: 'panel-desc'
                 ,border: false
             },{
                 xtype: 'modx-grid-namespace'
+				,cls:'main-wrapper'
                 ,preventRender: true
             }]
         }]
@@ -44,22 +46,30 @@ Ext.reg('modx-panel-namespaces',MODx.panel.Namespaces);
  */
 MODx.grid.Namespace = function(config) {
     config = config || {};
+    this.sm = new Ext.grid.CheckboxSelectionModel();
     Ext.applyIf(config,{
         url: MODx.config.connectors_url+'workspace/namespace.php'
-        ,fields: ['id','name','path','perm']
+        ,fields: ['id','name','path','assets_path','perm']
         ,anchor: '100%'
         ,paging: true
         ,autosave: true
         ,primaryKey: 'name'
         ,remoteSort: true
-        ,columns: [{
+        ,sm: this.sm
+        ,columns: [this.sm,{
             header: _('name')
             ,dataIndex: 'name'
             ,width: 200
             ,sortable: true
         },{
-            header: _('path')
+            header: _('namespace_path')
             ,dataIndex: 'path'
+            ,width: 500
+            ,sortable: false
+            ,editor: { xtype: 'textfield' }
+        },{
+            header: _('namespace_assets_path')
+            ,dataIndex: 'assets_path'
             ,width: 500
             ,sortable: false
             ,editor: { xtype: 'textfield' }
@@ -78,10 +88,7 @@ MODx.grid.Namespace = function(config) {
                 ,'render': {fn: function(cmp) {
                     new Ext.KeyMap(cmp.getEl(), {
                         key: Ext.EventObject.ENTER
-                        ,fn: function() {
-                            this.fireEvent('change',this.getValue());
-                            this.blur();
-                            return true;}
+                        ,fn: this.blur
                         ,scope: cmp
                     });
                 },scope:this}
@@ -102,11 +109,19 @@ Ext.extend(MODx.grid.Namespace,MODx.grid.Grid,{
         var r = this.getSelectionModel().getSelected();
         var p = r.data.perm;
         var m = [];
-        if (p.indexOf('premove') != -1) {
+        if (this.getSelectionModel().getCount() > 1) {
             m.push({
-                text: _('namespace_remove')
-                ,handler: this.remove.createDelegate(this,["namespace_remove_confirm"])
+                text: _('selected_remove')
+                ,handler: this.removeSelected
+                ,scope: this
             });
+        } else {
+            if (p.indexOf('premove') != -1) {
+                m.push({
+                    text: _('namespace_remove')
+                    ,handler: this.remove.createDelegate(this,["namespace_remove_confirm"])
+                });
+            }
         }
         return m;
     }
@@ -125,6 +140,27 @@ Ext.extend(MODx.grid.Namespace,MODx.grid.Grid,{
         Ext.getCmp('modx-namespace-search').reset();
     	this.getBottomToolbar().changePage(1);
         this.refresh();
+    }
+    ,removeSelected: function() {
+        var cs = this.getSelectedAsList();
+        if (cs === false) return false;
+
+        MODx.msg.confirm({
+            title: _('namespace_remove_multiple')
+            ,text: _('namespace_remove_multiple_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'removeMultiple'
+                ,namespaces: cs
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.getSelectionModel().clearSelections(true);
+                    this.refresh();
+                },scope:this}
+            }
+        });
+        return true;
     }
 });
 Ext.reg('modx-grid-namespace',MODx.grid.Namespace);

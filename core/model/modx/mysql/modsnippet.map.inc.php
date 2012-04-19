@@ -7,6 +7,7 @@ $xpdo_meta_map['modSnippet']= array (
   'package' => 'modx',
   'version' => '1.1',
   'table' => 'site_snippets',
+  'extends' => 'modScript',
   'fields' => 
   array (
     'cache_type' => 0,
@@ -14,6 +15,8 @@ $xpdo_meta_map['modSnippet']= array (
     'locked' => 0,
     'properties' => NULL,
     'moduleguid' => '',
+    'static' => 0,
+    'static_file' => '',
   ),
   'fieldMeta' => 
   array (
@@ -55,6 +58,28 @@ $xpdo_meta_map['modSnippet']= array (
       'default' => '',
       'index' => 'fk',
     ),
+    'static' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'attributes' => 'unsigned',
+      'phptype' => 'boolean',
+      'null' => false,
+      'default' => 0,
+      'index' => 'index',
+    ),
+    'static_file' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+  ),
+  'fieldAliases' => 
+  array (
+    'content' => 'snippet',
   ),
   'indexes' => 
   array (
@@ -87,6 +112,40 @@ $xpdo_meta_map['modSnippet']= array (
           'length' => '',
           'collation' => 'A',
           'null' => false,
+        ),
+      ),
+    ),
+    'static' => 
+    array (
+      'alias' => 'static',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'static' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+  ),
+  'composites' => 
+  array (
+    'PropertySets' => 
+    array (
+      'class' => 'modElementPropertySet',
+      'local' => 'id',
+      'foreign' => 'element',
+      'owner' => 'local',
+      'cardinality' => 'many',
+      'criteria' => 
+      array (
+        'foreign' => 
+        array (
+          'element_class' => 'modSnippet',
         ),
       ),
     ),

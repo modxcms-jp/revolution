@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2010-2011 by MODX, LLC.
+ * Copyright 2010-2012 by MODX, LLC.
  *
  * This file is part of xPDO.
  *
@@ -71,6 +71,8 @@ class xPDOWinCache extends xPDOCache {
         $deleted = false;
         if (!isset($options['multiple_object_delete']) || empty($options['multiple_object_delete'])) {
             $deleted= wincache_ucache_delete($this->getCacheKey($key));
+        } else {
+            $deleted= $this->flush($options);
         }
         return $deleted;
     }

@@ -75,6 +75,7 @@ MODx.tree.Tree = function(config) {
         ,cls: 'modx-tree'
         ,root: root
         ,preventRender: false
+        ,stateful: true
         ,menuConfig: {defaultAlign: 'tl-b?' ,enableScrolling: false}
     });
     if (config.remoteToolbar === true && (config.tbar === undefined || config.tbar === null)) {
@@ -164,6 +165,9 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
         this.on('load',this._initExpand,this,{single: true});
         this.on('expandnode',this._saveState,this);
         this.on('collapsenode',this._saveState,this);
+		
+        /* Absolute positionning fix  */
+        this.on('expandnode',function(){ var cnt = Ext.getCmp('modx-content'); if (cnt) { cnt.doLayout(); } },this);
     }
 	
     /**
@@ -191,7 +195,10 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     ,addContextMenuItem: function(items) {
         var a = items, l = a.length;
         for(var i = 0; i < l; i++) {
-            a[i].scope = this;
+            a[i].scope = a[i].scope || this;
+            if (a[i].handler && typeof a[i].handler == 'string') {
+                a[i].handler = eval(a[i].handler);
+            }
             this.cm.add(a[i]);
         }
     }
@@ -206,13 +213,27 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
         this.cm.activeNode = node;        
         this.cm.removeAll();
         var m;
-        if (this.getMenu) {
-            m = this.getMenu(node,e);
-        } else if (node.attributes.menu && node.attributes.menu.items) {
-            m = node.attributes.menu.items;
+        var handled = false;
+
+        if (!Ext.isEmpty(node.attributes.treeHandler) || (node.isRoot && !Ext.isEmpty(node.childNodes[0].attributes.treeHandler))) {
+            var h = Ext.getCmp(node.isRoot ? node.childNodes[0].attributes.treeHandler : node.attributes.treeHandler);
+            if (h) {
+                if (node.isRoot) { node.attributes.type = 'root'; }
+                m = h.getMenu(this,node,e);
+                handled = true;
+            }
         }
-        this.addContextMenuItem(m);
-        this.cm.showAt(e.xy);
+        if (!handled) {
+            if (this.getMenu) {
+                m = this.getMenu(node,e);
+            } else if (node.attributes.menu && node.attributes.menu.items) {
+                m = node.attributes.menu.items;
+            }
+        }
+        if (m && m.length > 0) {
+            this.addContextMenuItem(m);
+            this.cm.showAt(e.xy);
+        }
         e.preventDefault();
         e.stopEvent();
     }
@@ -329,11 +350,16 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
      * @param {Ext.tree.TreeNode} n The most recent expanded or collapsed node.
      */
     ,_saveState: function(n) {
+        if (!this.stateful) {
+            return true;
+        }
         var s = Ext.state.Manager.get(this.treestate_id);
         var p = n.getPath();
         var i;
         if (!Ext.isObject(s) && !Ext.isArray(s)) {
             s = [s]; /* backwards compat */
+        } else {
+            s = s.slice();
         }
         if (Ext.isEmpty(p) || p == undefined) return; /* ignore invalid paths */
         if (n.expanded) { /* if expanding, add to state */
@@ -452,7 +478,17 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     /**
      * Abstract definition to handle drop events.
      */
-    ,_handleDrop: function() { }
+    ,_handleDrop: function(dropEvent) {
+        var node = dropEvent.dropNode;
+        if (node.isRoot) return false;
+
+        if (!Ext.isEmpty(node.attributes.treeHandler)) {
+            var h = Ext.getCmp(node.attributes.treeHandler);
+            if (h) {
+                return h.handleDrop(this,dropEvent);
+            }
+        }
+    }
 
     /**
      * Semi unique ids across edits
@@ -472,9 +508,12 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     }
 	
     ,loadAction: function(p) {
-        var id = this.cm.activeNode.id.split('_');id = id[1];
-        var u = 'index.php?id='+id+'&'+p;
-        location.href = u;
+        var id = '';
+        if (this.cm.activeNode && this.cm.activeNode.id) {
+            var pid = this.cm.activeNode.id.split('_');
+            id = 'id='+pid[1];
+        }
+        location.href = 'index.php?'+id+'&'+p;
     }
     /**
      * Loads the default toolbar for the tree.
@@ -535,7 +574,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
      * Gets a default toolbar setup
      */
     ,getToolbar: function() {
-        var iu = MODx.config.template_url+'images/restyle/icons/';
+        var iu = MODx.config.manager_url+'templates/default/images/restyle/icons/';
         return [{
             icon: iu+'arrow_down.png'
             ,cls: 'x-btn-icon'

@@ -9,6 +9,9 @@ require_once MODX_CORE_PATH . 'model/modx/mail/modmail.class.php';
 
 /**
  * PHPMailer implementation of the modMail service.
+ *
+ * @package modx
+ * @subpackage mail
  */
 class modPHPMailer extends modMail {
     /**
@@ -57,6 +60,7 @@ class modPHPMailer extends modMail {
                 break;
             case modMail::MAIL_FROM :
                 $this->mailer->From= $this->attributes[$key];
+                $this->mailer->Sender= $this->attributes[$key];
                 break;
             case modMail::MAIL_FROM_NAME :
                 $this->mailer->FromName= $this->attributes[$key];

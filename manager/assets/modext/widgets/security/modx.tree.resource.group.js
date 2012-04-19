@@ -17,6 +17,10 @@ MODx.tree.ResourceGroup = function(config) {
         ,enableDrop: true
         ,ddAppendOnly: true
         ,useDefaultToolbar: true
+        ,baseParams: {
+            action: 'getNodes'
+            ,limit: 0
+        }
         ,tbar: [{
             text: _('resource_group_create')
             ,scope: this
@@ -40,16 +44,39 @@ Ext.extend(MODx.tree.ResourceGroup,MODx.tree.Tree,{
             });
             m.push('-');
             m.push({
+                text: _('resource_group_update')
+                ,handler: this.updateResourceGroup
+            });
+            m.push('-');
+            m.push({
                 text: _('resource_group_remove')
                 ,handler: this.removeResourceGroup
             });
-        } else if (n.attributes.type == 'modResource') {
+        } else if (n.attributes.type == 'modResource' || n.attributes.type == 'modDocument') {
             m.push({
                 text: _('resource_group_access_remove')
                 ,handler: this.removeResource
             });
         }
         return m;
+    }
+
+    ,updateResourceGroup: function(itm,e) {
+        var r = this.cm.activeNode.attributes.data;
+
+        if (!this.windows.updateResourceGroup) {
+            this.windows.updateResourceGroup = MODx.load({
+                xtype: 'modx-window-resourcegroup-update'
+                ,record: r
+                ,listeners: {
+                    'success': {fn:this.refresh,scope:this}
+                }
+            });
+        }
+        this.windows.updateResourceGroup.reset();
+        this.windows.updateResourceGroup.setValues(r);
+        this.windows.updateResourceGroup.show(e.target);
+
     }
 
     ,removeResource: function(item,e) {
@@ -122,11 +149,11 @@ Ext.extend(MODx.tree.ResourceGroup,MODx.tree.Tree,{
         var docid = n.attributes.id.split('_'); docid = 'n_'+docid[1];
 
         if (e.target.findChild('id',docid) !== null) { return false; }
-        if (n.attributes.type != 'modResource') { return false; }
+        if (n.attributes.type != 'modResource' && n.attributes.type != 'modDocument') { return false; }
         if (e.point != 'append') { return false; }
         if (a.type != 'modResourceGroup') { return false; }
-        if (a.leaf === true) { return false; }
-        return true;
+        return a.leaf !== true;
+
     }
 	
     ,createDGD: function(n, text){
@@ -208,3 +235,30 @@ MODx.window.CreateResourceGroup = function(config) {
 };
 Ext.extend(MODx.window.CreateResourceGroup,MODx.Window);
 Ext.reg('modx-window-resourcegroup-create',MODx.window.CreateResourceGroup);
+
+MODx.window.UpdateResourceGroup = function(config) {
+    config = config || {};
+    this.ident = config.ident || 'urgrp'+Ext.id();
+    Ext.applyIf(config,{
+        title: _('resource_group_update')
+        ,id: this.ident
+        ,height: 150
+        ,width: 350
+        ,url: MODx.config.connectors_url+'security/resourcegroup.php'
+        ,action: 'update'
+        ,fields: [{
+            name: 'id'
+            ,xtype: 'hidden'
+            ,id: 'modx-'+this.ident+'-id'
+        },{
+            fieldLabel: _('name')
+            ,name: 'name'
+            ,id: 'modx-'+this.ident+'-name'
+            ,xtype: 'textfield'
+            ,anchor: '90%'
+        }]
+    });
+    MODx.window.UpdateResourceGroup.superclass.constructor.call(this,config);
+};
+Ext.extend(MODx.window.UpdateResourceGroup,MODx.Window);
+Ext.reg('modx-window-resourcegroup-update',MODx.window.UpdateResourceGroup);

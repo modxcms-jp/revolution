@@ -7,6 +7,7 @@
  * @param string $context If set with action, will output the context info for a
  * custom context by its action
  *
+ * @var modX $modx
  * @package modx
  * @subpackage processors.system
  */
@@ -23,14 +24,17 @@ if (!empty($wctx)) {
     $workingContext =& $modx->context;
 }
 
-$customResourceClasses = array();
-$crcs = $workingContext->getOption('custom_resource_classes', '', $modx->_userConfig);
-if (!empty($crcs)) {
-    $crcs = explode(',',$crcs);
-    foreach ($crcs as $crc) {
-        $crc = explode(':',$crc);
-        if (empty($crc) || empty($crc[1])) continue;
-        $customResourceClasses[$crc[0]] = $crc[1];
+/* calculate custom resource classes */
+$modx->lexicon->load('resource');
+$resourceClasses = array();
+$resourceClassNames = $modx->getDescendants('modResource');
+$resourceClassNames = array_diff($resourceClassNames,array('modResource'));
+foreach ($resourceClassNames as $resourceClassName) {
+    $obj = $modx->newObject($resourceClassName);
+    /** @var modResource $obj */
+    if ($obj->showInContextMenu) {
+        $lex = $obj->getContextMenuText();
+        $resourceClasses[$resourceClassName] = $lex;
     }
 }
 
@@ -46,7 +50,7 @@ $c = array(
     'http_host_remote' => MODX_URL_SCHEME . $workingContext->getOption('http_host', MODX_HTTP_HOST, $modx->_userConfig),
     'user' => $modx->user->get('id'),
     'version' => $modx->version['full_version'],
-    'custom_resource_classes' => $customResourceClasses,
+    'resource_classes' => $resourceClasses,
 );
 
 /* if custom context, load into MODx.config */
@@ -55,16 +59,16 @@ if (isset($scriptProperties['action']) && $scriptProperties['action'] != '' && i
     $action = $modx->actionMap[$scriptProperties['action']];
     $c['namespace'] = $action['namespace'];
     $c['namespace_path'] = $action['namespace_path'];
+    $c['namespace_assets_path'] = $action['namespace_assets_path'];
     $baseHelpUrl = $modx->getOption('base_help_url',$scriptProperties,'http://rtfm.modx.com/display/revolution20/');
     $c['help_url'] = $baseHelpUrl.ltrim($action['help_url'],'/');
 }
 
 $actions = $modx->request->getAllActionIDs();
 
-$c = array_merge($modx->config,$c);
+$c = array_merge($modx->config,$workingContext->config,$c);
 
-unset($c['password']);
-unset($c['username']);
+unset($c['password'],$c['username'],$c['mail_smtp_pass'],$c['mail_smtp_user'],$c['proxy_password'],$c['proxy_username']);
 
 $o = "Ext.namespace('MODx'); MODx.config = ";
 $o .= $modx->toJSON($c);
@@ -77,12 +81,16 @@ if ($modx->user) {
     if ($modx->hasPermission('element_tree')) { $o .= 'MODx.perm.element_tree = true;'; }
     if ($modx->hasPermission('file_tree')) { $o .= 'MODx.perm.file_tree = true;'; }
     if ($modx->hasPermission('file_upload')) { $o .= 'MODx.perm.file_upload = true;'; }
+    if ($modx->hasPermission('file_create')) { $o .= 'MODx.perm.file_create = true;'; }
     if ($modx->hasPermission('file_manager')) { $o .= 'MODx.perm.file_manager = true;'; }
     if ($modx->hasPermission('new_chunk')) { $o .= 'MODx.perm.new_chunk  = true;'; }
     if ($modx->hasPermission('new_plugin')) { $o .= 'MODx.perm.new_plugin = true;'; }
     if ($modx->hasPermission('new_snippet')) { $o .= 'MODx.perm.new_snippet = true;'; }
     if ($modx->hasPermission('new_template')) { $o .= 'MODx.perm.new_template = true;'; }
     if ($modx->hasPermission('new_tv')) { $o .= 'MODx.perm.new_tv = true;'; }
+    if ($modx->hasPermission('new_category')) { $o .= 'MODx.perm.new_category = true;'; }
+    if ($modx->hasPermission('resourcegroup_resource_edit')) { $o .= 'MODx.perm.resourcegroup_resource_edit = true;'; }
+    if ($modx->hasPermission('resourcegroup_resource_list')) { $o .= 'MODx.perm.resourcegroup_resource_list = true;'; }
 
     $o .= 'MODx.user = {id:"'.$modx->user->get('id').'",username:"'.$modx->user->get('username').'"}';
 }

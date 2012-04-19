@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  *
- * Copyright 2006-2011 by MODX, LLC.
+ * Copyright 2006-2012 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -24,8 +24,6 @@ $mtime= microtime();
 $mtime= explode(" ", $mtime);
 $mtime= $mtime[1] + $mtime[0];
 $tstart= $mtime;
-
-error_reporting(E_ALL | E_STRICT);
 
 /* define this as true in another entry file, then include this file to simply access the API
  * without executing the MODX request handler */
@@ -65,13 +63,6 @@ if (!is_object($modx) || !($modx instanceof modX)) {
 
 /* Set the actual start time */
 $modx->startTime= $tstart;
-
-/* Set additional logging options including level and target: */
-$modx->setLogLevel(modX::LOG_LEVEL_ERROR);
-$modx->setLogTarget('FILE');
-
-/* Set debugging mode (i.e. error_reporting): */
-$modx->setDebug(E_ALL & ~E_NOTICE);
 
 /* Initialize the default 'web' context */
 $modx->initialize('web');

@@ -18,6 +18,17 @@ MODx.grid.SettingsGrid = function(config) {
         }];
     }
     config.tbar.push('->',{
+        xtype: 'modx-combo-namespace'
+        ,name: 'namespace'
+        ,id: 'modx-filter-namespace'
+        ,emptyText: _('namespace_filter')
+        ,value: MODx.request['namespace'] ? MODx.request['namespace'] : 'core'
+        ,allowBlank: true
+        ,width: 150
+        ,listeners: {
+            'select': {fn: this.filterByNamespace, scope:this}
+        }
+    },{
         xtype: 'modx-combo-area'
         ,name: 'area'
         ,id: 'modx-filter-area'
@@ -31,17 +42,6 @@ MODx.grid.SettingsGrid = function(config) {
         ,listeners: {
             'select': {fn: this.filterByArea, scope:this}
         }
-    },{
-        xtype: 'modx-combo-namespace'
-        ,name: 'namespace'
-        ,id: 'modx-filter-namespace'
-        ,emptyText: _('namespace_filter')
-        ,value: MODx.request['namespace'] ? MODx.request['namespace'] : 'core'
-        ,allowBlank: true
-        ,width: 150
-        ,listeners: {
-            'select': {fn: this.filterByNamespace, scope:this}
-        }
     },'-',{
         xtype: 'textfield'
         ,name: 'filter_key'
@@ -52,10 +52,7 @@ MODx.grid.SettingsGrid = function(config) {
             ,'render': {fn: function(cmp) {
                 new Ext.KeyMap(cmp.getEl(), {
                     key: Ext.EventObject.ENTER
-                    ,fn: function() {
-                        this.fireEvent('change',this.getValue());
-                        this.blur();
-                        return true;}
+                    ,fn: this.blur
                     ,scope: cmp
                 });
             },scope:this}
@@ -75,13 +72,13 @@ MODx.grid.SettingsGrid = function(config) {
             ,dataIndex: 'name_trans'
             ,sortable: true
             ,editable: false
-            ,width: 150
+            ,width: 175
         },{
             header: _('key')
             ,dataIndex: 'key'
             ,sortable: true
             ,editable: false
-            ,width: 125
+            ,width: 150
         },{
             header: _('value')
             ,dataIndex: 'value'
@@ -94,7 +91,7 @@ MODx.grid.SettingsGrid = function(config) {
             ,dataIndex: 'editedon'
             ,sortable: true
             ,editable: false
-            ,width: 125
+            ,width: 100
         },{
             header: _('area')
             ,dataIndex: 'area_text'
@@ -287,7 +284,11 @@ Ext.extend(MODx.grid.SettingsGrid,MODx.grid.Grid,{
                 ed = new Ext.grid.GridEditor(o);
                 cm.setEditor(ci,ed);
             }
-            f = MODx.combo.Renderer(ed.field,v);
+            if (ed.store && !ed.store.isLoaded && ed.config.mode != 'local') {
+                ed.store.load();
+                ed.store.isLoaded = true;
+            }
+            f = Ext.util.Format.comboRenderer(ed.field,v);
             return f(v,md,rec,ri,ci,s,g);
         }
         return v;
@@ -319,61 +320,108 @@ MODx.window.CreateSetting = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         title: _('setting_create')
-        ,width: 500
+        ,width: 600
         ,url: config.url
         ,action: 'create'
         ,fields: [{
-            xtype: 'hidden'
-            ,name: 'fk'
-            ,id: 'modx-cs-fk'
-            ,value: config.fk || 0
+            layout: 'column'
+            ,border: false
+            ,defaults: {
+                layout: 'form'
+                ,labelAlign: 'top'
+                ,anchor: '100%'
+                ,border: false
+            }
+            ,items: [{
+                columnWidth: .5
+                ,items: [{
+                    xtype: 'hidden'
+                    ,name: 'fk'
+                    ,id: 'modx-cs-fk'
+                    ,value: config.fk || 0
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('key')
+                    ,name: 'key'
+                    ,id: 'modx-cs-key'
+                    ,maxLength: 100
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-cs-key'
+                    ,html: _('key_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('name')
+                    ,name: 'name'
+                    ,id: 'modx-cs-name'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-cs-name'
+                    ,html: _('name_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textarea'
+                    ,fieldLabel: _('description')
+                    ,name: 'description'
+                    ,id: 'modx-cs-description'
+                    ,allowBlank: true
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-cs-description'
+                    ,html: _('description_desc')
+                    ,cls: 'desc-under'
+                }]
+            },{
+                columnWidth: .5
+                ,items: [{
+                    xtype: 'modx-combo-xtype-spec'
+                    ,fieldLabel: _('xtype')
+                    ,description: MODx.expandHelp ? '' : _('xtype_desc')
+                    ,id: 'modx-cs-xtype'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-cs-xtype'
+                    ,html: _('xtype_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'modx-combo-namespace'
+                    ,fieldLabel: _('namespace')
+                    ,name: 'namespace'
+                    ,id: 'modx-cs-namespace'
+                    ,value: 'core'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-cs-namespace'
+                    ,html: _('namespace_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('area_lexicon_string')
+                    ,description: _('area_lexicon_string_msg')
+                    ,name: 'area'
+                    ,id: 'modx-cs-area'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-cs-area'
+                    ,html: _('area_lexicon_string_msg')
+                    ,cls: 'desc-under'
+                }]
+            }]
         },{
-            xtype: 'textfield'
-            ,fieldLabel: _('key')
-            ,name: 'key'
-            ,id: 'modx-cs-key'
-            ,maxLength: 100
-            ,anchor: '90%'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-cs-name'
-            ,anchor: '90%'
-        },{
-            xtype: 'modx-combo-xtype-spec'
-            ,fieldLabel: _('xtype')
-            ,description: _('xtype_desc')
-            ,id: 'modx-cs-xtype'
-            ,anchor: '90%'
-        },{
-            xtype: 'modx-combo-namespace'
-            ,fieldLabel: _('namespace')
-            ,name: 'namespace'
-            ,id: 'modx-cs-namespace'
-            ,value: 'core'
-            ,anchor: '90%'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('area_lexicon_string')
-            ,description: _('area_lexicon_string_msg')
-            ,name: 'area'
-            ,id: 'modx-cs-area'
-            ,anchor: '90%'
-        },{
-            xtype: 'textfield'
+            xtype: 'textarea'
             ,fieldLabel: _('value')
             ,name: 'value'
             ,id: 'modx-cs-value'
-            ,anchor: '90%'
-        },{
-            xtype: 'textarea'
-            ,fieldLabel: _('description')
-            ,name: 'description'
-            ,id: 'modx-cs-description'
-            ,allowBlank: true
-            ,anchor: '90%'
+            ,anchor: '100%'
         }]
+        ,keys: []
     });
     MODx.window.CreateSetting.superclass.constructor.call(this,config);
     this.on('show',function() {this.reset();},this);
@@ -420,67 +468,116 @@ Ext.reg('modx-combo-xtype-spec',MODx.combo.xType);
 
 MODx.window.UpdateSetting = function(config) {
     config = config || {};
-    var ident = config.ident || 'modx-uss-'+Ext.id();
+    this.ident = config.ident || 'modx-uss-'+Ext.id();
     Ext.applyIf(config,{
         title: _('setting_update')
-        ,width: 450
+        ,width: 600
         ,url: config.grid.config.url
         ,action: 'update'
         ,fields: [{
-            xtype: 'hidden'
-            ,name: 'fk'
-            ,id: 'modx-'+ident+'-fk'
-            ,value: config.fk || 0
+            layout: 'column'
+            ,border: false
+            ,defaults: {
+                layout: 'form'
+                ,labelAlign: 'top'
+                ,anchor: '100%'
+                ,border: false
+            }
+            ,items: [{
+                columnWidth: .5
+                ,items: [{
+                    xtype: 'hidden'
+                    ,name: 'fk'
+                    ,id: 'modx-'+this.ident+'-fk'
+                    ,value: config.fk || 0
+                },{
+                    xtype: 'statictextfield'
+                    ,fieldLabel: _('key')
+                    ,description: MODx.expandHelp ? '' : _('key_desc')
+                    ,name: 'key'
+                    ,id: 'modx-'+this.ident+'-key'
+                    ,maxLength: 100
+                    ,submitValue: true
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-'+this.ident+'-key'
+                    ,html: _('key_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('name')
+                    ,description: MODx.expandHelp ? '' : _('name_desc')
+                    ,name: 'name'
+                    ,id: 'modx-'+this.ident+'-name'
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-'+this.ident+'-name'
+                    ,html: _('name_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textarea'
+                    ,fieldLabel: _('description')
+                    ,description: MODx.expandHelp ? '' : _('description_desc')
+                    ,name: 'description'
+                    ,id: 'modx-'+this.ident+'-description'
+                    ,allowBlank: true
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-'+this.ident+'-description'
+                    ,html: _('description_desc')
+                    ,cls: 'desc-under'
+                }]
+            },{
+                columnWidth: .5
+                ,items: [{
+                    xtype: 'modx-combo-xtype-spec'
+                    ,fieldLabel: _('xtype')
+                    ,description: MODx.expandHelp ? '' : _('xtype_desc')
+                    ,id: 'modx-'+this.ident+'-xtype'
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-'+this.ident+'-xtype'
+                    ,html: _('xtype_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'modx-combo-namespace'
+                    ,fieldLabel: _('namespace')
+                    ,description: MODx.expandHelp ? '' : _('namespace_desc')
+                    ,name: 'namespace'
+                    ,id: 'modx-'+this.ident+'-namespace'
+                    ,value: 'core'
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-'+this.ident+'-namespace'
+                    ,html: _('namespace_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('area_lexicon_string')
+                    ,description: MODx.expandHelp ? '' : _('area_lexicon_string_msg')
+                    ,name: 'area'
+                    ,id: 'modx-'+this.ident+'-area'
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-'+this.ident+'-area'
+                    ,html: _('area_lexicon_string_msg')
+                    ,cls: 'desc-under'
+                }]
+            }]
         },{
-            xtype: 'statictextfield'
-            ,fieldLabel: _('key')
-            ,name: 'key'
-            ,id: 'modx-'+ident+'-key'
-            ,submitValue: true
-            ,anchor: '97%'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-'+ident+'-name'
-            ,anchor: '97%'
-        },{
-            xtype: 'modx-combo-xtype-spec'
-            ,name: 'xtype'
-            ,hiddenName: 'xtype'
-            ,id: 'modx-'+ident+'-xtype'
-            ,fieldLabel: _('xtype')
-            ,description: _('xtype_desc')
-            ,anchor: '97%'
-        },{
-            xtype: 'modx-combo-namespace'
-            ,fieldLabel: _('namespace')
-            ,name: 'namespace'
-            ,id: 'modx-'+ident+'-namespace'
-            ,value: 'core'
-            ,anchor: '97%'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('area_lexicon_string')
-            ,description: _('area_lexicon_string_msg')
-            ,name: 'area'
-            ,id: 'modx-'+ident+'-area'
-            ,anchor: '97%'
-        },{
-            xtype: config.record ? config.record.xtype : 'textfield'
+            xtype: config.record ? config.record.xtype : 'textarea'
             ,fieldLabel: _('value')
             ,name: 'value'
-            ,hiddenName: 'value'
-            ,id: 'modx-'+ident+'-value'
-            ,anchor: '97%'
-        },{
-            xtype: 'textarea'
-            ,fieldLabel: _('description')
-            ,name: 'description'
-            ,id: 'modx-'+ident+'-description'
-            ,allowBlank: true
-            ,anchor: '97%'
+            ,id: 'modx-'+this.ident+'-value'
+            ,anchor: '100%'
         }]
+        ,keys: []
     });
     MODx.window.UpdateSetting.superclass.constructor.call(this,config);
 };

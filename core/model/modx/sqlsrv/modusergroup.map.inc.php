@@ -7,12 +7,14 @@ $xpdo_meta_map['modUserGroup']= array (
   'package' => 'modx',
   'version' => '1.1',
   'table' => 'membergroup_names',
+  'extends' => 'modPrincipal',
   'fields' => 
   array (
     'name' => '',
     'description' => NULL,
     'parent' => 0,
     'rank' => 0,
+    'dashboard' => 1,
   ),
   'fieldMeta' => 
   array (
@@ -44,6 +46,14 @@ $xpdo_meta_map['modUserGroup']= array (
       'phptype' => 'integer',
       'null' => false,
       'default' => 0,
+      'index' => 'index',
+    ),
+    'dashboard' => 
+    array (
+      'dbtype' => 'int',
+      'phptype' => 'integer',
+      'null' => false,
+      'default' => 1,
       'index' => 'index',
     ),
   ),
@@ -97,24 +107,21 @@ $xpdo_meta_map['modUserGroup']= array (
         ),
       ),
     ),
-  ),
-  'aggregates' => 
-  array (
-    'Parent' => 
+    'dashboard' => 
     array (
-      'class' => 'modUserGroup',
-      'local' => 'parent',
-      'foreign' => 'id',
-      'cardinality' => 'one',
-      'owner' => 'foreign',
-    ),
-    'Children' => 
-    array (
-      'class' => 'modUserGroup',
-      'local' => 'id',
-      'foreign' => 'parent',
-      'cardinality' => 'many',
-      'owner' => 'local',
+      'alias' => 'dashboard',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'dashboard' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
     ),
   ),
   'composites' => 
@@ -134,6 +141,33 @@ $xpdo_meta_map['modUserGroup']= array (
       'foreign' => 'usergroup',
       'cardinality' => 'many',
       'owner' => 'local',
+    ),
+  ),
+  'aggregates' => 
+  array (
+    'Parent' => 
+    array (
+      'class' => 'modUserGroup',
+      'local' => 'parent',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+    'Children' => 
+    array (
+      'class' => 'modUserGroup',
+      'local' => 'id',
+      'foreign' => 'parent',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'Dashboard' => 
+    array (
+      'class' => 'modDashboard',
+      'local' => 'dashboard',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
     ),
   ),
 );

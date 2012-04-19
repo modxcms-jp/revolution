@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  * 
- * Copyright 2006-2011 by MODX, LLC.
+ * Copyright 2006-2012 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -19,7 +19,10 @@
  * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  */
-
+/**
+ * @package modx
+ * @subpackage import
+ */
 /**
  * Provides common functions for importing content into a modX repository.
  *
