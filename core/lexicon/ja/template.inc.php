@@ -11,7 +11,7 @@
  * @author yamamoto http://kyms.jp
  */
 $_lang['access'] = 'アクセス';
-$_lang['filter_by_category'] = 'カテゴリーで抽出';
+$_lang['filter_by_category'] = 'カテゴリーで絞り込む';
 $_lang['rank'] = 'ランク';
 $_lang['template'] = 'テンプレート';
 $_lang['template_assignedtv_tab'] = '指定されているテンプレート変数';

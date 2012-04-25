@@ -1,17 +1,18 @@
 <?php
 /**
-* User Japanese lexicon topic
-*
-* @language ja
-* @package modx
-* @subpackage lexicon
-* @author Nick http://smallworld.west-tokyo.com
-* @author shimojo http://www.priqia.com/
-* @author yamamoto http://kyms.jp
-* @author honda http://kogus.org
-*/
+ * User Japanese lexicon topic
+ *
+ * @language ja
+ * @package modx
+ * @subpackage lexicon
+ * @author enogu http://www.kuroienogu.net/
+ * @author honda http://kogus.org
+ * @author Nick http://smallworld.west-tokyo.com
+ * @author shimojo http://www.priqia.com/
+ * @author yamamoto http://kyms.jp
+ */
 $_lang['active'] = '有効';
-$_lang['address'] = '住所';
+$_lang['address'] = '都道府県';
 $_lang['administrator'] = '管理者';
 $_lang['authority'] = '特権レベル';
 $_lang['change_password'] = 'パスワードの変更';
@@ -39,12 +40,12 @@ $_lang['profile_recent_resources_desc'] = '一番最近編集されたリスト.
 $_lang['remote_data'] = 'リモートデータ';
 $_lang['role'] = 'ロール(役割)';
 $_lang['role_create'] = 'ロールを作成';
-$_lang['role_desc_authority'] = 'The Authority level of the role. Lower Authority levels are stronger, and inherit the Permissions of Roles with higher authorities in the groups they are assigned to.';
-$_lang['role_desc_name'] = '例えば「投稿者」「編集者」「管理者」など、ロールの名称を指定してください。';
-$_lang['role_desc_description'] = 'このロールの簡単な説明';
+$_lang['role_desc_authority'] = 'ロールの特権レベルは数字が小さいほど強くなります。同じグループに複数のロールが存在するとき、特権レベルが強いロールはより弱い特権レベルのロールに割り当てられたパーミッションを継承します。';
+$_lang['role_desc_name'] = 'ロールの名前を設定します。コンテンツ編集者、発行担当者、システム管理者、といった役割に応じた名前をつけられます。';
+$_lang['role_desc_description'] = 'このロールについての説明文を設定します。';
 $_lang['role_err_ae'] = 'その名前のロールはすでに存在します.';
 $_lang['role_err_duplicate'] = 'ロールの複製中にエラーが発生しました。';
-$_lang['role_err_has_users'] = 'このロールを割り当てられたユーザーが存在するため、ロールは削除できません。';
+$_lang['role_err_has_users'] = 'このロールを持つユーザーが存在するため、ロールの削除ができません。';
 $_lang['role_err_nf'] = 'ロールが見つかりませんでした。';
 $_lang['role_err_nfs'] = '[[+role]]という名前のロールが見つかりませんでした';
 $_lang['role_err_ns'] = 'ロールが指定されていません';
@@ -55,22 +56,22 @@ $_lang['role_remove'] = 'ロールを削除';
 $_lang['role_remove_confirm'] = 'このロールを削除しますか？';
 $_lang['roles'] = 'ロール(役割)';
 $_lang['rrg_drag'] = 'リソースをリソースグループの中にドラッグしてください。';
-$_lang['ugc_mutate'] = 'コンテキストへアクセス可能なユーザーグループ';
+$_lang['ugc_mutate'] = 'ユーザーグループを追加';
 $_lang['ugc_grid_title'] = 'コンテキストへアクセス可能なユーザーグループ';
 $_lang['ugc_remove'] = 'コンテキストへアクセス可能なユーザーグループの削除';
 $_lang['ugrg_grid_title'] = 'リソースグループへアクセス可能なユーザーグループ';
 $_lang['ugrg_mutate'] = 'リソースグループへアクセス可能なユーザーグループ';
 $_lang['ugrg_remove'] = 'リソースグループへアクセス可能なユーザーグループの削除';
 $_lang['user'] = 'ユーザー管理';
-$_lang['user_active_desc'] = 'このユーザーが現在有効かどうか。有効でないユーザーは、管理画面などへログインできなくなります。';
+$_lang['user_active_desc'] = 'このユーザーが有効かどうかどうか示す値を設定します。無効にすると、このユーザー名ではログインできなくなります。';
 $_lang['user_add_group'] = 'ユーザーグループへ追加';
 $_lang['user_already_in_use'] = 'そのユーザー名は既に存在します';
 $_lang['user_block'] = 'アクセス停止';
-$_lang['user_block_desc'] = 'この設定を有効にすると、このユーザーのログインは恒久的にブロックされます。';
+$_lang['user_block_desc'] = 'この項目をチェックすると、このユーザー名によるログインが禁止されます。';
 $_lang['user_blockedafter'] = 'この日からアクセス停止';
-$_lang['user_blockedafter_desc'] = '指定した日時以降、ユーザーのログインはブロックされます。';
+$_lang['user_blockedafter_desc'] = 'If set, the user will be blocked after this time occurs.';
 $_lang['user_blockeduntil'] = 'この日までアクセス停止';
-$_lang['user_blockeduntil_desc'] = '指定した日時までの間、ユーザーのログインはブロックされます。';
+$_lang['user_blockeduntil_desc'] = 'If set, the user will be blocked until this time.';
 $_lang['user_changeddata'] = 'ユーザー情報が変更されました。もう一度ログインしなおしてください。';
 $_lang['user_class_key_desc'] = 'このユーザーのMODXクラスキー。この値の役割を理解していない限り、変更しないで下さい。';
 $_lang['user_created_password_message'] = 'ユーザーはすでに作成されています。 パスワードは[[+password]]です。';
@@ -80,7 +81,7 @@ $_lang['user_dob'] = '誕生日';
 $_lang['user_doesnt_exist'] = 'ユーザー登録がありません';
 $_lang['user_edit_self_msg'] = 'ユーザー情報を変更した場合は、変更を反映させるためにログアウトして再度ログインしてください。<br />新しいパスワードの作成をチェックした場合、新しいパスワードがメール送信されます。</b>';
 $_lang['user_email'] = 'メールアドレス';
-$_lang['user_err_access_permissions_save'] = 'ユーザーアクセスのパーミッションを保存中に、エラーが発生しました。';
+$_lang['user_err_access_permissions_save'] = 'ユーザーアクセスのパーミッションを保存中にエラーが発生しました。';
 $_lang['user_err_ae_group'] = '既にユーザーグループに存在しています';
 $_lang['user_err_already_exists'] = 'そのユーザー名は既に存在します';
 $_lang['user_err_already_exists_email'] = 'そのメールアドレスはすでに使われています';
