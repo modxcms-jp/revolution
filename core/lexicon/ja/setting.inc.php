@@ -5,10 +5,10 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
+* @author honda http://kogus.org
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
-* @author honda http://kogus.org
 */
 $_lang['area'] = 'エリア';
 $_lang['area_authentication'] = '認証とセキュリティ';
@@ -29,9 +29,9 @@ $_lang['area_lexicon_string'] = 'レキシコン領域';
 $_lang['area_lexicon_string_msg'] = 'Enter the key of the lexicon entry for the area here. If there is no lexicon entry, it will just display the area key.<br />Core Areas: authentication, caching, file, furls, gateway, language, manager, session, site, system';
 $_lang['area_site'] = 'サイト';
 $_lang['area_system'] = 'システムとサーバ';
-$_lang['areas'] = 'Areas';
-$_lang['charset'] = 'Charset';
-$_lang['country'] = 'Country';
+$_lang['areas'] = 'エリア';
+$_lang['charset'] = 'キャラクターセット';
+$_lang['country'] = '国';
 $_lang['description_desc'] = '設定の簡単な説明です。レキシコンのエントリーキーを指定することもできます。';
 $_lang['key_desc'] = '設定のキーです。コンテンツからは[[++key]]プレースホルダでキーを指定して、値を読み出すことができるようになります。';
 $_lang['name_desc'] = '設定の名称。レキシコンのエントリーキーを指定することもできます。';
@@ -120,8 +120,8 @@ $_lang['setting_cache_disabled_desc'] = '「はい」を選択すると、全て
 $_lang['setting_cache_disabled_err'] = 'Please state whether or not you want the cache enabled.';
 $_lang['setting_cache_expires'] = 'デフォルトキャッシュの有効秒数';
 $_lang['setting_cache_expires_desc'] = 'This value (in seconds) sets the amount of time cache files last for default caching.';
-$_lang['setting_cache_format'] = 'Caching Format to Use';
-$_lang['setting_cache_format_desc'] = '0 = PHP, 1 = JSON, 2 = serialize. One of the formats';
+$_lang['setting_cache_format'] = 'キャッシュのフォーマット';
+$_lang['setting_cache_format_desc'] = '0 = PHP、1 = JSON、2 = シリアライズ。いずれかを数値で指定します。';
 $_lang['setting_cache_handler'] = 'ハンドラークラスのキャッシュ';
 $_lang['setting_cache_handler_desc'] = 'The class name of the type handler to use for caching.';
 $_lang['setting_cache_lang_js'] = 'レキシコンJavascript文字列のキャッシュ';
@@ -294,8 +294,8 @@ $_lang['setting_manager_favicon_url'] = '管理画面のfavicon URL';
 $_lang['setting_manager_favicon_url_desc'] = '設定したURLの画像が、管理画面のfaviconとして使用されます。値はmanagerディレクトリに対する相対URLか、絶対URLで指定する必要があります。';
 $_lang['setting_manager_html5_cache'] = '管理画面でHTML5のアプリケーションキャッシュを使用';
 $_lang['setting_manager_html5_cache_desc'] = '管理画面で、HTML5で採用されるアプリケーションキャッシュを使用します。この機能はモダンブラウザでのみサポートされます。';
-$_lang['setting_manager_js_cache_file_locking'] = 'Enable File Locking for Manager JS/CSS Cache';
-$_lang['setting_manager_js_cache_file_locking_desc'] = 'Cache file locking. Set to No if filesystem is NFS.';
+$_lang['setting_manager_js_cache_file_locking'] = '管理画面用JS/CSSキャッシュファイルのロックを有効化';
+$_lang['setting_manager_js_cache_file_locking_desc'] = 'キャッシュファイルをロックします。ファイルシステムにNFSを使用している場合、この設定は「いいえ」を指定してください。';
 $_lang['setting_manager_js_cache_max_age'] = 'Manager JS/CSS Compression Cache Age';
 $_lang['setting_manager_js_cache_max_age_desc'] = 'Maximum age of browser cache of manager CSS/JS compression in seconds. After this period, the browser will send another conditional GET. Use a longer period for lower traffic.';
 $_lang['setting_manager_js_document_root'] = 'Manager JS/CSS Compression Document Root';
@@ -391,12 +391,12 @@ $_lang['setting_publish_default'] = '公開デフォルト';
 $_lang['setting_publish_default_desc'] = '新しく作成するドキュメントをデフォルトで公開に設定する場合は「はい」を選択してください。';
 $_lang['setting_publish_default_err'] = '新しいドキュメントの公開状態を設定してください。';
 $_lang['setting_rb_base_dir'] = 'リソースパス';
-$_lang['setting_rb_base_dir_desc'] = 'ファイルブラウザディレクトリ(アセットディレクトリ)への物理パスを入力してください。通常この設定は自動的に生成されますが、IISなど一部のサーバでは正常に検出されないことがあります。この場合、イメージディレクトリなどのパスをここに入力することができます（パスはWindowsのエクスプローラで見るものです）。 注意: ファイルブラウザが全てを扱えるようにするためには、ファイルディレクトリにイメージや文書、Flash他のメディアを格納するサブフォルダを含むべきです。';
+$_lang['setting_rb_base_dir_desc'] = 'リソースディレクトリ(通常はassetsディレクトリ)への物理パスを入力してください。通常この設定は自動的に生成されますが、IISなど一部のサーバでは正常に検出されないことがあります。この場合、イメージディレクトリなどのパスをここに入力することができます（パスはWindowsのエクスプローラで見るものです）。 注意: ファイルブラウザが全てを扱えるようにするためには、ファイルディレクトリにイメージや文書、Flash他のメディアを格納するサブフォルダを含むべきです。';
 $_lang['setting_rb_base_dir_err'] = 'リソースパスのパス名を指定してください。';
 $_lang['setting_rb_base_dir_err_invalid'] = 'このリソースパスは存在しないかアクセス禁止になっています。適切なパス名を指定しなおすかディレクトリのパーミッションを変更してください。';
 $_lang['setting_rb_base_url'] = 'リソースURL';
-$_lang['setting_rb_base_url_desc'] = 'ファイルディレクトリ(通常はassetsディレクトリ)への仮想パスを入力してください。MODX設置ディレクトリを基準とした相対パスまたは http://から始まるフルパスを記述します。通常この設定は自動的に生成されますが、IISなど一部のサーバでは正常に検出されないことがあります。)。';
-$_lang['setting_rb_base_url_err'] = 'Please state the resource browser base URL.';
+$_lang['setting_rb_base_url_desc'] = 'リソースディレクトリ(通常はassetsディレクトリ)への仮想パスを入力してください。MODX設置ディレクトリを基準とした相対パスまたは http://から始まるフルパスを記述します。通常この設定は自動的に生成されますが、IISなど一部のサーバでは正常に検出されないことがあります。)。';
+$_lang['setting_rb_base_url_err'] = 'リソースブラウザのベースURLを指定してください。';
 $_lang['setting_request_controller'] = 'コントローラのファイル名';
 $_lang['setting_request_controller_desc'] = 'リクエストコントローラのファイル名をここで指定します。通常は「index.php」です。';
 $_lang['setting_request_method_strict'] = 'Strict Request Method';
@@ -411,10 +411,10 @@ $_lang['setting_resource_tree_node_name'] = 'Resource Tree Node Field';
 $_lang['setting_resource_tree_node_name_desc'] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias, longtitle, etc.';
 $_lang['setting_resource_tree_node_tooltip'] = 'Resource Tree Tooltip Field';
 $_lang['setting_resource_tree_node_tooltip_desc'] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Any Resource field can be used, such as menutitle, alias, longtitle, etc. If blank, will be the longtitle with a description underneath.';
-$_lang['setting_richtext_default'] = 'デフォルトのエディタ';
-$_lang['setting_richtext_default_desc'] = '「はい」を選択すると、デフォルトで新しいリソースを作成する際にリッチテキストエディタを使用します。';
-$_lang['setting_search_default'] = '検索可能のデフォルト';
-$_lang['setting_search_default_desc'] = '「はい」を選択すると、デフォルトで新しいリソースを作成する際に検索可能にします。';
+$_lang['setting_richtext_default'] = 'デフォルトのリッチテキストエディタ使用設定';
+$_lang['setting_richtext_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトでリッチテキストエディタを使用します。';
+$_lang['setting_search_default'] = 'デフォルトの検索可能設定';
+$_lang['setting_search_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトで検索可能となります。';
 $_lang['setting_search_default_err'] = 'Please specify whether or not you want documents to be searchable by default.';
 $_lang['setting_server_offset_time'] = 'サーバの時間補正';
 $_lang['setting_server_offset_time_desc'] = 'Select the number of hours time difference between where you are and where the server is.';
@@ -423,28 +423,28 @@ $_lang['setting_server_protocol_desc'] = 'このサイトがSSL接続を使用�
 $_lang['setting_server_protocol_err'] = 'サーバタイプをhttp・httpsのどちらかで選んでください。';
 $_lang['setting_server_protocol_http'] = 'http';
 $_lang['setting_server_protocol_https'] = 'https';
-$_lang['setting_session_cookie_domain'] = 'Session Cookie Domain';
-$_lang['setting_session_cookie_domain_desc'] = 'Use this setting to customize the session cookie domain.';
-$_lang['setting_session_cookie_lifetime'] = 'Session Cookie Lifetime';
-$_lang['setting_session_cookie_lifetime_desc'] = 'Use this setting to customize the session cookie lifetime in seconds. This is used to set the lifetime of a client session cookie when they choose the \'remember me\' option on login.';
-$_lang['setting_session_cookie_path'] = 'Session Cookie Path';
-$_lang['setting_session_cookie_path_desc'] = 'Use this setting to customize the cookie path for identifying site specific session cookies.';
-$_lang['setting_session_cookie_secure'] = 'Session Cookie Secure';
-$_lang['setting_session_cookie_secure_desc'] = 'Enable this setting to use secure session cookies.';
-$_lang['setting_session_gc_maxlifetime'] = 'Session Garbage Collector Max Lifetime';
-$_lang['setting_session_gc_maxlifetime_desc'] = 'Allows customization of the session.gc_maxlifetime PHP ini setting when using \'modSessionHandler\'.';
-$_lang['setting_session_handler_class'] = 'Session Handler Classname';
-$_lang['setting_session_handler_class_desc'] = 'For database managed sessions, use \'modSessionHandler\'. Leave this blank to use standard PHP session management.';
+$_lang['setting_session_cookie_domain'] = 'セッションCookieのドメイン';
+$_lang['setting_session_cookie_domain_desc'] = 'セッションCookieのドメインをカスタマイズします。';
+$_lang['setting_session_cookie_lifetime'] = 'セッションCookieの持続時間';
+$_lang['setting_session_cookie_lifetime_desc'] = 'セッションCookieの持続時間を秒で指定します。ログイン時に「ログイン情報を記憶」を選択した場合に、セッションCookieの有効期限設定に用いられます。';
+$_lang['setting_session_cookie_path'] = 'セッションCookieパス';
+$_lang['setting_session_cookie_path_desc'] = 'サイト固有のセッションCookieを識別するために、任意のパスを指定します。';
+$_lang['setting_session_cookie_secure'] = 'セキュアなセッションCookieの使用';
+$_lang['setting_session_cookie_secure_desc'] = 'httpsでの接続時のみセッションCookieが有効になります。';
+$_lang['setting_session_gc_maxlifetime'] = 'セッションのガベージコレクション実行期限';
+$_lang['setting_session_gc_maxlifetime_desc'] = '\'modSessionHandler\"を使用して、PHPのINI設定"session.gc_maxlifetime"を設定します。';
+$_lang['setting_session_handler_class'] = 'セッションハンドラのクラス名';
+$_lang['setting_session_handler_class_desc'] = 'データベースによるセッション管理では、\'modSessionHandler\'を使用しています。空白にすると、PHP標準のセッション管理が使用されます。';
 $_lang['setting_session_name'] = 'セッション名';
-$_lang['setting_session_name_desc'] = 'Use this setting to customize the session name used for the sessions in MODX.';
+$_lang['setting_session_name_desc'] = 'MODXが使用するセッション名をカスタマイズします。';
 $_lang['setting_settings_version'] = 'コアのバージョン';
 $_lang['setting_settings_version_desc'] = '稼働しているMODXのバージョンです。';
 $_lang['setting_settings_distro'] = 'Settings Distribution';
 $_lang['setting_settings_distro_desc'] = 'The current installed distribution of MODX.';
 $_lang['setting_set_header'] = 'HTTPヘッダーを設定';
 $_lang['setting_set_header_desc'] = '有効にすると、リソースでHTTPヘッダーをセットするように試みます。';
-$_lang['setting_show_tv_categories_header'] = 'Show "Categories" Tabs Header with TVs';
-$_lang['setting_show_tv_categories_header_desc'] = 'If "Yes", MODX will show the "Categories" header above the first category tab when editing TVs in a Resource.';
+$_lang['setting_show_tv_categories_header'] = 'テンプレート変数編集時に「カテゴリー」タブを表示';
+$_lang['setting_show_tv_categories_header_desc'] = '「はい」を選択すると、リソースのテンプレート変数編集時、テンプレート変数を分類する「カテゴリー」タブが表示されます。';
 $_lang['setting_signupemail_message'] = 'サインアップメール';
 $_lang['setting_signupemail_message_desc'] = 'ユーザ管理画面でユーザーアカウントを作成した時に、ユーザー名とパスワードを記載したメールを送信することができます。このメールの内容を設定してください。<br /><strong>参考:</strong> 下記の差し込み文字列は送信時に自動的に置き換えられます。<br /><br />[[+sname]] - サイトの名前, <br />[[+saddr]] - サイト管理者のメールアドレス, <br />[[+surl]] - サイトのURL, <br />[[+uid]] - ユーザーのログイン名, <br />[[+pwd]] - ユーザーのパスワード, <br />[[+ufn]] - ユーザーのフルネーム. <br /><br /><strong>Leave the [[+uid]] and [[+pwd]] in the e-mail, or else the username and password won\'t be sent in the mail and your users won\'t know their username or password!</strong>';
 $_lang['setting_signupemail_message_default'] = 'こんにちは[[+uid]]さん。 \n\n[[+sname]]の管理画面のログイン情報をお送りします。\n\nユーザ名: [[+uid]]\nパスワード: [[+pwd]]\n\nOnce you log into the Content Manager ([[+surl]]), you can change your password.\n\nRegards,\nSite Administrator';
