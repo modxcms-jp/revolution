@@ -249,13 +249,11 @@ $_lang['setting_hidemenu_default_desc'] = 'Select \'Yes\' to make all new resour
 $_lang['setting_inline_help'] = 'Show Inline Help Text for Fields';
 $_lang['setting_inline_help_desc'] = 'If \'Yes\', then fields will display their help text directly below the field. If \'No\', all fields will have tooltip-based help.';
 $_lang['setting_link_tag_scheme'] = 'URL Generation Scheme';
-$_lang['setting_link_tag_scheme_desc'] = 'URL generation scheme for tag [[~id]]. Available options <a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\modX::makeUrl()">here</a>.';
+$_lang['setting_link_tag_scheme_desc'] = 'URL generation scheme for tag [[~id]]. Available options <a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\\modX::makeUrl()">here</a>.';
 $_lang['setting_locale'] = 'Locale';
 $_lang['setting_locale_desc'] = 'Set the locale for the system. Leave blank to use the default. See <a href="http://php.net/setlocale" target="_blank">the PHP documentation</a> for more information.';
-
 $_lang['setting_lock_ttl'] = 'Lock Time-to-Live';
 $_lang['setting_lock_ttl_desc'] = 'The number of seconds a lock on a Resource will remain for if the user is inactive.';
-
 $_lang['setting_log_level'] = 'Logging Level';
 $_lang['setting_log_level_desc'] = 'The default logging level; the lower the level, the fewer messages that are logged. Available options: 0 (FATAL), 1 (ERROR), 2 (WARN), 3 (INFO), and 4 (DEBUG).';
 $_lang['setting_log_target'] = 'Logging Target';
@@ -316,11 +314,12 @@ $_lang['setting_manager_time_format'] = '管理画面の時刻フォーマット
 $_lang['setting_manager_time_format_desc'] = '管理画面内で用いる時刻の書式。PHPのdate関数のフォーマットを用いて指定します。';
 $_lang['setting_manager_use_tabs'] = '管理画面内でタブを使用';
 $_lang['setting_manager_use_tabs_desc'] = 'If true, the manager will use tabs for rendering the content panes. Otherwise, it will use portals.';
+$_lang['setting_manager_week_start'] = 'Week start';
+$_lang['setting_manager_week_start_desc'] = 'Define the day starting the week. Use 0 (or leave empty) for sunday, 1 for monday and so on...';
 $_lang['setting_modRequest.class'] = 'Request Handler Class';
 $_lang['setting_modRequest.class_desc'] = '';
 $_lang['setting_modx_browser_default_sort'] = 'File Browser Default Sort';
 $_lang['setting_modx_browser_default_sort_desc'] = 'The default sort method when using the popup File Browser in the manager. Available values are: name, size, lastmod (last modified).';
-
 $_lang['setting_modx_charset'] = 'エンコード';
 $_lang['setting_modx_charset_desc'] = '使用したいエンコードを選択してください。日本語も含め、ほとんどの言語ではデフォルト設定のUTF-8が利用できます。';
 $_lang['setting_new_file_permissions'] = '新ファイルのパーミッション';
@@ -432,7 +431,7 @@ $_lang['setting_session_cookie_path_desc'] = 'サイト固有のセッションC
 $_lang['setting_session_cookie_secure'] = 'セキュアなセッションCookieの使用';
 $_lang['setting_session_cookie_secure_desc'] = 'httpsでの接続時のみセッションCookieが有効になります。';
 $_lang['setting_session_gc_maxlifetime'] = 'セッションのガベージコレクション実行期限';
-$_lang['setting_session_gc_maxlifetime_desc'] = '\'modSessionHandler\"を使用して、PHPのINI設定"session.gc_maxlifetime"を設定します。';
+$_lang['setting_session_gc_maxlifetime_desc'] = '\'modSessionHandler\'を使用して、PHPのINI設定"session.gc_maxlifetime"を設定します。';
 $_lang['setting_session_handler_class'] = 'セッションハンドラのクラス名';
 $_lang['setting_session_handler_class_desc'] = 'データベースによるセッション管理では、\'modSessionHandler\'を使用しています。空白にすると、PHP標準のセッション管理が使用されます。';
 $_lang['setting_session_name'] = 'セッション名';

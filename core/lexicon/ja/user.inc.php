@@ -79,6 +79,7 @@ $_lang['user_confirm_remove'] = 'このユーザーを本当に削除します�
 $_lang['user_country'] = '国';
 $_lang['user_dob'] = '誕生日';
 $_lang['user_doesnt_exist'] = 'ユーザー登録がありません';
+$_lang['user_duplicate'] = 'Duplicate User';
 $_lang['user_edit_self_msg'] = 'ユーザー情報を変更した場合は、変更を反映させるためにログアウトして再度ログインしてください。<br />新しいパスワードの作成をチェックした場合、新しいパスワードがメール送信されます。</b>';
 $_lang['user_email'] = 'メールアドレス';
 $_lang['user_err_access_permissions_save'] = 'ユーザーアクセスのパーミッションを保存中にエラーが発生しました。';
