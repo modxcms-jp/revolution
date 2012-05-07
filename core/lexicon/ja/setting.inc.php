@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org
+* @author honda http://kogus.org 2012-05-07
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -109,37 +109,37 @@ $_lang['setting_cache_db_desc'] = '「はい」を選択すると、SQLクエリ
 $_lang['setting_cache_db_expires'] = 'データベースキャッシュの有効秒数';
 $_lang['setting_cache_db_expires_desc'] = 'データベース結果セットのキャッシュの有効時間を指定します（秒数）。';
 $_lang['setting_cache_db_session'] = 'DBセッションキャッシュを有効にする';
-$_lang['setting_cache_db_session_desc'] = 'When enabled, and cache_db is enabled, database sessions will be cached in the DB result-set cache.';
+$_lang['setting_cache_db_session_desc'] = 'この設定が有効且つ、「データベースキャッシュを有効」で「はい」が選択されている場合、DBセッションは結果セットキャッシュにキャッシュされます。';
 $_lang['setting_cache_db_session_lifetime'] = 'DBセッションキャッシュの有効秒数';
-$_lang['setting_cache_db_session_lifetime_desc'] = 'This value (in seconds) sets the amount of time cache files last for session entries in the DB result-set cache.';
+$_lang['setting_cache_db_session_lifetime_desc'] = 'データベースセッションのキャッシュの有効時間を指定します（秒数）。';
 $_lang['setting_cache_default'] = 'デフォルトでキャッシュ有効';
-$_lang['setting_cache_default_desc'] = '「はい」を選択すると、すべての新規リソースでキャッシュ有効をデフォルトにします。';
-$_lang['setting_cache_default_err'] = 'Please state whether or not you want documents to be cached by default.';
+$_lang['setting_cache_default_desc'] = '「はい」を選択すると、すべての新規リソースのデフォルトでキャッシュを有効にします。';
+$_lang['setting_cache_default_err'] = 'リソースがデフォルトでキャッシュされるか指定してください。';
 $_lang['setting_cache_disabled'] = 'グローバルキャッシュを無効にする';
 $_lang['setting_cache_disabled_desc'] = '「はい」を選択すると、全てのキャッシュ機能を無効にします。キャッシュを無効にすることは推奨しません。';
-$_lang['setting_cache_disabled_err'] = 'Please state whether or not you want the cache enabled.';
+$_lang['setting_cache_disabled_err'] = 'キャッシュを有効にするか指定してください。';
 $_lang['setting_cache_expires'] = 'デフォルトキャッシュの有効秒数';
-$_lang['setting_cache_expires_desc'] = 'This value (in seconds) sets the amount of time cache files last for default caching.';
+$_lang['setting_cache_expires_desc'] = 'デフォルトキャッシュの有効時間を指定します（秒数）。';
 $_lang['setting_cache_format'] = 'キャッシュのフォーマット';
 $_lang['setting_cache_format_desc'] = '0 = PHP、1 = JSON、2 = シリアライズ。いずれかを数値で指定します。';
-$_lang['setting_cache_handler'] = 'ハンドラークラスのキャッシュ';
-$_lang['setting_cache_handler_desc'] = 'The class name of the type handler to use for caching.';
+$_lang['setting_cache_handler'] = 'キャッシュのハンドラクラス';
+$_lang['setting_cache_handler_desc'] = 'キャッシュに使用するハンドラクラス名を指定します。';
 $_lang['setting_cache_lang_js'] = 'レキシコンJavascript文字列のキャッシュ';
 $_lang['setting_cache_lang_js_desc'] = 'If set to true, this will use server headers to cache the lexicon strings loaded into JavaScript for the manager interface.';
 $_lang['setting_cache_lexicon_topics'] = 'レキシコンのキャッシュ';
-$_lang['setting_cache_lexicon_topics_desc'] = 'When enabled, all Lexicon Topics will be cached so as to greatly reduce load times for Internationalization functionality. MODX strongly recommends leaving this set to \'Yes\'.';
-$_lang['setting_cache_noncore_lexicon_topics'] = 'コア以外のレキシコンを有効';
-$_lang['setting_cache_noncore_lexicon_topics_desc'] = 'When disabled, non-core Lexicon Topics will be not be cached. This is useful to disable when developing your own Extras.';
+$_lang['setting_cache_lexicon_topics_desc'] = '有効にすると、全てのレキシコントピックをキャッシュし、多言語対応のためのロード時間を大幅に削減します。この設定に「はい」を選択することを、強くおすすめします。';
+$_lang['setting_cache_noncore_lexicon_topics'] = 'コア以外のレキシコンキャッシュを有効';
+$_lang['setting_cache_noncore_lexicon_topics_desc'] = '無効にすると、コア以外のレキシコントピックはキャッシュされません。独自のエクストラを開発する場合には、無効にしておくと便利です。';
 $_lang['setting_cache_resource'] = '部分的なリソースキャッシュを有効';
 $_lang['setting_cache_resource_desc'] = 'Partial resource caching is configurable by resource when this feature is enabled. Disabling this feature will disable it globally.';
 $_lang['setting_cache_resource_expires'] = '部分的なリソースキャッシュの有効秒数';
-$_lang['setting_cache_resource_expires_desc'] = 'This value (in seconds) sets the amount of time cache files last for partial Resource caching.';
+$_lang['setting_cache_resource_expires_desc'] = '部分的なリソースキャッシュの有効時間を指定します（秒数）。';
 $_lang['setting_cache_scripts'] = 'スクリプトキャッシュを有効';
 $_lang['setting_cache_scripts_desc'] = '「はい」を選択すると、ロード時間短縮のために全てのスクリプト（スニペットとプラグイン）がキャッシュされます。この設定は有効にしておくことをおすすめします。';
 $_lang['setting_cache_system_settings'] = 'システム設定キャッシュを有効';
 $_lang['setting_cache_system_settings_desc'] = 'はい」を選択すると、ロード時間短縮のためにシステム設定がキャッシュされます。この設定は有効にしておくことをおすすめします。';
-$_lang['setting_clear_cache_refresh_trees'] = 'Refresh Trees on Site Cache Clear';
-$_lang['setting_clear_cache_refresh_trees_desc'] = 'When enabled, will refresh the trees after clearing the site cache.';
+$_lang['setting_clear_cache_refresh_trees'] = 'サイトキャッシュクリア時にツリーをリフレッシュ';
+$_lang['setting_clear_cache_refresh_trees_desc'] = '有効にすると、サイトキャッシュのクリア後に、リソースツリーをリフレッシュします。';
 $_lang['setting_compress_css'] = '圧縮したCSSを使用';
 $_lang['setting_compress_css_desc'] = 'このオプションが有効の場合、管理画面用のCSSは圧縮版を使用します。これにより、管理画面での負荷の軽減と、実効速度の向上が得られます。このオプションは貴方がコアに変更を加えている場合のみ、無効にします。';
 $_lang['setting_compress_js'] = '圧縮したJavaScriptを使用';
@@ -148,24 +148,24 @@ $_lang['setting_compress_js_groups'] = 'Use Grouping When Compressing JavaScript
 $_lang['setting_compress_js_groups_desc'] = 'Group the core MODX manager JavaScript using minify\'s groupsConfig. Set to Yes if using suhosin or other limiting factors.';
 $_lang['setting_compress_js_max_files'] = 'Maximum JavaScript Files Compression Threshold';
 $_lang['setting_compress_js_max_files_desc'] = 'The maximum number of JavaScript files MODX will attempt to compress at once when compress_js is on. Set to a lower number if you are experiencing issues with Google Minify in the manager.';
-$_lang['setting_concat_js'] = '連結したJavascriptを使用';
-$_lang['setting_concat_js_desc'] = 'When this is enabled, MODX will use a concatenated version of its common JavaScript libraries in the manager interface. This greatly reduces load and execution time within the manager. Disable only if you are modifying core elements.';
+$_lang['setting_concat_js'] = '連結したJavascriptライブラリを使用';
+$_lang['setting_concat_js_desc'] = '有効の場合、管理画面インターフェースでは、一般的なJavaScriptライブラリを連結して使用します。これにより、管理画面のロードと実行時間が短縮されます。<br />無効にするのは、コア要素の変更時のみにしてください。';
 $_lang['setting_container_suffix'] = 'コンテナの添え字';
 $_lang['setting_container_suffix_desc'] = 'フレンドリーURLを使用する場合に、コンテナ属性のリソースに追加する添え字';
-$_lang['setting_context_tree_sort'] = 'Enable Sorting of Contexts in Resource Tree';
-$_lang['setting_context_tree_sort_desc'] = 'If set to Yes, Contexts will be alphanumerically sorted in the left-hand Resources tree.';
+$_lang['setting_context_tree_sort'] = 'リソースツリーでコンテキストをソート';
+$_lang['setting_context_tree_sort_desc'] = '有効の場合、管理画面左側に表示されるリソースツリー上で、コンテキストを英数字順でソートします。';
 $_lang['setting_context_tree_sortby'] = 'リソースツリー上でのコンテキストのソートフィールド';
-$_lang['setting_context_tree_sortby_desc'] = 'The field to sort Contexts by in the Resources tree, if sorting is enabled.';
+$_lang['setting_context_tree_sortby_desc'] = 'コンテキストのソートが有効の場合に、ソート条件となるフィールドを指定します。';
 $_lang['setting_context_tree_sortdir'] = 'リソースツリー上でのコンテキストのソート方向';
-$_lang['setting_context_tree_sortdir_desc'] = 'The direction to sort Contexts in the Resources tree, if sorting is enabled.';
+$_lang['setting_context_tree_sortdir_desc'] = 'コンテキストのソートが有効の場合に、ソートする方向（ASC or DESC）を指定します。';
 $_lang['setting_cultureKey'] = '言語';
-$_lang['setting_cultureKey_desc'] = 'Select the language for all non-manager Contexts, including web.';
+$_lang['setting_cultureKey_desc'] = 'Webを含む、全ての非管理画面コンテキストの言語を指定します。';
 $_lang['setting_date_timezone'] = 'デフォルトのタイムゾーン';
-$_lang['setting_date_timezone_desc'] = 'Controls the default timezone setting for PHP date functions, if not empty. If empty and the PHP date.timezone ini setting is not set in your environment, UTC will be assumed.';
-$_lang['setting_debug'] = 'Debug';
+$_lang['setting_date_timezone_desc'] = '指定した場合、PHPのdate関数のデフォルトタイムゾーンを制御します。<br />指定がされず、PHPのiniからもタイムゾーンが取得できない場合、UTCと仮定されます。';
+$_lang['setting_debug'] = 'デバッグ';
 $_lang['setting_debug_desc'] = 'Controls turning debugging on/off in MODX and/or sets the PHP error_reporting level. \'\' = use current error_reporting, \'0\' = false (error_reporting = 0), \'1\' = true (error_reporting = -1), or any valid error_reporting value (as an integer).';
-$_lang['setting_default_content_type'] = 'Default Content Type';
-$_lang['setting_default_content_type_desc'] = 'Select the default Content Type you wish to use for new Resources. You can still select a different Content Type in the Resource editor; this setting just pre-selects one of your Content Types for you.';
+$_lang['setting_default_content_type'] = 'デフォルトのコンテントタイプ';
+$_lang['setting_default_content_type_desc'] = '新規リソース作成時にデフォルトで選択されるコンテントタイプを指定します。<br />デフォルトで選択されるものを指定するだけで、編集画面では異なるコンテントタイプを指定可能です。';
 $_lang['setting_default_duplicate_publish_option'] = 'Default Duplicate Resource Publishing Option';
 $_lang['setting_default_duplicate_publish_option_desc'] = 'The default selected option when duplicating a Resource. Can be either "unpublish" to unpublish all duplicates, "publish" to publish all duplicates, or "preserve" to preserve the publish state based on the duplicated Resource.';
 $_lang['setting_default_media_source'] = 'Default Media Source';
