@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  * @author enogu http://www.kuroienogu.net/
- * @author honda http://kogus.org
+ * @author honda http://kogus.org 2012-05-09
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
@@ -89,7 +89,7 @@ $_lang['user_err_already_exists_email'] = 'そのメールアドレスはすで�
 $_lang['user_err_cannot_delete_last_admin'] = '管理操作が行なえなくなるため、管理者グループの最後のユーザーは削除できません。';
 $_lang['user_err_cannot_delete_self'] = '自分自身のデータは削除できません';
 $_lang['user_err_nf'] = 'ユーザーが見つかりませんでした。';
-$_lang['user_err_not_specified'] = 'ユーザーが存在しません。';
+$_lang['user_err_not_specified'] = 'ユーザーが指定されていません。';
 $_lang['user_err_not_specified_blockedafter'] = 'アクセス停止日の起点を mm/dd/yyyy 形式で入力してください。 ';
 $_lang['user_err_not_specified_blockeduntil'] = 'アクセス停止日の終点を mm/dd/yyyy 形式で入力してください。 ';
 $_lang['user_err_not_specified_dob'] = '誕生日を mm/dd/yyyy 形式で入力してください。';
