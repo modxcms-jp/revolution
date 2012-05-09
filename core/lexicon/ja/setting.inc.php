@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-05-07
+* @author honda http://kogus.org 2012-05-09
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -165,29 +165,29 @@ $_lang['setting_date_timezone_desc'] = '指定した場合、PHPのdate関数の
 $_lang['setting_debug'] = 'デバッグ';
 $_lang['setting_debug_desc'] = 'Controls turning debugging on/off in MODX and/or sets the PHP error_reporting level. \'\' = use current error_reporting, \'0\' = false (error_reporting = 0), \'1\' = true (error_reporting = -1), or any valid error_reporting value (as an integer).';
 $_lang['setting_default_content_type'] = 'デフォルトのコンテントタイプ';
-$_lang['setting_default_content_type_desc'] = '新規リソース作成時にデフォルトで選択されるコンテントタイプを指定します。<br />デフォルトで選択されるものを指定するだけで、編集画面では異なるコンテントタイプを指定可能です。';
+$_lang['setting_default_content_type_desc'] = '新規リソース作成時にデフォルトで選択されるコンテントタイプを指定します。<br />ここで指定したコンテントタイプは、単にデフォルトで選択されるだけのものです。編集画面では異なるコンテントタイプを指定できます。';
 $_lang['setting_default_duplicate_publish_option'] = 'Default Duplicate Resource Publishing Option';
 $_lang['setting_default_duplicate_publish_option_desc'] = 'The default selected option when duplicating a Resource. Can be either "unpublish" to unpublish all duplicates, "publish" to publish all duplicates, or "preserve" to preserve the publish state based on the duplicated Resource.';
-$_lang['setting_default_media_source'] = 'Default Media Source';
-$_lang['setting_default_media_source_desc'] = 'The default Media Source to load.';
+$_lang['setting_default_media_source'] = 'デフォルトのメディアソース';
+$_lang['setting_default_media_source_desc'] = 'デフォルトでロードされるメディアソース。';
 $_lang['setting_default_template'] = 'デフォルトのテンプレート';
-$_lang['setting_default_template_desc'] = 'Select the default Template you wish to use for new Resources. You can still select a different template in the Resource editor, this setting just pre-selects one of your Templates for you.';
-$_lang['setting_default_per_page'] = 'Default Per Page';
-$_lang['setting_default_per_page_desc'] = 'The default number of results to show in grids throughout the manager.';
+$_lang['setting_default_template_desc'] = '新規リソース作成時にデフォルトで選択されるテンプレートを指定します。<br />ここで指定したテンプレートは、単にデフォルトで選択されるだけのものです。編集画面では異なるコンテントタイプを指定できます。';
+$_lang['setting_default_per_page'] = 'デフォルトのページあたり表示数（管理画面）';
+$_lang['setting_default_per_page_desc'] = '管理画面で一覧される各種要素の、ページあたり表示数のデフォルトを指定します。';
 $_lang['setting_editor_css_path'] = 'CSSファイルのパス';
-$_lang['setting_editor_css_path_desc'] = 'Enter the path to your CSS file that you wish to use within a richtext editor. The best way to enter the path is to enter the path from the root of your server, for example: /assets/site/style.css. If you do not wish to load a style sheet into a richtext editor, leave this field blank.';
-$_lang['setting_editor_css_selectors'] = 'スタイルセレクタ(RTE用)';
-$_lang['setting_editor_css_selectors_desc'] = 'A comma-separated list of CSS selectors for a richtext editor.';
+$_lang['setting_editor_css_path_desc'] = 'リッチテキストエディタで使用するCSSファイルのパスを入力します。パスはサーバールートからの絶対パスでの入力をおすすめします。例：/assets/site/style.css<br />リッチテキストエディタにCSSを適用したくない場合には、この設定を空白にします。';
+$_lang['setting_editor_css_selectors'] = 'CSSセレクタ(RTE用)';
+$_lang['setting_editor_css_selectors_desc'] = 'リッチテキストエディタ用のCSSセレクタを、カンマ区切りで指定します。';
 $_lang['setting_emailsender'] = '送信者メールアドレス';
 $_lang['setting_emailsender_desc'] = ' ユーザー名とパスワードを送信時の送信元メールアドレスを指定してください。';
 $_lang['setting_emailsender_err'] = '送信者メールアドレスを指定してください。';
 $_lang['setting_emailsubject'] = 'メールのタイトル';
 $_lang['setting_emailsubject_desc'] = 'サインアップメールのタイトルを指定してください。';
 $_lang['setting_emailsubject_err'] = 'サインアップメールのタイトルを指定してください。';
-$_lang['setting_enable_dragdrop'] = 'Enable Drag/Drop in Resource/Element Trees';
-$_lang['setting_enable_dragdrop_desc'] = 'If off, will prevent dragging and dropping in Resource and Element trees.';
+$_lang['setting_enable_dragdrop'] = 'リソース・エレメントツリーでのドラッグ移動';
+$_lang['setting_enable_dragdrop_desc'] = '「いいえ」を選択した場合、リソース・エレメントのツリーでは要素をドラッグして移動できなくなります。';
 $_lang['setting_error_page'] = 'エラーページ';
-$_lang['setting_error_page_desc'] = 'ドキュメントが存在しない場合のエラーページ(404 ページ)として表示する、ドキュメントのIDを入力してください。<strong注意: 既に存在するドキュメントで、かつ公開されている必要があります。</strong>';
+$_lang['setting_error_page_desc'] = 'ドキュメントが存在しない場合のエラーページ(404 ページ)として表示する、ドキュメントのIDを入力してください。<strong>注意: 既に存在するドキュメントで、かつ公開されている必要があります。</strong>';
 $_lang['setting_error_page_err'] = 'エラーページに使用するドキュメントIDを指定してください。';
 $_lang['setting_extension_packages'] = 'Extension Packages';
 $_lang['setting_extension_packages_desc'] = 'A comma separated list of packages to load on MODX instantiation. In the format packagename:pathtomodel';
