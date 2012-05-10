@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-05-09
+* @author honda http://kogus.org 2012-05-10
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -342,37 +342,37 @@ $_lang['setting_proxy_port'] = 'プロキシのポート';
 $_lang['setting_proxy_port_desc'] = 'The port for your proxy server.';
 $_lang['setting_proxy_username'] = 'プロキシのユーザー名';
 $_lang['setting_proxy_username_desc'] = 'The username to authenticate against with your proxy server.';
-$_lang['setting_phpthumb_allow_src_above_docroot'] = 'phpThumb Allow src Above Document Root';
-$_lang['setting_phpthumb_allow_src_above_docroot_desc'] = 'Indicates if the src path is allowed outside the document root. This is useful for multi-context deployments with multiple virtual hosts.';
-$_lang['setting_phpthumb_cache_maxage'] = 'phpThumbの最大キャッシュ期間';
+$_lang['setting_phpthumb_allow_src_above_docroot'] = 'phpThumb srcにドキュメントルートより上位階層を許可';
+$_lang['setting_phpthumb_allow_src_above_docroot_desc'] = 'srcのパスにドキュメントルートより上の階層を許可するか設定します。マルチコンテキストによって複数の仮想ホストを展開する場合などに役立ちます。';
+$_lang['setting_phpthumb_cache_maxage'] = 'phpThumb 最大キャッシュ期間';
 $_lang['setting_phpthumb_cache_maxage_desc'] = '数値で日数を指定。指定した日数を超えてアクセスされていないサムネイルは削除されます。';
-$_lang['setting_phpthumb_cache_maxsize'] = 'phpThumbの最大キャッシュサイズ';
+$_lang['setting_phpthumb_cache_maxsize'] = 'phpThumb 最大キャッシュサイズ';
 $_lang['setting_phpthumb_cache_maxsize_desc'] = '数値でMBを指定。キャッシュのサイズが指定した値を超えた場合、最近アクセスが最も少ないサムネイルを削除します。';
-$_lang['setting_phpthumb_cache_maxfiles'] = 'phpThumbの最大キャッシュ数';
+$_lang['setting_phpthumb_cache_maxfiles'] = 'phpThumb 最大キャッシュ数';
 $_lang['setting_phpthumb_cache_maxfiles_desc'] = '数値でキャッシュ数を指定。キャッシュの数が指定した値を超えた場合、最近アクセスが最も少ないサムネイルを削除します。';
-$_lang['setting_phpthumb_cache_source_enabled'] = 'phpThumbのソースファイルキャッシュ有無';
-$_lang['setting_phpthumb_cache_source_enabled_desc'] = 'Whether or not to cache source files as they are loaded. Recommended to off.';
-$_lang['setting_phpthumb_document_root'] = 'phpThumb Document Root';
-$_lang['setting_phpthumb_document_root_desc'] = 'Set this if you are experiencing issues with the server variable DOCUMENT_ROOT, or getting errors with OutputThumbnail or !is_resource. Set it to the absolute document root path you would like to use. If this is empty, MODX will use the DOCUMENT_ROOT server variable.';
-$_lang['setting_phpthumb_error_bgcolor'] = 'phpThumb Error Background Color';
-$_lang['setting_phpthumb_error_bgcolor_desc'] = 'A hex value, without the #, indicating a background color for phpThumb error output.';
-$_lang['setting_phpthumb_error_fontsize'] = 'phpThumb Error Font Size';
-$_lang['setting_phpthumb_error_fontsize_desc'] = 'An em value indicating a font size to use for text appearing in phpThumb error output.';
-$_lang['setting_phpthumb_error_textcolor'] = 'phpThumb Error Font Color';
-$_lang['setting_phpthumb_error_textcolor_desc'] = 'A hex value, without the #, indicating a font color for text appearing in phpThumb error output.';
-$_lang['setting_phpthumb_far'] = 'phpThumb Force Aspect Ratio';
-$_lang['setting_phpthumb_far_desc'] = 'The default far setting for phpThumb when used in MODX. Defaults to C to force aspect ratio toward the center.';
-$_lang['setting_phpthumb_imagemagick_path'] = 'phpThumb ImageMagick Path';
-$_lang['setting_phpthumb_imagemagick_path_desc'] = 'Optional. Set an alternative ImageMagick path here for generating thumbnails with phpThumb, if it is not in the PHP default.';
-$_lang['setting_phpthumb_nohotlink_enabled'] = 'phpThumb Hotlinking Disabled';
-$_lang['setting_phpthumb_nohotlink_enabled_desc'] = 'Remote servers are allowed in the src parameter unless you disable hotlinking in phpThumb.';
-$_lang['setting_phpthumb_nohotlink_erase_image'] = 'phpThumb Hotlinking Erase Image';
-$_lang['setting_phpthumb_nohotlink_erase_image_desc'] = 'Indicates if an image generated from a remote server should be erased when not allowed.';
-$_lang['setting_phpthumb_nohotlink_text_message'] = 'phpThumb Hotlinking Not Allowed Message';
-$_lang['setting_phpthumb_nohotlink_text_message_desc'] = 'A message that is rendered instead of the thumbnail when a hotlinking attempt is rejected.';
-$_lang['setting_phpthumb_nohotlink_valid_domains'] = 'phpThumb Hotlinking Valid Domains';
-$_lang['setting_phpthumb_nohotlink_valid_domains_desc'] = 'A comma-delimited list of hostnames that are valid in src URLs.';
-$_lang['setting_phpthumb_nooffsitelink_enabled'] = 'phpThumb Offsite Linking Disabled';
+$_lang['setting_phpthumb_cache_source_enabled'] = 'phpThumb ソースファイルのキャッシュ';
+$_lang['setting_phpthumb_cache_source_enabled_desc'] = '読み込まれたソースファイルをキャッシュするか設定します。"いいえ"をおすすめします。';
+$_lang['setting_phpthumb_document_root'] = 'phpThumb ドキュメントルート';
+$_lang['setting_phpthumb_document_root_desc'] = 'サーバー変数のDOCUMENT_ROOTを使用して問題が発生している場合や、OutputThumbnailや！IS_RESOURCEでエラーが発生している場合に設定してください。<br />ドキュメントルートを絶対パスで指定します。この値が空の場合、サーバー変数DOCUMENT_ROOTの値が使用されます。';
+$_lang['setting_phpthumb_error_bgcolor'] = 'phpThumb エラー背景色';
+$_lang['setting_phpthumb_error_bgcolor_desc'] = 'phpThumbのエラー出力背景色を、"#"を取り除いた16進数で指定します。';
+$_lang['setting_phpthumb_error_fontsize'] = 'phpThumb エラーフォントサイズ';
+$_lang['setting_phpthumb_error_fontsize_desc'] = 'phpThumbのエラー出力フォントサイズを、em値で指定します。';
+$_lang['setting_phpthumb_error_textcolor'] = 'phpThumb エラーフォント色';
+$_lang['setting_phpthumb_error_textcolor_desc'] = 'phpThumbのエラー出力フォント色を、"#"を取り除いた16進数で指定します。';
+$_lang['setting_phpthumb_far'] = 'phpThumb アスペクト比の強制（far）';
+$_lang['setting_phpthumb_far_desc'] = 'phpThumbのfarオプションの値を指定します。デフォルトは C で、中心に向かってアスペクト比を強制します。';
+$_lang['setting_phpthumb_imagemagick_path'] = 'phpThumb ImageMagickのパス';
+$_lang['setting_phpthumb_imagemagick_path_desc'] = '省略可能。PHPにデフォルトでImageMagickのパスが設定されていない場合に、代替となるパスを指定できます。';
+$_lang['setting_phpthumb_nohotlink_enabled'] = 'phpThumb 外部からの読み込みを無効化';
+$_lang['setting_phpthumb_nohotlink_enabled_desc'] = 'この設定が無効の場合、srcパラメーターに外部サーバーの指定を許可します（nohotlink）。';
+$_lang['setting_phpthumb_nohotlink_erase_image'] = 'phpThumb 外部からの画像を消去';
+$_lang['setting_phpthumb_nohotlink_erase_image_desc'] = '外部サーバーからの読み込みが無効の場合、外部サーバーから読み込まれて生成された画像を消去するか設定します。';
+$_lang['setting_phpthumb_nohotlink_text_message'] = 'phpThumb 外部読み込み拒否時のメッセージ';
+$_lang['setting_phpthumb_nohotlink_text_message_desc'] = '外部サーバーからの画像読み込み時に、代わりに表示されるメッセージを指定します。';
+$_lang['setting_phpthumb_nohotlink_valid_domains'] = 'phpThumb 読み込みを許可するドメイン';
+$_lang['setting_phpthumb_nohotlink_valid_domains_desc'] = '外部からのA comma-delimited list of hostnames that are valid in src URLs.';
+$_lang['setting_phpthumb_nooffsitelink_enabled'] = 'phpThumb サムネイル直リンクの無効化';
 $_lang['setting_phpthumb_nooffsitelink_enabled_desc'] = 'Disables the ability for others to use phpThumb to render images on their own sites.';
 $_lang['setting_phpthumb_nooffsitelink_erase_image'] = 'phpThumb Offsite Linking Erase Image';
 $_lang['setting_phpthumb_nooffsitelink_erase_image_desc'] = 'Indicates if an image linked from a remote server should be erased when not allowed.';
