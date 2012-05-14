@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-05-10
+* @author honda http://kogus.org 2012-05-14
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -59,7 +59,7 @@ $_lang['settings_site'] = 'サイト';
 $_lang['settings_ui'] = 'インターフェースとその他の機能';
 $_lang['settings_users'] = '詳細設定';
 $_lang['system_settings'] = 'システム設定';
-$_lang['usergroup'] = 'User Group';
+$_lang['usergroup'] = 'ユーザーグループ';
 $_lang['setting_access_category_enabled'] = 'カテゴリーへのアクセス権をチェックする';
 $_lang['setting_access_category_enabled_desc'] = 'カテゴリーに対するACLチェックの有効無効を切り替えるには、この設定を使用します（コンテキストごと）。<p><strong>注：この設定を「いいえ」にした場合、全てのカテゴリーへのアクセス権設定は無視されます。</strong></p>';
 $_lang['setting_access_context_enabled'] = 'Check Context Access';
@@ -139,7 +139,7 @@ $_lang['setting_cache_scripts_desc'] = '「はい」を選択すると、ロー�
 $_lang['setting_cache_system_settings'] = 'システム設定キャッシュを有効';
 $_lang['setting_cache_system_settings_desc'] = 'はい」を選択すると、ロード時間短縮のためにシステム設定がキャッシュされます。この設定は有効にしておくことをおすすめします。';
 $_lang['setting_clear_cache_refresh_trees'] = 'サイトキャッシュクリア時にツリーをリフレッシュ';
-$_lang['setting_clear_cache_refresh_trees_desc'] = '有効にすると、サイトキャッシュのクリア後に、リソースツリーをリフレッシュします。';
+$_lang['setting_clear_cache_refresh_trees_desc'] = '有効にすると、サイトキャッシュのクリア後に、リソースツリーを再表示します。';
 $_lang['setting_compress_css'] = '圧縮したCSSを使用';
 $_lang['setting_compress_css_desc'] = 'このオプションが有効の場合、管理画面用のCSSは圧縮版を使用します。これにより、管理画面での負荷の軽減と、実効速度の向上が得られます。このオプションは貴方がコアに変更を加えている場合のみ、無効にします。';
 $_lang['setting_compress_js'] = '圧縮したJavaScriptを使用';
@@ -148,7 +148,7 @@ $_lang['setting_compress_js_groups'] = 'Use Grouping When Compressing JavaScript
 $_lang['setting_compress_js_groups_desc'] = 'Group the core MODX manager JavaScript using minify\'s groupsConfig. Set to Yes if using suhosin or other limiting factors.';
 $_lang['setting_compress_js_max_files'] = 'Maximum JavaScript Files Compression Threshold';
 $_lang['setting_compress_js_max_files_desc'] = 'The maximum number of JavaScript files MODX will attempt to compress at once when compress_js is on. Set to a lower number if you are experiencing issues with Google Minify in the manager.';
-$_lang['setting_concat_js'] = '連結したJavascriptライブラリを使用';
+$_lang['setting_concat_js'] = '連結したJavaScriptライブラリを使用';
 $_lang['setting_concat_js_desc'] = '有効の場合、管理画面インターフェースでは、一般的なJavaScriptライブラリを連結して使用します。これにより、管理画面のロードと実行時間が短縮されます。<br />無効にするのは、コア要素の変更時のみにしてください。';
 $_lang['setting_container_suffix'] = 'コンテナの添え字';
 $_lang['setting_container_suffix_desc'] = 'フレンドリーURLを使用する場合に、コンテナ属性のリソースに追加する添え字';
@@ -174,8 +174,8 @@ $_lang['setting_default_template'] = 'デフォルトのテンプレート';
 $_lang['setting_default_template_desc'] = '新規リソース作成時にデフォルトで選択されるテンプレートを指定します。<br />ここで指定したテンプレートは、単にデフォルトで選択されるだけのものです。編集画面では異なるコンテントタイプを指定できます。';
 $_lang['setting_default_per_page'] = 'デフォルトのページあたり表示数（管理画面）';
 $_lang['setting_default_per_page_desc'] = '管理画面で一覧される各種要素の、ページあたり表示数のデフォルトを指定します。';
-$_lang['setting_editor_css_path'] = 'CSSファイルのパス';
-$_lang['setting_editor_css_path_desc'] = 'リッチテキストエディタで使用するCSSファイルのパスを入力します。パスはサーバールートからの絶対パスでの入力をおすすめします。例：/assets/site/style.css<br />リッチテキストエディタにCSSを適用したくない場合には、この設定を空白にします。';
+$_lang['setting_editor_css_path'] = 'リッチテキストエディタ用CSSファイルのパス';
+$_lang['setting_editor_css_path_desc'] = 'リッチテキストエディタでの編集中に使用する、CSSファイルのパスを入力します。パスはサーバールートからの絶対パスでの入力をおすすめします。例：/assets/site/style.css<br />リッチテキストエディタにCSSを適用したくない場合には、この設定を空白にします。';
 $_lang['setting_editor_css_selectors'] = 'CSSセレクタ(RTE用)';
 $_lang['setting_editor_css_selectors_desc'] = 'リッチテキストエディタ用のCSSセレクタを、カンマ区切りで指定します。';
 $_lang['setting_emailsender'] = '送信者メールアドレス';
@@ -203,7 +203,7 @@ $_lang['setting_feed_modx_security'] = 'MODXセキュリティーフィードの
 $_lang['setting_feed_modx_security_desc'] = '管理画面のセキュリティ通知パネルで表示される、MODXのセキュリティ情報のURLを指定します。';
 $_lang['setting_feed_modx_security_enabled'] = 'MODXセキュリティフィードを有効';
 $_lang['setting_feed_modx_security_enabled_desc'] = '「いいえ」を選択した場合、管理画面のダッシュボードでセキュリティ通知を表示しません。';
-$_lang['setting_filemanager_path'] = 'ファイル管理領域のパス(Deprecated)';
+$_lang['setting_filemanager_path'] = 'ファイル管理領域のパス(非推奨)';
 $_lang['setting_filemanager_path_desc'] = 'Deprecated - Use Media Sources instead. IIS often does not populate the document_root setting properly, which is used by the file manager to determine what you can look at. If you\'re having problems using the file manager, make sure this path points to the root of your MODX installation.';
 $_lang['setting_filemanager_path_relative'] = 'Is File Manager Path Relative? (Deprecated)';
 $_lang['setting_filemanager_path_relative_desc'] = 'Deprecated - Use Media Sources instead. If your filemanager_path setting is relative to the MODX base_path, then please set this setting to Yes. If your filemanager_path is outside the docroot, set this to No.';
@@ -220,11 +220,11 @@ $_lang['setting_forward_merge_excludes_desc'] = 'A SymLink merges non-empty fiel
 $_lang['setting_friendly_alias_lowercase_only'] = 'エイリアスを小文字で揃える';
 $_lang['setting_friendly_alias_lowercase_only_desc'] = 'リソースのエイリアスに小文字のみを許可するかを決定します。';
 $_lang['setting_friendly_alias_max_length'] = 'エイリアスの最大サイズ';
-$_lang['setting_friendly_alias_max_length_desc'] = 'If greater than zero, the maximum number of characters to allow in a Resource alias. Zero equals unlimited.';
+$_lang['setting_friendly_alias_max_length_desc'] = '0より大きな値を指定した場合、エイリアスの文字数をその値で制限します。0の場合は無制限となります。';
 $_lang['setting_friendly_alias_restrict_chars'] = 'エイリアスの文字の制限方法';
-$_lang['setting_friendly_alias_restrict_chars_desc'] = 'The method used to restrict characters used in a Resource alias. "pattern" allows a RegEx pattern to be provided, "legal" allows any legal URL characters, "alpha" allows only letters of the alphabet, and "alphanumeric" allows only letters and numbers.';
+$_lang['setting_friendly_alias_restrict_chars_desc'] = 'エイリアスに使用する文字の制限方法を指定します。"pattern"の場合、正規表現によるパターンで制限を行います。"legal"の場合、任意の有効なURL文字のみに制限されます。"alpha"の場合はアルファベットのみ、そして"alphanumeric"の場合はアルファベットと数字のみに制限されます。';
 $_lang['setting_friendly_alias_restrict_chars_pattern'] = 'エイリアスの文字の制限パターン';
-$_lang['setting_friendly_alias_restrict_chars_pattern_desc'] = 'A valid RegEx pattern for restricting characters used in a Resource alias.';
+$_lang['setting_friendly_alias_restrict_chars_pattern_desc'] = 'エイリアスの文字を制限する有効な正規表現パターンを指定します。';
 $_lang['setting_friendly_alias_strip_element_tags'] = 'FURL Alias Strip Element Tags';
 $_lang['setting_friendly_alias_strip_element_tags_desc'] = 'Determines if Element tags should be stripped from a Resource alias.';
 $_lang['setting_friendly_alias_translit'] = 'エイリアスの翻字設定';
@@ -313,9 +313,9 @@ $_lang['setting_manager_theme_desc'] = '管理画面で使用するデザイン�
 $_lang['setting_manager_time_format'] = '管理画面の時刻フォーマット';
 $_lang['setting_manager_time_format_desc'] = '管理画面内で用いる時刻の書式。PHPのdate関数のフォーマットを用いて指定します。';
 $_lang['setting_manager_use_tabs'] = '管理画面内でタブを使用';
-$_lang['setting_manager_use_tabs_desc'] = 'If true, the manager will use tabs for rendering the content panes. Otherwise, it will use portals.';
-$_lang['setting_manager_week_start'] = 'Week start';
-$_lang['setting_manager_week_start_desc'] = 'Define the day starting the week. Use 0 (or leave empty) for sunday, 1 for monday and so on...';
+$_lang['setting_manager_use_tabs_desc'] = '有効の場合、管理画面でコンテンツの配置にタブを使用します。無効の場合はポータルを使用します。';
+$_lang['setting_manager_week_start'] = '週の開始曜日';
+$_lang['setting_manager_week_start_desc'] = '週の開始曜日を数字で指定します。0（または空白）は日曜日、1は月曜日となります。';
 $_lang['setting_modRequest.class'] = 'Request Handler Class';
 $_lang['setting_modRequest.class_desc'] = '';
 $_lang['setting_modx_browser_default_sort'] = 'File Browser Default Sort';
@@ -327,9 +327,9 @@ $_lang['setting_new_file_permissions_desc'] = '管理画面を通じて新しい
 $_lang['setting_new_folder_permissions'] = '新フォルダのパーミッション';
 $_lang['setting_new_folder_permissions_desc'] = '管理画面を通じて新しいフォルダをを作成したとき、ここで設定したパーミッションに変更します。この機能はIISなど一部の環境では動作しません。';
 $_lang['setting_password_generated_length'] = '自動生成するパスワードの長さ';
-$_lang['setting_password_generated_length_desc'] = 'The length of the auto-generated password for a User.';
+$_lang['setting_password_generated_length_desc'] = 'ユーザー用に自動生成されるパスワードの文字列長。';
 $_lang['setting_password_min_length'] = 'パスワードの最小の長さ';
-$_lang['setting_password_min_length_desc'] = 'The minimum length for a password for a User.';
+$_lang['setting_password_min_length_desc'] = 'ユーザー用パスワードの最小の長さ。';
 $_lang['setting_principal_targets'] = 'ACL Targets to Load';
 $_lang['setting_principal_targets_desc'] = 'Customize the ACL targets to load for MODX Users.';
 $_lang['setting_proxy_auth_type'] = 'プロキシの認証タイプ';
