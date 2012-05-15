@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-05-14
+* @author honda http://kogus.org 2012-05-15
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -404,8 +404,8 @@ $_lang['setting_request_param_alias'] = 'エイリアスを受け取るパラメ
 $_lang['setting_request_param_alias_desc'] = 'The name of the GET parameter to identify Resource aliases when redirecting with FURLs.';
 $_lang['setting_request_param_id'] = 'IDを受け取るパラメータ';
 $_lang['setting_request_param_id_desc'] = 'The name of the GET parameter to identify Resource IDs when not using FURLs.';
-$_lang['setting_resolve_hostnames'] = 'Resolve hostnames';
-$_lang['setting_resolve_hostnames_desc'] = 'Do you want MODX to try to resolve your visitors\' hostnames when they visit your site? Resolving hostnames may create some extra server load, although your visitors won\'t notice this in any way.';
+$_lang['setting_resolve_hostnames'] = 'ホスト名の解決';
+$_lang['setting_resolve_hostnames_desc'] = 'サイト表示時に、閲覧者のホスト名を解決しますか？　サーバーに少し負荷が増えますが、閲覧者が意識することはありません（訳注：アクセスログに於ける逆引きのことか？）。';
 $_lang['setting_resource_tree_node_name'] = 'Resource Tree Node Field';
 $_lang['setting_resource_tree_node_name_desc'] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias, longtitle, etc.';
 $_lang['setting_resource_tree_node_tooltip'] = 'Resource Tree Tooltip Field';
@@ -414,7 +414,7 @@ $_lang['setting_richtext_default'] = 'デフォルトのリッチテキストエ
 $_lang['setting_richtext_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトでリッチテキストエディタを使用します。';
 $_lang['setting_search_default'] = 'デフォルトの検索可能設定';
 $_lang['setting_search_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトで検索可能となります。';
-$_lang['setting_search_default_err'] = 'Please specify whether or not you want documents to be searchable by default.';
+$_lang['setting_search_default_err'] = 'リソースをデフォルトで検索可能とするか、選択してください。';
 $_lang['setting_server_offset_time'] = 'サーバの時間補正';
 $_lang['setting_server_offset_time_desc'] = 'Select the number of hours time difference between where you are and where the server is.';
 $_lang['setting_server_protocol'] = 'サーバタイプ';
@@ -438,8 +438,8 @@ $_lang['setting_session_name'] = 'セッション名';
 $_lang['setting_session_name_desc'] = 'MODXが使用するセッション名をカスタマイズします。';
 $_lang['setting_settings_version'] = 'コアのバージョン';
 $_lang['setting_settings_version_desc'] = '稼働しているMODXのバージョンです。';
-$_lang['setting_settings_distro'] = 'Settings Distribution';
-$_lang['setting_settings_distro_desc'] = 'The current installed distribution of MODX.';
+$_lang['setting_settings_distro'] = 'ディストリビューションの設定';
+$_lang['setting_settings_distro_desc'] = '現在MODXがインストールされているディストリビューション。';
 $_lang['setting_set_header'] = 'HTTPヘッダーを設定';
 $_lang['setting_set_header_desc'] = '有効にすると、リソースでHTTPヘッダーをセットするように試みます。';
 $_lang['setting_show_tv_categories_header'] = 'テンプレート変数編集時に「カテゴリー」タブを表示';
@@ -465,12 +465,12 @@ $_lang['setting_strip_image_paths'] = 'src属性に相対パスを渡す';
 $_lang['setting_strip_image_paths_desc'] = 'この設定を「はい」にした場合、ファイルブラウザで選択したファイル（画像・Flash・その他メディアファイルなど）のsrc指定を相対パスで書き出します。CMSでコンテンツを管理する場合は一般的には絶対パスが無難ですが、MODXでサイトを管理する場合はbaseタグを併用することで相対パスで効率よく運用することができます。';
 $_lang['setting_symlink_merge_fields'] = 'Merge Resource Fields in Symlinks';
 $_lang['setting_symlink_merge_fields_desc'] = 'If set to Yes, will automatically merge non-empty fields with target resource when forwarding using Symlinks.';
-$_lang['setting_topmenu_show_descriptions'] = 'Show Descriptions in Top Menu';
-$_lang['setting_topmenu_show_descriptions_desc'] = 'If set to \'No\', MODX will hide the descriptions from top menu items in the manager.';
-$_lang['setting_tree_default_sort'] = 'Resource Tree Default Sort Field';
-$_lang['setting_tree_default_sort_desc'] = 'The default sort field for the Resource tree when loading the manager.';
-$_lang['setting_tree_root_id'] = 'Tree Root ID';
-$_lang['setting_tree_root_id_desc'] = 'Set this to a valid ID of a Resource to start the left Resource tree at below that node as the root. The user will only be able to see Resources that are children of the specified Resource.';
+$_lang['setting_topmenu_show_descriptions'] = 'トップメニューの説明を表示';
+$_lang['setting_topmenu_show_descriptions_desc'] = '「いいえ」とすると、管理画面上部のトップメニューで、説明が非表示になります。';
+$_lang['setting_tree_default_sort'] = 'リソースツリーのデフォルトソートフィールド';
+$_lang['setting_tree_default_sort_desc'] = '管理画面ロード時にリソースツリーのソートを行うフィールド。';
+$_lang['setting_tree_root_id'] = 'リソースツリーのルートID';
+$_lang['setting_tree_root_id_desc'] = '管理画面のリソースツリーで、ルートとなるリソースのIDを指定します。ユーザーには指定したIDの子リソースのみが表示されます。';
 $_lang['setting_tvs_below_content'] = 'テンプレート変数を「コンテンツ」の下に移動';
 $_lang['setting_tvs_below_content_desc'] = '「はい」を選択すると、リソース編集画面で、テンプレート変数はコンテンツの下に表示されます。';
 $_lang['setting_ui_debug_mode'] = '管理画面のUIデバッグモード';
