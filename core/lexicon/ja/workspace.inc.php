@@ -5,6 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org 2012-05-15
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
@@ -19,10 +20,10 @@ $_lang['back_to_manager'] = 'パッケージ管理のホームに戻る';
 $_lang['back_txt'] = '戻る';
 $_lang['breaks_at'] = 'Supports Up To';
 $_lang['by'] = 'by';
-$_lang['changelog'] = 'Changelog';
-$_lang['changelog_desc'] = 'Please review the changelog for this version.';
-$_lang['continue'] = 'Continue';
-$_lang['core_err_invalid'] = 'You must have a valid core installation with an active workspace to run the build.';
+$_lang['changelog'] = 'チェンジログ';
+$_lang['changelog_desc'] = 'このバージョンのチェンジログを確認してください。';
+$_lang['continue'] = '続ける';
+$_lang['core_err_invalid'] = 'ビルドの実行には、アクティブなワークスペースを持った有効なコアがインストールされている必要があります。';
 $_lang['curl_not_installed'] = 'cURL must be installed and configured as an extension for PHP for you to use Package Management. You can find more information about cURL on the <a href="http://php.net/curl" target="_blank">PHP cURL website</a>.';
 $_lang['description'] = '説明';
 $_lang['details'] = '詳細';
@@ -30,7 +31,7 @@ $_lang['dir_err_assets'] = 'assets/ ディレクトリは [[+path]] で作成で
 $_lang['dir_err_assets_comp'] = 'assets/components/ ディレクトリは [[+path]] で作成できませんでした。<br />パッケージマネージャーまたはサードパーティー製のコンポーネントを使用する場合は、このディレクトリを作成し、書き込み可能にする必要があります。';
 $_lang['dir_err_core_comp'] = 'core/components/ ディレクトリは [[+path]] で作成できませんでした。<br />パッケージマネージャーまたはサードパーティー製のコンポーネントを使用する場合は、このディレクトリを作成し、書き込み可能にする必要があります。';
 $_lang['download'] = 'ダウンロード';
-$_lang['download_success'] = 'The Extra was downloaded successfully!';
+$_lang['download_success'] = 'エクストラは正常にダウンロードされました。';
 $_lang['downloaded'] = 'ダウンロード済み';
 $_lang['downloading'] = 'ダウンロードしています';
 $_lang['download_extras'] = 'プロバイダから取得';
@@ -50,7 +51,7 @@ $_lang['license_agree'] = '同意する';
 $_lang['license_agreement'] = 'ライセンス契約';
 $_lang['license_agreement_desc'] = 'このパッケージのライセンス条項を確認してください。';
 $_lang['license_disagree'] = '同意しない';
-$_lang['list_of_packages_in_provider'] = 'Below is a list of the packages in this provider.';
+$_lang['list_of_packages_in_provider'] = 'このプロバイダに含まれるパッケージの一覧';
 $_lang['loading'] = 'Loading...';
 $_lang['minimum_supports'] = 'Requires MODX';
 $_lang['more_info'] = '更なる情報';
@@ -65,15 +66,15 @@ $_lang['no_preview'] = 'No Preview';
 $_lang['not_installed'] = '未インストール';
 $_lang['package'] = 'パッケージ名';
 $_lang['package_add'] = '取得ウィザード';
-$_lang['package_already_downloaded'] = 'Package already downloaded';
+$_lang['package_already_downloaded'] = 'ダウンロード済パッケージ';
 $_lang['package_browser'] = 'パッケージブラウザ';
 $_lang['package_check_for_updates'] = '更新を確認';
 $_lang['package_confirm_install'] = '本当にこのパッケージをインストールしますか？';
 $_lang['package_confirm_remove'] = '本当にこのパッケージを削除しますか？';
 $_lang['package_confirm_uninstall'] = '本当にこのパッケージを削除しますか？';
 $_lang['package_created'] = 'Created new transport package with signature: [[+signature]]';
-$_lang['package_details'] = 'Package Details';
-$_lang['package_details_for'] = 'Package Details for [[+package]]';
+$_lang['package_details'] = 'パッケージの詳細';
+$_lang['package_details_for'] = 'パッケージ [[+package]] の詳細';
 $_lang['package_download_err'] = '[[+location]] でパッケージをダウンロードできませんでした。';
 $_lang['package_download_err_create'] = 'Could not download and create transport package with signature: [[+signature]]';
 $_lang['package_download_err_ns'] = 'ダウンロードするために、少なくとも1つはパッケージを選択して下さい。';
@@ -102,7 +103,7 @@ $_lang['package_installer'] = 'パッケージインストーラー';
 $_lang['package_installing'] = 'Workspace environment initiated, now installing package...';
 $_lang['package_management'] = 'パッケージマネージャー';
 $_lang['package_obtain_method'] = 'どのようにパッケージを取得するかを選択して下さい。';
-$_lang['package_preview_view'] = 'Package preview: {name}';
+$_lang['package_preview_view'] = 'パッケージ {name} プレビュー';
 $_lang['package_remove'] = 'パッケージを削除';
 $_lang['package_remove_action_button'] = '削除';
 $_lang['package_remove_confirm'] = '本当にこのパッケージを削除しますか？復活できません。';
