@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-05-15
+ * @author honda http://kogus.org 2012-05-16
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
@@ -13,7 +13,7 @@
 $_lang['alphabetically'] = 'アルファベット順';
 $_lang['already_downloaded'] = 'このパッケージは既にダウンロードしています。';
 $_lang['api_key'] = 'APIキー';
-$_lang['author'] = 'Author';
+$_lang['author'] = '作者';
 $_lang['autoincludes_packaging'] = 'Packaging in autoincludes: [[+autoincludes]]';
 $_lang['back_to_browser'] = 'パッケージブラウザに戻る';
 $_lang['back_to_manager'] = 'パッケージ管理のホームに戻る';
@@ -120,30 +120,30 @@ $_lang['package_remove_info_tdir_start'] = 'Attempting to remove extracted trans
 $_lang['package_remove_info_tzip'] = 'Successfully removed transport zip.';
 $_lang['package_remove_info_tzip_start'] = 'Successfully grabbed package. Now attempting to remove transport zip...';
 $_lang['package_reinstall'] = 'パッケージを再インストール';
-$_lang['package_reinstall_action_button'] = 'Reinstall';
-$_lang['package_reinstall_confirm'] = 'Are you sure you want to reinstall the package? This will remove any changes you have made.';
+$_lang['package_reinstall_action_button'] = '再インストール';
+$_lang['package_reinstall_confirm'] = 'パッケージを再インストールしてよろしいですか？　現在パッケージに行われている変更は削除されます。';
 $_lang['package_retriever'] = 'パッケージを取得';
 $_lang['package_search_local_title'] = 'すでにサーバ上に転送済みのパッケージ';
 $_lang['package_search_local_confirm'] = 'MODX will now search your core/packages directory for any valid packages, and then add them in. <br /><br />Please note that it will NOT install them, but simply add them into your workspace. <br /><br />Please make sure before proceeding that you have uploaded the packages into the core/packages directory.';
 $_lang['package_select_download'] = 'ダウンロードするパッケージを選択';
-$_lang['package_select_download_desc'] = 'Now select which packages to download. Ctrl+click to select more than one package.';
-$_lang['package_select_download_ns'] = 'Please select at least one package to download.';
-$_lang['package_signature'] = 'シグネイチャ';
+$_lang['package_select_download_desc'] = 'ダウンロードするパッケージを選択してください。Ctrlキーを押しながらクリックすると、複数のパッケージを選択できます。';
+$_lang['package_select_download_ns'] = 'ダウンロードを実行するには、少なくともひとつのパッケージを選択してください。';
+$_lang['package_signature'] = 'シグネチャ';
 $_lang['package_state'] = '状態';
 $_lang['package_uninstall'] = 'パッケージを削除(オプション選択)';
-$_lang['package_uninstall_info_find'] = 'Finding package with signature: [[+signature]]';
-$_lang['package_uninstall_info_prep'] = 'Package found. Preparing to uninstall.';
-$_lang['package_uninstall_info_success'] = 'Package successfully uninstalled with signature: [[+signature]]';
-$_lang['package_update'] = 'パッケージをバージョンアップ';
-$_lang['package_update_action_button'] = 'Update';
-$_lang['package_update_err_provider_empty'] = 'No packages found in the specified provider.';
-$_lang['package_update_err_provider_nf'] = 'This package cannot be updated, because it was not installed from a provider.';
-$_lang['package_update_info_diff'] = 'Found package. Checking for version difference.';
-$_lang['package_update_info_provider_scan'] = 'Scanning for package updates from provider: [[+provider]]';
+$_lang['package_uninstall_info_find'] = 'シグネチャによるパッケージの検索: [[+signature]]';
+$_lang['package_uninstall_info_prep'] = 'パッケージが見つかりました。アンインストールの準備をしています。';
+$_lang['package_uninstall_info_success'] = 'シグネチャによるアンインストールが成功しました。: [[+signature]]';
+$_lang['package_update'] = 'パッケージをアップデート';
+$_lang['package_update_action_button'] = 'アップデート';
+$_lang['package_update_err_provider_empty'] = '指定したプロバイダではパッケージが見つかりませんでした。';
+$_lang['package_update_err_provider_nf'] = 'このパッケージはプロバイダからインストールされていないため、アップデートできません。';
+$_lang['package_update_info_diff'] = 'パッケージが見つかりました。バージョン間の違いをチェックしています。';
+$_lang['package_update_info_provider_scan'] = 'プロバイダからパッケージのアップデートを確認: [[+provider]]';
 $_lang['package_update_to_version'] = '<b style="color:green;">このパッケージの更新バージョンが見つかりました。</b>';
-$_lang['package_version_remove'] = 'Remove Package Version';
+$_lang['package_version_remove'] = 'パッケージのバージョンを削除';
 $_lang['package_version_remove_confirm'] = 'Are you sure you want to attempt to remove the database record and transport files for this older version? Doing so will prevent you from rolling back changes to this version.';
-$_lang['package_view'] = 'View Package';
+$_lang['package_view'] = 'パッケージを表示';
 $_lang['packages'] = 'パッケージ一覧';
 $_lang['packages_in_category'] = 'Below is a list of the packages available in the selected Category.';
 $_lang['packages_browse_msg'] = 'Click details on a package to get more information. Click Download to download the package to your MODX Revolution install.';
@@ -156,7 +156,7 @@ $_lang['preexisting_mode_remove_desc'] = 'This will uninstall all versions of th
 $_lang['preexisting_mode_restore'] = 'リストア';
 $_lang['preexisting_mode_restore_desc'] = 'This will restore the prior version\'s settings as they were before the newer version was installed.';
 $_lang['preexisting_mode_select'] = 'モードを選択してください。';
-$_lang['prior_versions'] = 'Prior Versions';
+$_lang['prior_versions'] = '以前のバージョン';
 $_lang['provider'] = 'プロバイダー';
 $_lang['provider_add'] = 'プロバイダーを新規登録';
 $_lang['provider_add_or'] = 'Or add a new provider...';
@@ -178,7 +178,7 @@ $_lang['provider_home_msg'] = '左側のリポジトリツリーからリポジ�
 $_lang['provider_home_title'] = 'Download Extras';
 $_lang['provider_remove'] = 'このプロバイダを削除';
 $_lang['provider_select'] = '登録済みのプロバイダーから選択';
-$_lang['provider_select_desc'] = 'Please select the provider from which you will retrieve packages.';
+$_lang['provider_select_desc'] = 'パッケージを取得したいプロバイダを選択してください。';
 $_lang['provider_total_downloads'] = 'Total Downloads for this Provider';
 $_lang['provider_total_packages'] = 'Total Packages in this Provider';
 $_lang['provider_update'] = '登録情報を編集';
@@ -193,9 +193,9 @@ $_lang['released'] = 'Released';
 $_lang['released_on'] = 'Released On';
 $_lang['save_and_go_to_browser'] = 'Save and go to Package Browser';
 $_lang['search_results_for'] = '<b>「[[+query]]」</b>の検索結果';
-$_lang['setup_options'] = 'Setup Options';
+$_lang['setup_options'] = 'セットアップオプション';
 $_lang['setup_options_desc'] = 'オプションを選択してください。';
-$_lang['signature'] = 'シグネイチャ';
+$_lang['signature'] = 'シグネチャ';
 $_lang['sort_by_dots'] = 'Sort By...';
 $_lang['supports_db'] = 'Supports Databases';
 $_lang['template_already_downloaded'] = 'Template already downloaded';
