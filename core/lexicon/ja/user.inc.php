@@ -9,7 +9,7 @@
  * @author honda http://kogus.org 2012-05-09
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
+ * @author yamamoto http://kyms.jp 2012-05-28
  */
 $_lang['active'] = '有効';
 $_lang['address'] = '住所';
