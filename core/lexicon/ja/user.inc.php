@@ -12,7 +12,7 @@
  * @author yamamoto http://kyms.jp
  */
 $_lang['active'] = '有効';
-$_lang['address'] = '都道府県';
+$_lang['address'] = '住所';
 $_lang['administrator'] = '管理者';
 $_lang['authority'] = '特権レベル';
 $_lang['change_password'] = 'パスワードの変更';
@@ -74,12 +74,12 @@ $_lang['user_blockeduntil'] = 'この日までアクセス停止';
 $_lang['user_blockeduntil_desc'] = '指定した日時までの間、ユーザーのログインはブロックされます。';
 $_lang['user_changeddata'] = 'ユーザー情報が変更されました。もう一度ログインしなおしてください。';
 $_lang['user_class_key_desc'] = 'このユーザーのMODXクラスキー。この値の役割を理解していない限り、変更しないで下さい。';
-$_lang['user_created_password_message'] = 'ユーザーが作成されました。 パスワードは[[+password]]です。';
+$_lang['user_created_password_message'] = 'ユーザーを作成しました。 パスワードは[[+password]]です。';
 $_lang['user_confirm_remove'] = 'このユーザーを本当に削除しますか？';
 $_lang['user_country'] = '国';
 $_lang['user_dob'] = '誕生日';
 $_lang['user_doesnt_exist'] = 'ユーザー登録がありません';
-$_lang['user_duplicate'] = 'Duplicate User';
+$_lang['user_duplicate'] = 'ユーザーを複製';
 $_lang['user_edit_self_msg'] = 'ユーザー情報を変更した場合は、変更を反映させるためにログアウトして再度ログインしてください。<br />新しいパスワードの作成をチェックした場合、新しいパスワードがメール送信されます。</b>';
 $_lang['user_email'] = 'メールアドレス';
 $_lang['user_err_access_permissions_save'] = 'ユーザーアクセスのパーミッションを保存中にエラーが発生しました。';
