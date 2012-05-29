@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  * @author enogu http://www.kuroienogu.net/
- * @author honda http://kogus.org 2012-05-09
+ * @author honda http://kogus.org 2012-05-29
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp 2012-05-28
@@ -34,7 +34,7 @@ $_lang['password_method_screen'] = '新しいパスワードを画面に表示�
 $_lang['password_new'] = 'パスワードを変更する';
 $_lang['password_notification'] = 'パスワード通知';
 $_lang['password_old'] = '古いパスワード';
-$_lang['primary_group'] = 'Primary Group';
+$_lang['primary_group'] = 'プライマリーグループ';
 $_lang['profile_recent_resources'] = '最近のリソース';
 $_lang['profile_recent_resources_desc'] = '一番最近編集されたリスト.';
 $_lang['remote_data'] = 'リモートデータ';
@@ -127,7 +127,7 @@ $_lang['user_group_id'] = 'ユーザーグループID';
 $_lang['user_group_desc_name'] = 'ユーザーグループの名前';
 $_lang['user_group_desc_description'] = 'このユーザーグループの簡単な説明';
 $_lang['user_group_desc_parent'] = 'このユーザーグループの親となるグループ。組織の構成などに利用できます。';
-$_lang['user_group_desc_dashboard'] = 'このグループのメンバーが使用するダッシュボード（who have this Group as their Primary Group.）。';
+$_lang['user_group_desc_dashboard'] = 'このグループのメンバーが使用するダッシュボード（プライマリーグループが使用されます）。';
 $_lang['user_group_document_group_err_already_exists'] = 'ユーザーグループは既にそのドキュメントグループに紐づいています。';
 $_lang['user_group_document_group_err_create'] = 'ユーザーグループをドキュメントグループに紐付け中にエラーが発生しました。';
 $_lang['user_group_document_group_err_not_found'] = 'そのユーザーグループはドキュメントグループに紐づいていません。';
@@ -138,7 +138,7 @@ $_lang['user_group_err_nf'] = 'ユーザーグループが見つかりません'
 $_lang['user_group_err_not_found'] = 'ユーザーグループが見つかりません';
 $_lang['user_group_err_not_specified'] = 'ユーザーグループが指定されていません';
 $_lang['user_group_err_ns'] = 'ユーザーグループが指定されていません';
-$_lang['user_group_err_ns_name'] = 'Please specify a name for this user group.';
+$_lang['user_group_err_ns_name'] = 'このユーザーグループの名前を指定してください。';
 $_lang['user_group_err_remove'] = 'ユーザーグループの削除中にエラーが発生しました。';
 $_lang['user_group_err_remove_admin'] = '管理者のグループを削除できません。';
 $_lang['user_group_err_save'] = 'ユーザーグループの保存中にエラーが発生しました。';
@@ -156,7 +156,7 @@ $_lang['user_group_untitled'] = '無名のユーザーグループ';
 $_lang['user_group_update'] = 'ユーザーグループを編集';
 $_lang['user_group_user_add'] = 'ユーザーをグループに加える';
 $_lang['user_group_user_add_user_desc'] = 'ユーザーグループに追加するユーザーの名前';
-$_lang['user_group_user_add_role_desc'] = 'The Role that the User should have in the Group. This may affect the Permissions that the User is granted.';
+$_lang['user_group_user_add_role_desc'] = 'このグループでのユーザーのロール。これはユーザーに付与された権限に影響を与える可能性があります。';
 $_lang['user_group_user_remove'] = 'ユーザーをグループから削除';
 $_lang['user_group_user_remove_confirm'] = 'このユーザーをグループから削除しますか？';
 $_lang['user_group_user_update_role'] = 'ユーザーグループ内のロールを編集';
@@ -190,8 +190,8 @@ $_lang['user_setting_err_save'] = 'ユーザー設定を保存中にエラーが
 $_lang['user_settings'] = 'ユーザー設定';
 $_lang['user_settings_desc'] = 'ユーザー設定の詳細を変更できます。';
 $_lang['user_state'] = '都道府県';
-$_lang['user_sudo'] = 'Sudo User';
-$_lang['user_sudo_desc'] = 'If checked, this user will have full access to all the site and will bypass any Access Permissions checks. *DO NOT* check this unless you mean to do so!';
+$_lang['user_sudo'] = 'Sudoユーザー';
+$_lang['user_sudo_desc'] = 'チェックされている場合、このユーザーは任意のアクセス権限チェックを迂回し、全てのサイトへフルアクセスが可能になります。<strong>※この設定の意味を理解していない限り、チェックしないでください。';
 $_lang['user_title'] = 'ユーザーの作成/編集';
 $_lang['user_update'] = 'ユーザーを編集';
 $_lang['user_updated_password_message'] = 'このユーザーはアップデートしています. パスワードは[[+password]]です。';
