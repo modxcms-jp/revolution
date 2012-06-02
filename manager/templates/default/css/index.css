@@ -2377,3 +2377,8 @@ color: #555555;
 #modx-header{
 	height: 63px !important;
 }
+
+.desc-under {
+	font-style: normal !important;
+	color: #888 !important;
+}
