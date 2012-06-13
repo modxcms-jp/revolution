@@ -2382,3 +2382,26 @@ color: #555555;
 	font-style: normal !important;
 	color: #888 !important;
 }
+
+.form-with-labels .desc-under, .x-window .desc-under {
+font-size:inherit;
+font-style:normal;
+color:#888;
+}
+
+table.x-btn-icon,
+table.x-btn {
+padding:0\0/;
+border-collapse:collapse\0/;
+}
+
+table.x-btn-icon td,
+table.x-btn td {
+border-radius:0\0/;
+padding:0\0/;
+}
+
+#modx-leftbar .x-btn button {
+padding:0\0/;
+margin:0\0/;
+}
