@@ -1,6 +1,6 @@
-/** 
+/**
  * Generates the Duplicate Resource window.
- *  
+ *
  * @class MODx.window.DuplicateResource
  * @extends MODx.Window
  * @param {Object} config An object of options.
@@ -12,7 +12,7 @@ MODx.window.DuplicateResource = function(config) {
     Ext.applyIf(config,{
         title: _('duplication_options')
         ,id: this.ident
-        ,width: 400
+        ,width: 500
     });
     MODx.window.DuplicateResource.superclass.constructor.call(this,config);
 };
@@ -21,16 +21,26 @@ Ext.extend(MODx.window.DuplicateResource,MODx.Window,{
         if (this.checkIfLoaded(this.config.record)) {
             this.fp.getForm().baseParams = {
                 action: 'duplicate'
+                ,prefixDuplicate: true
                 ,id: this.config.resource
             };
             return false;
         }
         var items = [];
+        items.push({
+            xtype: 'textfield'
+            ,id: 'modx-'+this.ident+'-name'
+            ,fieldLabel: _('resource_name_new')
+            ,name: 'name'
+            ,anchor: '100%'
+            ,value: ''
+        });
 
-        if (this.config.is_folder) {
+        if (this.config.hasChildren) {
             items.push({
-                xtype: 'checkbox'
-                ,fieldLabel: _('duplicate_children')
+                xtype: 'xcheckbox'
+                ,boxLabel: _('duplicate_children')
+                ,hideLabel: true
                 ,name: 'duplicate_children'
                 ,id: 'modx-'+this.ident+'-duplicate-children'
                 ,checked: true
@@ -45,13 +55,29 @@ Ext.extend(MODx.window.DuplicateResource,MODx.Window,{
                 }
             });
         }
+
+        var pov = MODx.config.default_duplicate_publish_option || 'preserve';
         items.push({
-            xtype: 'textfield'
-            ,id: 'modx-'+this.ident+'-name'
-            ,fieldLabel: _('resource_name_new')
-            ,name: 'name'
-            ,anchor: '90%'
-            ,value: ''
+            xtype: 'fieldset'
+            ,title: _('publishing_options')
+            ,items: [{
+                xtype: 'radiogroup'
+                ,columns: 1
+                ,value: pov
+                ,items: [{
+                    boxLabel: _('po_make_all_unpub')
+                    ,name: 'published_mode'
+                    ,inputValue: 'unpublish'
+                },{
+                    boxLabel: _('po_make_all_pub')
+                    ,name: 'published_mode'
+                    ,inputValue: 'publish'
+                },{
+                    boxLabel: _('po_preserve')
+                    ,name: 'published_mode'
+                    ,inputValue: 'preserve'
+                }]
+            }]
         });
 
         this.fp = this.createForm({
@@ -59,6 +85,7 @@ Ext.extend(MODx.window.DuplicateResource,MODx.Window,{
             ,baseParams: this.config.baseParams || {
                 action: 'duplicate'
                 ,id: this.config.resource
+                ,prefixDuplicate: true
             }
             ,labelWidth: 125
             ,defaultType: 'textfield'
@@ -86,14 +113,14 @@ MODx.window.CreateCategory = function(config) {
             ,name: 'category'
             ,id: 'modx-'+this.ident+'-category'
             ,xtype: 'textfield'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
-            fieldLabel: 'Parent'
+            fieldLabel: _('parent')
             ,name: 'parent'
             ,hiddenName: 'parent'
             ,id: 'modx-'+this.ident+'-parent'
             ,xtype: 'modx-combo-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         }]
     });
     MODx.window.CreateCategory.superclass.constructor.call(this,config);
@@ -115,17 +142,43 @@ MODx.window.CreateNamespace = function(config) {
         ,fields: [{
             xtype: 'textfield'
             ,fieldLabel: _('name')
+            ,description: MODx.expandHelp ? '' : _('namespace_name_desc')
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
-            ,anchor: '90%'
+            ,anchor: '100%'
             ,maxLength: 100
+
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-name'
+            ,html: _('namespace_name_desc')
+            ,cls: 'desc-under'
+
         },{
             xtype: 'textfield'
-            ,fieldLabel: _('path')
-            ,description: _('namespace_path_desc')
+            ,fieldLabel: _('namespace_path')
+            ,description: MODx.expandHelp ? '' : _('namespace_path_desc')
             ,name: 'path'
             ,id: 'modx-'+this.ident+'-path'
-            ,anchor: '97%'
+            ,anchor: '100%'
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-path'
+            ,html: _('namespace_path_desc')
+            ,cls: 'desc-under'
+
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('namespace_assets_path')
+            ,description: MODx.expandHelp ? '' : _('namespace_assets_path_desc')
+            ,name: 'assets_path'
+            ,id: 'modx-'+this.ident+'-assets-path'
+            ,anchor: '100%'
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-assets-path'
+            ,html: _('namespace_assets_path_desc')
+            ,cls: 'desc-under'
         }]
     });
     MODx.window.CreateNamespace.superclass.constructor.call(this,config);
@@ -148,27 +201,27 @@ MODx.window.QuickCreateChunk = function(config) {
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
         },{
             xtype: 'textarea'
             ,name: 'snippet'
             ,id: 'modx-'+this.ident+'-snippet'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true
+            ,anchor: '100%'
+            ,grow: true, growMax: 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
@@ -200,22 +253,22 @@ MODx.window.QuickUpdateChunk = function(config) {
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
         },{
-            xtype: 'checkbox'
+            xtype: 'xcheckbox'
             ,name: 'clearCache'
             ,id: 'modx-'+this.ident+'-clearcache'
             ,fieldLabel: _('clear_cache_on_save')
@@ -227,14 +280,27 @@ MODx.window.QuickUpdateChunk = function(config) {
             ,name: 'snippet'
             ,id: 'modx-'+this.ident+'-snippet'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true             ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
             ,shift: true
             ,fn: this.submit
             ,scope: this
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.hide(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: function() { this.submit(false); }
+        },{
+            text: config.saveBtnText || _('save_and_close')
+            ,scope: this
+            ,handler: this.submit
         }]
     });
     MODx.window.QuickUpdateChunk.superclass.constructor.call(this,config);
@@ -256,27 +322,28 @@ MODx.window.QuickCreateTemplate = function(config) {
             ,name: 'templatename'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
         },{
             xtype: 'textarea'
             ,name: 'content'
             ,id: 'modx-'+this.ident+'-content'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true
+            ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
@@ -308,41 +375,56 @@ MODx.window.QuickUpdateTemplate = function(config) {
             ,name: 'templatename'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
-        },{
-            xtype: 'checkbox'
-            ,name: 'clearCache'
-            ,id: 'modx-'+this.ident+'-clearcache'
-            ,fieldLabel: _('clear_cache_on_save')
-            ,description: _('clear_cache_on_save_msg')
-            ,inputValue: 1
-            ,checked: true
         },{
             xtype: 'textarea'
             ,name: 'content'
             ,id: 'modx-'+this.ident+'-content'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true
+            ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
+        },{
+            xtype: 'xcheckbox'
+            ,name: 'clearCache'
+            ,id: 'modx-'+this.ident+'-clearcache'
+            ,hideLabel: true
+            ,boxLabel: _('clear_cache_on_save')
+            ,description: _('clear_cache_on_save_msg')
+            ,inputValue: 1
+            ,checked: true
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
             ,shift: true
             ,fn: this.submit
             ,scope: this
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.hide(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: function() { this.submit(false); }
+        },{
+            text: config.saveBtnText || _('save_and_close')
+            ,scope: this
+            ,handler: this.submit
         }]
     });
     MODx.window.QuickUpdateTemplate.superclass.constructor.call(this,config);
@@ -365,27 +447,28 @@ MODx.window.QuickCreateSnippet = function(config) {
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
         },{
             xtype: 'textarea'
             ,name: 'snippet'
             ,id: 'modx-'+this.ident+'-snippet'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true
+            ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
@@ -417,41 +500,56 @@ MODx.window.QuickUpdateSnippet = function(config) {
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
-        },{
-            xtype: 'checkbox'
-            ,name: 'clearCache'
-            ,id: 'modx-'+this.ident+'-clearcache'
-            ,fieldLabel: _('clear_cache_on_save')
-            ,description: _('clear_cache_on_save_msg')
-            ,inputValue: 1
-            ,checked: true
         },{
             xtype: 'textarea'
             ,name: 'snippet'
             ,id: 'modx-'+this.ident+'-snippet'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true
+            ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
+        },{
+            xtype: 'xcheckbox'
+            ,name: 'clearCache'
+            ,id: 'modx-'+this.ident+'-clearcache'
+            ,hideLabel: true
+            ,boxLabel: _('clear_cache_on_save')
+            ,description: _('clear_cache_on_save_msg')
+            ,inputValue: 1
+            ,checked: true
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
             ,shift: true
             ,fn: this.submit
             ,scope: this
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.hide(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: function() { this.submit(false); }
+        },{
+            text: config.saveBtnText || _('save_and_close')
+            ,scope: this
+            ,handler: this.submit
         }]
     });
     MODx.window.QuickUpdateSnippet.superclass.constructor.call(this,config);
@@ -475,22 +573,22 @@ MODx.window.QuickCreatePlugin = function(config) {
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
         },{
-            xtype: 'checkbox'
+            xtype: 'xcheckbox'
             ,name: 'disabled'
             ,id: 'modx-'+this.ident+'-disabled'
             ,fieldLabel: _('disabled')
@@ -501,8 +599,9 @@ MODx.window.QuickCreatePlugin = function(config) {
             ,name: 'plugincode'
             ,id: 'modx-'+this.ident+'-plugincode'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true
+            ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
@@ -534,32 +633,34 @@ MODx.window.QuickUpdatePlugin = function(config) {
             ,name: 'name'
             ,id: 'modx-'+this.ident+'-name'
             ,fieldLabel: _('name')
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'modx-combo-category'
             ,name: 'category'
             ,fieldLabel: _('category')
             ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
+            ,anchor: '100%'
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,fieldLabel: _('description')
-            ,anchor: '97%'
+            ,anchor: '100%'
             ,rows: 2
         },{
-            xtype: 'checkbox'
+            xtype: 'xcheckbox'
             ,name: 'disabled'
             ,id: 'modx-'+this.ident+'-disabled'
-            ,fieldLabel: _('disabled')
+            ,boxLabel: _('disabled')
+            ,hideLabel: true
             ,inputValue: 1
             ,checked: false
         },{
-            xtype: 'checkbox'
+            xtype: 'xcheckbox'
             ,name: 'clearCache'
             ,id: 'modx-'+this.ident+'-clearcache'
-            ,fieldLabel: _('clear_cache_on_save')
+            ,boxLabel: _('clear_cache_on_save')
+            ,hideLabel: true
             ,description: _('clear_cache_on_save_msg')
             ,inputValue: 1
             ,checked: true
@@ -568,14 +669,28 @@ MODx.window.QuickUpdatePlugin = function(config) {
             ,name: 'plugincode'
             ,id: 'modx-'+this.ident+'-plugincode'
             ,fieldLabel: _('code')
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            ,anchor: '100%'
+            ,grow: true
+            ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
             ,shift: true
             ,fn: this.submit
             ,scope: this
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.hide(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: function() { this.submit(false); }
+        },{
+            text: config.saveBtnText || _('save_and_close')
+            ,scope: this
+            ,handler: this.submit
         }]
     });
     MODx.window.QuickUpdatePlugin.superclass.constructor.call(this,config);
@@ -590,47 +705,82 @@ MODx.window.QuickCreateTV = function(config) {
     Ext.applyIf(config,{
         title: _('quick_create_tv')
         ,id: this.ident
-        ,width: 600
+        ,width: 700
         ,url: MODx.config.connectors_url+'element/tv.php'
         ,action: 'create'
         ,fields: [{
-            xtype: 'textfield'
-            ,name: 'name'
-            ,id: 'modx-'+this.ident+'-name'
-            ,fieldLabel: _('name')
-            ,anchor: '90%'
-        },{
-            xtype: 'modx-combo-category'
-            ,name: 'category'
-            ,fieldLabel: _('category')
-            ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
-        },{
-            xtype: 'textarea'
-            ,name: 'description'
-            ,id: 'modx-'+this.ident+'-description'
-            ,fieldLabel: _('description')
-            ,anchor: '97%'
-            ,rows: 2
-        },{
-            xtype: 'modx-combo-tv-input-type'
-            ,fieldLabel: _('tv_type')
-            ,name: 'type'
-            ,id: 'modx-'+this.ident+'-type'
-            ,anchor: '70%'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('tv_elements')
-            ,name: 'els'
-            ,id: 'modx-'+this.ident+'-elements'
-            ,anchor: '80%'
-        },{
-            xtype: 'textarea'
-            ,fieldLabel: _('tv_default')
-            ,name: 'default_text'
-            ,id: 'modx-'+this.ident+'-default-text'
-            ,anchor: '97%'
-            ,grow: true ,growMax: 380
+            layout: 'column'
+            ,border: false
+            ,items: [{
+                columnWidth: .6
+                ,layout: 'form'
+                ,items: [{
+                    xtype: 'textfield'
+                    ,name: 'name'
+                    ,id: 'modx-'+this.ident+'-name'
+                    ,fieldLabel: _('name')
+                    ,anchor: '100%'
+                },{
+                    xtype: 'textfield'
+                    ,name: 'caption'
+                    ,id: 'modx-'+this.ident+'-caption'
+                    ,fieldLabel: _('caption')
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-'+this.ident+'-caption'
+                    ,html: _('caption_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'modx-combo-category'
+                    ,name: 'category'
+                    ,fieldLabel: _('category')
+                    ,id: 'modx-'+this.ident+'-category'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'textarea'
+                    ,name: 'description'
+                    ,id: 'modx-'+this.ident+'-description'
+                    ,fieldLabel: _('description')
+                    ,anchor: '100%'
+                    ,rows: 2
+                }]
+            },{
+                columnWidth: .4
+                ,border: false
+                ,layout: 'form'
+                ,items: [{
+                    xtype: 'modx-combo-tv-input-type'
+                    ,fieldLabel: _('tv_type')
+                    ,name: 'type'
+                    ,id: 'modx-'+this.ident+'-type'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('tv_elements')
+                    ,name: 'els'
+                    ,id: 'modx-'+this.ident+'-elements'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-'+this.ident+'-elements'
+                    ,html: _('tv_elements_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textarea'
+                    ,fieldLabel: _('tv_default')
+                    ,name: 'default_text'
+                    ,id: 'modx-'+this.ident+'-default-text'
+                    ,anchor: '100%'
+                    ,grow: true
+                    ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-'+this.ident+'-default-text'
+                    ,html: _('tv_default_desc')
+                    ,cls: 'desc-under'
+                }]
+            }]
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
@@ -650,7 +800,7 @@ MODx.window.QuickUpdateTV = function(config) {
     Ext.applyIf(config,{
         title: _('quick_update_tv')
         ,id: this.ident
-        ,width: 600
+        ,width: 700
         ,url: MODx.config.connectors_url+'element/tv.php'
         ,action: 'update'
         ,fields: [{
@@ -658,58 +808,106 @@ MODx.window.QuickUpdateTV = function(config) {
             ,name: 'id'
             ,id: 'modx-'+this.ident+'-id'
         },{
-            xtype: 'textfield'
-            ,name: 'name'
-            ,id: 'modx-'+this.ident+'-name'
-            ,fieldLabel: _('name')
-            ,anchor: '90%'
+            layout: 'column'
+            ,border: false
+            ,items: [{
+                columnWidth: .6
+                ,layout: 'form'
+                ,items: [{
+                    xtype: 'textfield'
+                    ,name: 'name'
+                    ,id: 'modx-'+this.ident+'-name'
+                    ,fieldLabel: _('name')
+                    ,anchor: '100%'
+                },{
+                    xtype: 'textfield'
+                    ,name: 'caption'
+                    ,id: 'modx-'+this.ident+'-caption'
+                    ,fieldLabel: _('caption')
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-'+this.ident+'-caption'
+                    ,html: _('caption_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'modx-combo-category'
+                    ,name: 'category'
+                    ,fieldLabel: _('category')
+                    ,id: 'modx-'+this.ident+'-category'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'textarea'
+                    ,name: 'description'
+                    ,id: 'modx-'+this.ident+'-description'
+                    ,fieldLabel: _('description')
+                    ,anchor: '100%'
+                    ,rows: 2
+                }]
+            },{
+                columnWidth: .4
+                ,border: false
+                ,layout: 'form'
+                ,items: [{
+                    xtype: 'modx-combo-tv-input-type'
+                    ,fieldLabel: _('tv_type')
+                    ,name: 'type'
+                    ,id: 'modx-'+this.ident+'-type'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('tv_elements')
+                    ,name: 'els'
+                    ,id: 'modx-'+this.ident+'-elements'
+                    ,anchor: '100%'
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-'+this.ident+'-elements'
+                    ,html: _('tv_elements_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textarea'
+                    ,fieldLabel: _('tv_default')
+                    ,name: 'default_text'
+                    ,id: 'modx-'+this.ident+'-default-text'
+                    ,anchor: '100%'
+                    ,grow: true
+                    ,growMax: Ext.getBody().getViewSize().height <= 768 ? 300 : 380
+                },{
+                    xtype: 'label'
+                    ,forId: 'modx-'+this.ident+'-default-text'
+                    ,html: _('tv_default_desc')
+                    ,cls: 'desc-under'
+                }]
+            }]
         },{
-            xtype: 'modx-combo-category'
-            ,name: 'category'
-            ,fieldLabel: _('category')
-            ,id: 'modx-'+this.ident+'-category'
-            ,anchor: '90%'
-        },{
-            xtype: 'textarea'
-            ,name: 'description'
-            ,id: 'modx-'+this.ident+'-description'
-            ,fieldLabel: _('description')
-            ,anchor: '97%'
-            ,rows: 2
-        },{
-            xtype: 'checkbox'
+            xtype: 'xcheckbox'
             ,name: 'clearCache'
             ,id: 'modx-'+this.ident+'-clearcache'
-            ,fieldLabel: _('clear_cache_on_save')
+            ,hideLabel: true
+            ,boxLabel: _('clear_cache_on_save')
             ,description: _('clear_cache_on_save_msg')
             ,inputValue: 1
             ,checked: true
-        },{
-            xtype: 'modx-combo-tv-input-type'
-            ,fieldLabel: _('tv_type')
-            ,name: 'type'
-            ,id: 'modx-'+this.ident+'-type'
-            ,anchor: '70%'
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('tv_elements')
-            ,name: 'els'
-            ,id: 'modx-'+this.ident+'-elements'
-            ,anchor: '80%'
-        },{
-            xtype: 'textarea'
-            ,fieldLabel: _('tv_default')
-            ,name: 'default_text'
-            ,id: 'modx-'+this.ident+'-default-text'
-            ,anchor: '97%'
-            ,grow: true
-            ,growMax: 380
         }]
        ,keys: [{
             key: Ext.EventObject.ENTER
             ,shift: true
             ,fn: this.submit
             ,scope: this
+        }]
+        ,buttons: [{
+            text: config.cancelBtnText || _('cancel')
+            ,scope: this
+            ,handler: function() { this.hide(); }
+        },{
+            text: config.saveBtnText || _('save')
+            ,scope: this
+            ,handler: function() { this.submit(false); }
+        },{
+            text: config.saveBtnText || _('save_and_close')
+            ,scope: this
+            ,handler: this.submit
         }]
     });
     MODx.window.QuickUpdateTV.superclass.constructor.call(this,config);
@@ -726,21 +924,21 @@ MODx.window.DuplicateContext = function(config) {
         title: _('context_duplicate')
         ,id: this.ident
         ,url: MODx.config.connectors_url+'context/index.php'
-        ,action: 'duplicate'        
+        ,action: 'duplicate'
         ,width: 400
         ,fields: [{
             xtype: 'statictextfield'
             ,id: 'modx-'+this.ident+'-key'
             ,fieldLabel: _('old_key')
             ,name: 'key'
-            ,anchor: '90%'
+            ,anchor: '100%'
             ,submitValue: true
         },{
             xtype: 'textfield'
             ,id: 'modx-'+this.ident+'-newkey'
             ,fieldLabel: _('new_key')
             ,name: 'newkey'
-            ,anchor: '90%'
+            ,anchor: '100%'
             ,value: ''
         }]
     });
@@ -748,3 +946,67 @@ MODx.window.DuplicateContext = function(config) {
 };
 Ext.extend(MODx.window.DuplicateContext,MODx.Window);
 Ext.reg('modx-window-context-duplicate',MODx.window.DuplicateContext);
+
+MODx.window.Login = function(config) {
+    config = config || {};
+    this.ident = config.ident || 'dupctx'+Ext.id();
+    Ext.Ajax.timeout = 0;
+    Ext.applyIf(config,{
+        title: _('login')
+        ,id: this.ident
+        ,url: MODx.config.connectors_url+'security/login.php'
+        ,action: 'login'
+        ,width: 400
+        ,fields: [{
+            html: '<p>'+_('session_logging_out')+'</p>'
+            ,bodyCssClass: 'panel-desc'
+        },{
+            xtype: 'textfield'
+            ,id: 'modx-'+this.ident+'-username'
+            ,fieldLabel: _('username')
+            ,name: 'username'
+            ,anchor: '100%'
+        },{
+            xtype: 'textfield'
+            ,inputType: 'password'
+            ,id: 'modx-'+this.ident+'-password'
+            ,fieldLabel: _('password')
+            ,name: 'password'
+            ,anchor: '100%'
+        },{
+            xtype: 'hidden'
+            ,name: 'rememberme'
+            ,value: 1
+        }]
+        ,buttons: [{
+            text: _('logout')
+            ,scope: this
+            ,handler: function() { location.href = '?logout=1' }
+        },{
+            text: _('login')
+            ,scope: this
+            ,handler: this.submit
+        }]
+    });
+    MODx.window.Login.superclass.constructor.call(this,config);
+    this.on('success',this.onLogin,this);
+};
+Ext.extend(MODx.window.Login,MODx.Window,{
+    onLogin: function(o) {
+        var r = o.a.result;
+        if (r.object && r.object.token) {
+            Ext.Ajax.defaultHeaders = {
+                'modAuth': r.object.token
+            };
+            Ext.Ajax.extraParams = {
+                'HTTP_MODAUTH': r.object.token
+            };
+            MODx.siteId = r.object.token;
+            MODx.msg.status({
+                message: _('session_extended')
+            });
+        }
+    }
+});
+Ext.reg('modx-window-login',MODx.window.Login);
+

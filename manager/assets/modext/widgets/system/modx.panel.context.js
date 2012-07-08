@@ -10,6 +10,7 @@ MODx.panel.Context = function(config) {
         url: MODx.config.connectors_url+'context/index.php'
         ,baseParams: {}
         ,id: 'modx-panel-context'
+		,cls: 'container'
         ,class_key: 'modContext'
         ,plugin: ''
         ,bodyStyle: ''
@@ -22,38 +23,45 @@ MODx.panel.Context = function(config) {
             title: _('general_information')
             ,autoHeight: true
             ,layout: 'form'
-            ,bodyStyle: 'padding: 15px'
             ,defaults: { border: false ,msgTarget: 'side' }
-            ,items: [{
-                xtype: 'statictextfield'
-                ,fieldLabel: _('key')
-                ,name: 'key'
-                ,width: 300
-                ,maxLength: 255
-                ,enableKeyEvents: true
-                ,allowBlank: false
-                ,value: config.context
-                ,submitValue: true
-            },{
-                xtype: 'textarea'
-                ,fieldLabel: _('description')
-                ,name: 'description'
-                ,width: 300
-                ,grow: true
-            },{
-                html: MODx.onContextFormRender 
-                ,border: false
-            }]
+			,items:[{
+				xtype: 'panel'
+				,border: false
+				,cls:'main-wrapper'
+				,layout: 'form'
+				,items: [{
+					xtype: 'statictextfield'
+					,fieldLabel: _('key')
+					,name: 'key'
+					,width: 300
+					,maxLength: 255
+					,enableKeyEvents: true
+					,allowBlank: true
+					,value: config.context
+					,submitValue: true
+				},{
+					xtype: 'textarea'
+					,fieldLabel: _('description')
+					,name: 'description'
+					,width: 300
+					,grow: true
+				},{
+					html: MODx.onContextFormRender 
+					,border: false
+				}]
+			}]
         },{
             title: _('context_settings')
-            ,bodyStyle: 'padding: 15px'
             ,autoHeight: true
+			,layout: 'form'
             ,items: [{
                 html: '<p>'+_('context_settings_desc')+'</p>'
                 ,id: 'modx-context-settings-desc'
+				,bodyCssClass: 'panel-desc'
                 ,border: false
             },{
                 xtype: 'modx-grid-context-settings'
+				,cls:'main-wrapper'
                 ,title: ''
                 ,preventRender: true
                 ,context_key: config.context
@@ -63,10 +71,10 @@ MODx.panel.Context = function(config) {
             }]
         },{
             title: _('access_permissions')
-            ,bodyStyle: 'padding: 15px'
             ,autoHeight: true
             ,items:[{
                 xtype: 'modx-grid-access-context'
+				,cls:'main-wrapper'
                 ,title: ''
                 ,preventRender: true
                 ,context_key: config.context
@@ -87,8 +95,9 @@ MODx.panel.Context = function(config) {
     MODx.panel.Context.superclass.constructor.call(this,config);
 };
 Ext.extend(MODx.panel.Context,MODx.FormPanel,{
-    setup: function() {
-        if (this.config.context === '' || this.config.context === 0) {
+    initialized: false
+    ,setup: function() {
+        if (this.initialized || (this.config.context === '' || this.config.context === 0)) {
             this.fireEvent('ready');
             return false;
         }
@@ -105,6 +114,7 @@ Ext.extend(MODx.panel.Context,MODx.FormPanel,{
                     if (el) { el.getEl().update('<h2>'+_('context')+': '+r.object.key+'</h2>'); }
                     this.fireEvent('ready');
                     MODx.fireEvent('ready');
+                    this.initialized = true;
             	},scope:this}
             }
         });

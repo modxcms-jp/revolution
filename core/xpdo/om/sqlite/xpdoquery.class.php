@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2006-2010 by  Jason Coward <xpdo@opengeek.com>
+ * Copyright 2010-2012 by MODX, LLC.
  *
  * This file is part of xPDO.
  *
@@ -52,11 +52,16 @@ class xPDOQuery_sqlite extends xPDOQuery {
             if (empty ($this->query['columns'])) {
                 $this->select('*');
             }
-            $ignorealias= isset ($this->query['columns'][0]);
             foreach ($this->query['columns'] as $alias => $column) {
-                $column= $this->xpdo->escape(trim($column));
-                if (!$ignorealias && $alias !== $column) {
-                    $alias = $this->xpdo->escape($alias);
+                $ignorealias = is_int($alias);
+                $escape = !preg_match('/\bAS\b/i', $column) && !preg_match('/\./', $column) && !preg_match('/\(/', $column);
+                if ($escape) {
+                    $column= $this->xpdo->escape(trim($column));
+                } else {
+                    $column= trim($column);
+                }
+                if (!$ignorealias) {
+                    $alias = $escape ? $this->xpdo->escape($alias) : $alias;
                     $columns[]= "{$column} AS {$alias}";
                 } else {
                     $columns[]= "{$column}";
@@ -65,7 +70,9 @@ class xPDOQuery_sqlite extends xPDOQuery {
             $sql.= implode(', ', $columns);
             $sql.= ' ';
         }
-        $sql.= 'FROM ';
+        if ($command != 'UPDATE') {
+            $sql.= 'FROM ';
+        }
         $tables= array ();
         foreach ($this->query['from']['tables'] as $table) {
             if ($command != 'SELECT') {
@@ -83,6 +90,26 @@ class xPDOQuery_sqlite extends xPDOQuery {
                     $sql.= $this->buildConditionalClause($join['conditions']);
                     $sql.= ' ';
                 }
+            }
+        }
+        if ($command == 'UPDATE') {
+            if (!empty($this->query['set'])) {
+                reset($this->query['set']);
+                $clauses = array();
+                while (list($setKey, $setVal) = each($this->query['set'])) {
+                    $value = $setVal['value'];
+                    $type = $setVal['type'];
+                    if ($value !== null && in_array($type, array(PDO::PARAM_INT, PDO::PARAM_STR))) {
+                        $value = $this->xpdo->quote($value, $type);
+                    } elseif ($value === null) {
+                        $value = 'NULL';
+                    }
+                    $clauses[] = $this->xpdo->escape($setKey) . ' = ' . $value;
+                }
+                if (!empty($clauses)) {
+                    $sql.= 'SET ' . implode(', ', $clauses) . ' ';
+                }
+                unset($clauses);
             }
         }
         if (!empty ($this->query['where'])) {

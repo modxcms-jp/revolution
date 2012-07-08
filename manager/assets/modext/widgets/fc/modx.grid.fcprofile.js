@@ -2,6 +2,7 @@ MODx.panel.FCProfiles = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'modx-panel-fc-profiles'
+		,cls: 'container'
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
              html: '<h2>'+_('form_customization')+'</h2>'
@@ -10,15 +11,17 @@ MODx.panel.FCProfiles = function(config) {
             ,id: 'modx-fcp-header'
         },MODx.getPageStructure([{
             title: _('profiles')
-            ,bodyStyle: 'padding: 15px;'
             ,autoHeight: true
+			,layout: "form"
             ,items: [{
                 html: '<p>'+_('form_customization_msg')+'</p>'
+				,bodyCssClass: 'panel-desc'
                 ,border: false
             },{
                 title: ''
                 ,preventRender: true
                 ,xtype: 'modx-grid-fc-profile'
+				,cls:'main-wrapper'
             }]
         }],{
             id: 'modx-form-customization-tabs'
@@ -91,7 +94,7 @@ MODx.grid.FCProfile = function(config) {
                 ,handler: this.removeSelected
                 ,scope: this
             }]
-        },{
+        },'->',{
             xtype: 'textfield'
             ,name: 'search'
             ,id: 'modx-fcp-search'
@@ -208,7 +211,7 @@ Ext.extend(MODx.grid.FCProfile,MODx.grid.Grid,{
 
     ,updateProfile: function(btn,e) {
         var r = this.menu.record;
-        location.href = '?a='+MODx.action['security/forms/profile/update']+'&id='+r.id;
+        location.href = '?a=security/forms/profile/update&id='+r.id;
     }
     ,duplicateProfile: function(btn,e) {
         MODx.Ajax.request({
@@ -325,25 +328,27 @@ MODx.window.CreateFCProfile = function(config) {
             ,fieldLabel: _('name')
             ,id: 'modx-fccp-name'
             ,allowBlank: false
-            ,anchor: '90%'
+            ,anchor: '100%'
 
         },{
             xtype: 'textarea'
             ,name: 'description'
             ,fieldLabel: _('description')
             ,id: 'modx-fccp-description'
-            ,anchor: '90%'
+            ,anchor: '100%'
 
         },{
-            xtype: 'checkbox'
-            ,fieldLabel: _('active')
+            xtype: 'xcheckbox'
+            ,boxLabel: _('active')
+            ,hideLabel: true
             ,name: 'active'
             ,id: 'modx-fccp-active'
             ,inputValue: 1
             ,value: 1
             ,checked: true
-            ,anchor: '90%'
+            ,anchor: '100%'
         }]
+        ,keys: []
     });
     MODx.window.CreateFCProfile.superclass.constructor.call(this,config);
 };

@@ -2,23 +2,27 @@
 /**
  * Template Dutch lexicon topic
  *
- * @language en
+ * @language nl
  * @package modx
  * @subpackage lexicon
  *
  * @author Bert Oost, <bertoost85@gmail.com>
  */
 $_lang['access'] = 'Toegang';
+$_lang['filter_by_category'] = 'Filter op categorie...';
 $_lang['rank'] = 'Rank';
 $_lang['template'] = 'Template';
 $_lang['template_assignedtv_tab'] = 'Toegekende Template Variables';
 $_lang['template_code'] = 'Template code (html)';
 $_lang['template_desc'] = 'Omschrijving';
+$_lang['template_desc_category'] = 'De Categorie voor de Template.';
+$_lang['template_desc_description'] = 'Een korte beschrijving van de Template.';
+$_lang['template_desc_name'] = 'De naam van de Template.';
 $_lang['template_delete_confirm'] = 'Weet je zeker dat je deze template wilt verwijderen?';
 $_lang['template_duplicate_confirm'] = 'Weet je zeker dat je deze template wilt dupliceren?';
 $_lang['template_edit_tab'] = 'Wijzig Template';
 $_lang['template_empty'] = '(leeg)';
-$_lang['template_err_default_template'] = 'Deze template is ingesteld als standaard template. Kies een andere standaard template in de MODx configuratie voordat je deze template verwijderd.<br />';
+$_lang['template_err_default_template'] = 'Deze template is ingesteld als standaard template. Kies een andere standaard template in de MODX configuratie voordat je deze template verwijderd.<br />';
 $_lang['template_err_delete'] = 'Er is een fout opgetreden tijdens het verwijderen van de template.';
 $_lang['template_err_duplicate'] = 'Er is een fout opgetreden tijdens het dupliceren van de template.';
 $_lang['template_err_exists_name'] = 'Een template met dezelfde naam "[[+name]]" bestaat reeds.';

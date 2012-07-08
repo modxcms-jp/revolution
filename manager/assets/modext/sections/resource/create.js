@@ -13,20 +13,23 @@ MODx.page.CreateResource = function(config) {
         ,formpanel: 'modx-panel-resource'
         ,id: 'modx-page-update-resource'
         ,which_editor: 'none'
+        ,action: 'create'
     	,actions: {
-            'new': MODx.action['resource/create']
-            ,edit: MODx.action['resource/update']
-            ,cancel: MODx.action['welcome']
+            'new': 'resource/create'
+            ,edit: 'resource/update'
+            ,cancel: 'welcome'
         }
     	,buttons: this.getButtons(config)
     	,loadStay: true
         ,components: [{
-            xtype: 'modx-panel-resource'
-            ,renderTo: 'modx-panel-resource-div'
+            xtype: config.panelXType || 'modx-panel-resource'
+            ,renderTo: config.panelRenderTo || 'modx-panel-resource-div'
             ,resource: 0
             ,record: config.record
             ,access_permissions: config.access_permissions
             ,publish_document: config.publish_document
+            ,show_tvs: config.show_tvs
+            ,mode: config.mode
         }]
     });
     MODx.page.CreateResource.superclass.constructor.call(this,config);
@@ -37,12 +40,12 @@ Ext.extend(MODx.page.CreateResource,MODx.Component,{
         if (cfg.canSave == 1) {
             btns.push({
                 process: 'create'
+                ,id: 'modx-abtn-save'
                 ,text: _('save')
                 ,method: 'remote'
-                ,checkDirty: cfg.record.richtext ? false : true
+                ,checkDirty: true
                 ,keys: [{
                     key: MODx.config.keymap_save || 's'
-                    ,alt: true
                     ,ctrl: true
                 }]
             });
@@ -51,12 +54,14 @@ Ext.extend(MODx.page.CreateResource,MODx.Component,{
         btns.push({
             process: 'cancel'
             ,text: _('cancel')
-            ,params: { a: MODx.action['welcome'] }
+            ,id: 'modx-abtn-cancel'
+            ,params: { a: 'welcome' }
         });
         btns.push('-');
         btns.push({
             text: _('help_ex')
             ,handler: MODx.loadHelpPane
+            ,id: 'modx-abtn-help'
         });
         return btns;
     }

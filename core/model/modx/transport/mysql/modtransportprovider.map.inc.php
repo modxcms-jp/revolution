@@ -7,11 +7,13 @@ $xpdo_meta_map['modTransportProvider']= array (
   'package' => 'modx.transport',
   'version' => '1.1',
   'table' => 'transport_providers',
+  'extends' => 'xPDOSimpleObject',
   'fields' => 
   array (
     'name' => NULL,
     'description' => NULL,
     'service_url' => NULL,
+    'username' => '',
     'api_key' => '',
     'created' => NULL,
     'updated' => NULL,
@@ -35,6 +37,15 @@ $xpdo_meta_map['modTransportProvider']= array (
     array (
       'dbtype' => 'tinytext',
       'phptype' => 'string',
+    ),
+    'username' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+      'index' => 'index',
     ),
     'api_key' => 
     array (
@@ -85,6 +96,22 @@ $xpdo_meta_map['modTransportProvider']= array (
       'columns' => 
       array (
         'api_key' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+    'username' => 
+    array (
+      'alias' => 'username',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'username' => 
         array (
           'length' => '',
           'collation' => 'A',

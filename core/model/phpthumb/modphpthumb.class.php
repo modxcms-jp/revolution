@@ -53,6 +53,12 @@ class modPhpThumb extends phpThumb {
         $this->setParameter('zc',$this->modx->getOption('zc',$_REQUEST,$this->modx->getOption('phpthumb_zoomcrop',$this->config,0)));
         $this->setParameter('far',$this->modx->getOption('far',$_REQUEST,$this->modx->getOption('phpthumb_far',$this->config,'C')));
         $this->setParameter('cache_directory_depth',4);
+        $this->setParameter('config_ttf_directory',$this->modx->getOption('core_path',$this->config,MODX_CORE_PATH).'model/phpthumb/fonts/');
+        
+        $documentRoot = $this->modx->getOption('phpthumb_document_root',$this->config,'');
+        if (!empty($documentRoot)) {
+            $this->setParameter('config_document_root',$documentRoot);
+        }
 
         /* iterate through properties */
         foreach ($this->config as $property => $value) {
@@ -65,7 +71,7 @@ class modPhpThumb extends phpThumb {
      * Sets the source image
      */
     public function set($src) {
-        $src = str_replace('+','%27',urldecode($src));
+        $src = rawurldecode($src);
         if (empty($src)) return '';
         return $this->setSourceFilename($src);
     }
@@ -156,11 +162,11 @@ class modPhpThumb extends phpThumb {
             }
 
         } else {
-
+/*
             if (headers_sent()) {
                 $this->ErrorImage('Headers already sent ('.basename(__FILE__).' line '.__LINE__.')');
                 exit;
-            }
+            }*/
             $this->SendSaveAsFileHeaderIfNeeded();
 
             header('Last-Modified: '.gmdate('D, d M Y H:i:s', $nModified).' GMT');

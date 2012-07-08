@@ -8,6 +8,7 @@ MODx.panel.ContentType = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'modx-panel-content-type'
+		,cls: 'container'
         ,url: MODx.config.connectors_url+'system/contenttype.php'
         ,baseParams: {
             action: 'updateFromGrid'
@@ -21,14 +22,15 @@ MODx.panel.ContentType = function(config) {
         },{
             layout: 'form'
             ,itemId: 'form'
-            ,bodyStyle: 'padding: 15px;'
             ,items: [{
                 html: '<p>'+_('content_type_desc')+'</p>'
+				,bodyCssClass: 'panel-desc'
                 ,itemId: 'description'
                 ,border: false
             },{
                 xtype: 'modx-grid-content-type'
                 ,itemId: 'grid'
+				,cls:'main-wrapper'
                 ,preventRender: true
             }]
         }]
@@ -135,51 +137,97 @@ Ext.reg('modx-grid-content-type',MODx.grid.ContentType);
  */
 MODx.window.CreateContentType = function(config) {
     config = config || {};
-    this.ident = config.ident || 'cct'+Ext.id();
+    this.ident = config.ident || 'modx-cct'+Ext.id();
     Ext.applyIf(config,{
         title: _('content_type_new')
-        ,width: 350
+        ,width: 550
         ,url: MODx.config.connectors_url+'system/contenttype.php'
         ,action: 'create'
         ,fields: [{
-            fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-'+this.ident+'-name'
-            ,xtype: 'textfield'
-            ,width: 200
-            ,allowBlank: false
-        },{
-            fieldLabel: _('mime_type')
-            ,name: 'mime_type'
-            ,id: 'modx-'+this.ident+'-mime-type'
-            ,xtype: 'textfield'
-            ,description: _('mime_type_desc')
-            ,width: 200
-            ,allowBlank: false
-        },{
-            fieldLabel: _('file_extensions')
-            ,name: 'file_extensions'
-            ,id: 'modx-'+this.ident+'-file-extensions'
-            ,xtype: 'textfield'
-            ,description: _('file_extensions_desc')
-            ,width: 200
-            ,allowBlank: false
-        },{
-            xtype: 'combo-boolean'
-            ,fieldLabel: _('binary')
-            ,name: 'binary'
-            ,id: 'modx-'+this.ident+'-binary'
-            ,description: _('binary_desc')
-            ,width: 60
-            ,value: 0
+            layout: 'column'
+            ,border: false
+            ,defaults: {
+                layout: 'form'
+                ,labelAlign: 'top'
+                ,anchor: '100%'
+                ,border: false
+            }
+            ,items: [{
+                columnWidth: .6
+                ,defaults: {
+                    msgTarget: 'under'
+                }
+                ,items: [{
+                    fieldLabel: _('name')
+                    ,name: 'name'
+                    ,id: this.ident+'-name'
+                    ,xtype: 'textfield'
+                    ,anchor: '100%'
+                    ,allowBlank: false
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: this.ident+'-name'
+                    ,html: _('name_desc')
+                    ,cls: 'desc-under'
+                },{
+                    fieldLabel: _('mime_type')
+                    ,description: MODx.expandHelp ? '' : _('mime_type_desc')
+                    ,name: 'mime_type'
+                    ,id: this.ident+'-mime-type'
+                    ,xtype: 'textfield'
+                    ,anchor: '100%'
+                    ,allowBlank: false
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: this.ident+'-mime-type'
+                    ,html: _('mime_type_desc')
+                    ,cls: 'desc-under'
+                }]
+            },{
+                columnWidth: .4
+                ,defaults: {
+                    msgTarget: 'under'
+                }
+                ,items: [{
+                    fieldLabel: _('file_extensions')
+                    ,description: MODx.expandHelp ? '' : _('file_extensions_desc')
+                    ,name: 'file_extensions'
+                    ,id: this.ident+'-file-extensions'
+                    ,xtype: 'textfield'
+                    ,anchor: '100%'
+                    ,allowBlank: true
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: this.ident+'-file-extensions'
+                    ,html: _('file_extensions_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'combo-boolean'
+                    ,fieldLabel: _('binary')
+                    ,description: MODx.expandHelp ? '' : _('binary_desc')
+                    ,name: 'binary'
+                    ,hiddenName: 'binary'
+                    ,id: this.ident+'-binary'
+                    ,width: 100
+                    ,inputValue: 0
+                    ,value: 0
+
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: this.ident+'-binary'
+                    ,html: _('binary_desc')
+                    ,cls: 'desc-under'
+                }]
+            }]
         },{
             fieldLabel: _('description')
             ,name: 'description'
             ,id: 'modx-'+this.ident+'-description'
             ,xtype: 'textarea'
-            ,width: 200
+            ,anchor: '100%'
             ,grow: true
         }]
+        ,keys: []
     });
     MODx.window.CreateContentType.superclass.constructor.call(this,config);
 };

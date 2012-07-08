@@ -6,6 +6,7 @@ MODx.panel.Messages = function(config) {
         ,url: MODx.config.connectors_url+'security/message.php'
         ,layout: 'fit'
         ,bodyStyle: 'background: none;'
+        ,cls: 'container form-with-labels'
         ,border: false
         ,items: [{
             html: '<h2>'+_('messages')+'</h2>'
@@ -16,9 +17,10 @@ MODx.panel.Messages = function(config) {
             ,anchor: '100%'
         },MODx.getPageStructure([{
             title: _('messages')
-            ,bodyStyle: 'padding: 15px;'
+            ,cls: 'main-wrapper'
             ,id: 'modx-messages-tab'
             ,autoHeight: true
+            ,border: false
             ,items: [{
                 html: ''
                 ,id: 'modx-messages-msg'
@@ -30,7 +32,6 @@ MODx.panel.Messages = function(config) {
             }]
         }],{
             border: true
-            ,defaults: { bodyStyle: 'padding: 15px; '}
         })]
     });
     MODx.panel.Messages.superclass.constructor.call(this,config);
@@ -52,7 +53,7 @@ MODx.grid.Message = function(config) {
     this.exp = new Ext.grid.RowExpander({
         tpl : new Ext.Template(
             '<span style="float: right;">'
-            ,'<i>'+_('sent_by')+': {sender_name} <br />'+_('sent_on')+': {postdate}</i><br /><br />'
+            ,'<i>'+_('sent_by')+': {sender_name} <br />'+_('sent_on')+': {date_sent}</i><br /><br />'
             ,'</span>'
             ,'<h3>{subject}</h3>'
             ,'<p>{message}</p>'
@@ -65,7 +66,7 @@ MODx.grid.Message = function(config) {
         ,url: MODx.config.connectors_url+'security/message.php'
         ,fields: ['id','type','subject','message','sender','recipient','private'
             ,'date_sent'
-            ,'read','sender_name','menu']
+            ,'read','sender_name']
         ,autosave: true
         ,paging: true
         ,plugins: this.exp
@@ -96,6 +97,28 @@ MODx.grid.Message = function(config) {
             text: _('message_new')
             ,scope: this
             ,handler: { xtype: 'modx-window-message-create' ,blankValues: true }
+        },'->',{
+            xtype: 'textfield'
+            ,name: 'search'
+            ,id: 'modx-messages-search'
+            ,emptyText: _('search_ellipsis')
+            ,listeners: {
+                'change': {fn: this.search, scope: this}
+                ,'render': {fn: function(cmp) {
+                    new Ext.KeyMap(cmp.getEl(), {
+                        key: Ext.EventObject.ENTER
+                        ,fn: this.blur
+                        ,scope: cmp
+                    });
+                },scope:this}
+            }
+        },{
+            xtype: 'button'
+            ,id: 'modx-filter-clear'
+            ,text: _('filter_clear')
+            ,listeners: {
+                'click': {fn: this.clearFilter, scope: this}
+            }
         }]
     });
     MODx.grid.Message.superclass.constructor.call(this,config);
@@ -135,6 +158,38 @@ Ext.extend(MODx.grid.Message,MODx.grid.Grid,{
             	},scope:this}
             }
         });
+    }
+    ,getMenu: function() {
+        var m = [];
+        var r = this.getSelectionModel().getSelected();
+        if (r.data.read) {
+            m.push({
+                text: _('mark_unread')
+                ,handler: this.markUnread
+            });
+            m.push('-');
+        }
+        m.push({
+            text: _('delete')
+            ,handler: this.remove.createDelegate(this,["message_remove_confirm"])
+        });
+        return m;
+    }
+
+    ,search: function(tf,newValue,oldValue) {
+        var nv = newValue || tf;
+        this.getStore().baseParams.search = Ext.isEmpty(nv) || Ext.isObject(nv) ? '' : nv;
+        this.getBottomToolbar().changePage(1);
+        this.refresh();
+        return true;
+    }
+    ,clearFilter: function() {
+    	this.getStore().baseParams = {
+            action: 'getList'
+    	};
+        Ext.getCmp('modx-messages-search').reset();
+    	this.getBottomToolbar().changePage(1);
+        this.refresh();
     }
 });
 Ext.reg('modx-grid-message',MODx.grid.Message);
@@ -215,6 +270,7 @@ MODx.window.CreateMessage = function(config) {
         ,listeners: {
             'show': {fn: this.initRecipient, scope: this}
         }
+        ,keys: []
     });
     MODx.window.CreateMessage.superclass.constructor.call(this,config);
     this.on('show',function() {

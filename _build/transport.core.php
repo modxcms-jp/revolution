@@ -1,6 +1,6 @@
 <?php
 /**
- * Builds the MODx core transport package.
+ * Builds the MODX core transport package.
  *
  * @package modx
  * @subpackage build
@@ -13,24 +13,41 @@ unset($mtime);
 /* get rid of time limit */
 set_time_limit(0);
 
-error_reporting(E_ALL); ini_set('display_errors',true);
+error_reporting(E_ALL | E_STRICT); ini_set('display_errors',true);
+
+/* buildImage can be defined for running against a specific build image
+    wc default means it is run against working copy */
+$buildImage = 'wc';
+if (!empty($argv) && $argc > 1) {
+    $buildImage = $argv[1];
+}
+/* if buildImage is other than wc or blank, try to load a config file for
+    distributions that uses the buildImage variable (see build.distrib.config.sample.php) */
+$buildConfig = empty($buildImage) || $buildImage === 'wc'
+        ? (dirname(__FILE__) . '/build.config.php')
+        : (dirname(__FILE__) . '/build.distrib.config.php');
+if (!empty($argv) && $argc > 2) {
+    $buildConfig = realpath($argv[2]);
+}
 
 /* override with your own defines here (see build.config.sample.php) */
-$f = dirname(__FILE__) . '/build.config.php';
-if (file_exists($f)) {
-    @require_once $f;
-} else {
-    die('build.config.php was not found. Please make sure you have created one using the template of build.config.sample.php.');
+$included = false;
+if (file_exists($buildConfig)) {
+    $included = @include $buildConfig;
 }
-unset($f);
+if (!$included)
+    die($buildConfig . ' was not found. Please make sure you have created one using the template of build.config.sample.php.');
+
+unset($included);
 
 if (!defined('MODX_CORE_PATH'))
     define('MODX_CORE_PATH', dirname(dirname(__FILE__)) . '/core/');
+
 require_once MODX_CORE_PATH . 'xpdo/xpdo.class.php';
 
 /* define the MODX path constants necessary for core installation */
 if (!defined('MODX_BASE_PATH'))
-    define('MODX_BASE_PATH', dirname(dirname(__FILE__)) . '/');
+    define('MODX_BASE_PATH', dirname(MODX_CORE_PATH) . '/');
 if (!defined('MODX_MANAGER_PATH'))
     define('MODX_MANAGER_PATH', MODX_BASE_PATH . 'manager/');
 if (!defined('MODX_CONNECTORS_PATH'))
@@ -48,6 +65,22 @@ if (!defined('XPDO_DB_PASS'))
 if (!defined('XPDO_TABLE_PREFIX'))
     define('XPDO_TABLE_PREFIX', 'modx_');
 
+/* define the actual _build location for including build assets */
+if (!defined('MODX_BUILD_DIR'))
+    define('MODX_BUILD_DIR', MODX_BASE_PATH . '_build/');
+
+/* get properties */
+$properties = array();
+$f = dirname(__FILE__) . '/build.properties.php';
+$included = false;
+if (file_exists($f)) {
+    $included = @include $f;
+}
+if (!$included)
+    die('build.properties.php was not found. Please make sure you have created one using the template of build.properties.sample.php.');
+
+unset($f, $included);
+
 /* instantiate xpdo instance */
 $xpdo = new xPDO(XPDO_DSN, XPDO_DB_USER, XPDO_DB_PASS,
     array (
@@ -55,9 +88,7 @@ $xpdo = new xPDO(XPDO_DSN, XPDO_DB_USER, XPDO_DB_PASS,
         xPDO::OPT_CACHE_PATH => MODX_CORE_PATH . 'cache/',
     ),
     array (
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_SILENT,
-        PDO::ATTR_PERSISTENT => false,
-        PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
     )
 );
 $cacheManager= $xpdo->getCacheManager();
@@ -102,6 +133,7 @@ $xpdo->log(xPDO::LOG_LEVEL_INFO,'Core transport package created.'); flush();
 $namespace = $xpdo->newObject('modNamespace');
 $namespace->set('name','core');
 $namespace->set('path','{core_path}');
+$namespace->set('assets_path','{assets_path}');
 $package->put($namespace,array(
     xPDOTransport::PRESERVE_KEYS => true,
     xPDOTransport::UPDATE_OBJECT => true,
@@ -114,7 +146,8 @@ $collection = array ();
 $collection['1'] = $xpdo->newObject('modWorkspace');
 $collection['1']->fromArray(array (
     'id' => 1,
-    'name' => 'Default MODx workspace',
+    'name' => 'Default MODX workspace',
+    'path' => '{core_path}',
     'active' => 1,
 ), '', true, true);
 $attributes = array (
@@ -128,14 +161,14 @@ unset ($collection, $c, $attributes);
 
 $xpdo->log(xPDO::LOG_LEVEL_INFO,'Default workspace packaged.'); flush();
 
-/* modxcms.com extras provisioner */
+/* modx.com extras provisioner */
 $collection = array ();
 $collection['1'] = $xpdo->newObject('transport.modTransportProvider');
 $collection['1']->fromArray(array (
     'id' => 1,
-    'name' => 'modxcms.com',
-    'description' => 'The official MODx transport facility for 3rd party components.',
-    'service_url' => 'http://rest.modxcms.com/extras/',
+    'name' => 'modx.com',
+    'description' => 'The official MODX transport facility for 3rd party components.',
+    'service_url' => 'http://rest.modx.com/extras/',
     'created' => strftime('%Y-%m-%d %H:%M:%S'),
 ), '', true, true);
 $attributes = array (
@@ -150,26 +183,8 @@ unset ($collection, $c, $attributes);
 
 $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in modxcms.com provisioner reference.'); flush();
 
-/* modAction */
-$collection = include dirname(__FILE__).'/data/transport.core.actions.php';
-if (!empty($collection)) {
-    $attributes = array (
-        xPDOTransport::PRESERVE_KEYS => false,
-        xPDOTransport::UPDATE_OBJECT => true,
-        xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
-    );
-    foreach ($collection as $c) {
-        $package->put($c, $attributes);
-    }
-
-    $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($collection).' modActions.'); flush();
-    unset ($collection, $c, $attributes);
-} else {
-    $xpdo->log(xPDO::LOG_LEVEL_ERROR,'Could not load modActions.'); flush();
-}
-
 /* modMenu */
-$collection = include dirname(__FILE__).'/data/transport.core.menus.php';
+$collection = include MODX_BUILD_DIR . 'data/transport.core.menus.php';
 if (!empty($collection)) {
     $attributes = array (
         xPDOTransport::PRESERVE_KEYS => true,
@@ -177,39 +192,10 @@ if (!empty($collection)) {
         xPDOTransport::UNIQUE_KEY => 'text',
         xPDOTransport::RELATED_OBJECTS => true,
         xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-            'Action' => array (
-                xPDOTransport::PRESERVE_KEYS => false,
-                xPDOTransport::UPDATE_OBJECT => true,
-                xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
-                xPDOTransport::RELATED_OBJECTS => true,
-                xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-                    'Children' => array(
-                        xPDOTransport::PRESERVE_KEYS => false,
-                        xPDOTransport::UPDATE_OBJECT => true,
-                        xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
-                    ),
-                ),
-            ),
             'Children' => array(
                 xPDOTransport::PRESERVE_KEYS => true,
                 xPDOTransport::UPDATE_OBJECT => true,
                 xPDOTransport::UNIQUE_KEY => 'text',
-                xPDOTransport::RELATED_OBJECTS => true,
-                xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-                    'Action' => array (
-                        xPDOTransport::PRESERVE_KEYS => false,
-                        xPDOTransport::UPDATE_OBJECT => true,
-                        xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
-                        xPDOTransport::RELATED_OBJECTS => true,
-                        xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-                            'Children' => array(
-                                xPDOTransport::PRESERVE_KEYS => false,
-                                xPDOTransport::UPDATE_OBJECT => true,
-                                xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
-                            ),
-                        ),
-                    ),
-                ),
             ),
         ),
     );
@@ -225,7 +211,7 @@ if (!empty($collection)) {
 
 /* modContentTypes */
 $collection = array ();
-include dirname(__FILE__).'/data/transport.core.content_types.php';
+include MODX_BUILD_DIR . 'data/transport.core.content_types.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => false,
     xPDOTransport::UPDATE_OBJECT => false,
@@ -240,7 +226,7 @@ $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged all default modContentTypes.'); flush(
 
 /* modClassMap */
 $collection = array ();
-include dirname(__FILE__).'/data/transport.core.classmap.php';
+include MODX_BUILD_DIR . 'data/transport.core.classmap.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => false,
     xPDOTransport::UPDATE_OBJECT => false,
@@ -254,12 +240,11 @@ unset ($collection, $c, $attributes);
 $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged all default modClassMap objects.'); flush();
 
 /* modEvent collection */
-$events = include dirname(__FILE__).'/data/transport.core.events.php';
+$events = include MODX_BUILD_DIR . 'data/transport.core.events.php';
 if (is_array($events) && !empty($events)) {
     $attributes = array (
-        xPDOTransport::PRESERVE_KEYS => false,
+        xPDOTransport::PRESERVE_KEYS => true,
         xPDOTransport::UPDATE_OBJECT => true,
-        xPDOTransport::UNIQUE_KEY => array ('name'),
     );
     foreach ($events as $evt) {
         $package->put($evt, $attributes);
@@ -271,21 +256,13 @@ if (is_array($events) && !empty($events)) {
 unset ($events, $evt, $attributes);
 
 /* modSystemSetting collection */
-$settings = require_once dirname(__FILE__).'/data/transport.core.system_settings.php';
+$settings = include MODX_BUILD_DIR . 'data/transport.core.system_settings.php';
 if (!is_array($settings) || empty($settings)) { $xpdo->log(xPDO::LOG_LEVEL_FATAL,'Could not package in settings!'); flush(); }
 $attributes= array (
-    xPDOTransport::PRESERVE_KEYS => true
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
 );
 foreach ($settings as $setting) {
-    switch ($setting->get('key')) {
-        case 'session_cookie_path' :
-            $attributes[xPDOTransport::UPDATE_OBJECT]= true;
-            $setting->set('value', '/');
-            break;
-        default :
-            $attributes[xPDOTransport::UPDATE_OBJECT]= false;
-            break;
-    }
     $package->put($setting, $attributes);
 }
 
@@ -294,10 +271,11 @@ unset ($settings, $setting, $attributes);
 
 /* modContextSetting collection */
 $collection = array ();
-include dirname(__FILE__).'/data/transport.core.context_settings.php';
+include MODX_BUILD_DIR . 'data/transport.core.context_settings.php';
 $attributes= array(
     xPDOTransport::PRESERVE_KEYS => true,
     xPDOTransport::UPDATE_OBJECT => false,
+    xPDOTransport::UNIQUE_KEY => array('context_key', 'key')
 );
 foreach ($collection as $c) {
     $package->put($c, $attributes);
@@ -308,7 +286,7 @@ unset ($collection, $c, $attributes);
 
 /* modUserGroup */
 $collection = array ();
-include dirname(__FILE__).'/data/transport.core.usergroups.php';
+include MODX_BUILD_DIR . 'data/transport.core.usergroups.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => true,
     xPDOTransport::UPDATE_OBJECT => false,
@@ -320,9 +298,65 @@ foreach ($collection as $c) {
 $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($collection).' default user groups.'); flush();
 unset ($collection, $c, $attributes);
 
+/* modDashboard */
+$collection = array ();
+include MODX_BUILD_DIR . 'data/transport.core.dashboards.php';
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => array ('id'),
+);
+foreach ($collection as $c) {
+    $package->put($c, $attributes);
+}
+
+$xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($collection).' default dashboards.'); flush();
+unset ($collection, $c, $attributes);
+
+/* modMediaSource */
+$collection = array ();
+include MODX_BUILD_DIR . 'data/transport.core.media_sources.php';
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
+    xPDOTransport::UNIQUE_KEY => array ('id'),
+);
+foreach ($collection as $c) {
+    $package->put($c, $attributes);
+}
+
+$xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($collection).' default media sources.'); flush();
+unset ($collection, $c, $attributes);
+
+/* modDashboardWidget */
+$widgets = include MODX_BUILD_DIR . 'data/transport.core.dashboard_widgets.php';
+if (is_array($widgets)) {
+    $attributes = array (
+        xPDOTransport::PRESERVE_KEYS => false,
+        xPDOTransport::UPDATE_OBJECT => true,
+        xPDOTransport::UNIQUE_KEY => array ('name'),
+    );
+    $ct = count($widgets);
+    $idx = 0;
+    foreach ($widgets as $widget) {
+        $idx++;
+        if ($idx == $ct) {
+            $attributes['resolve'][] = array (
+                'type' => 'php',
+                'source' => MODX_BUILD_DIR . 'resolvers/resolve.dashboardwidgets.php',
+            );
+        }
+        $package->put($widget, $attributes);
+    }
+    $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($widgets).' default dashboard widgets.'); flush();
+} else {
+    $xpdo->log(xPDO::LOG_LEVEL_ERROR,'Could not load dashboard widgets!'); flush();
+}
+unset ($widgets,$widget,$attributes,$ct,$idx);
+
 /* modUserGroupRole */
 $collection = array ();
-include dirname(__FILE__).'/data/transport.core.usergrouproles.php';
+include MODX_BUILD_DIR . 'data/transport.core.usergrouproles.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => true,
     xPDOTransport::UPDATE_OBJECT => false,
@@ -335,7 +369,7 @@ $xpdo->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($collection).' default role
 unset ($collection, $c, $attributes);
 
 /* modAccessPolicyTemplateGroups */
-$templateGroups = include dirname(__FILE__).'/data/transport.core.accesspolicytemplategroups.php';
+$templateGroups = include MODX_BUILD_DIR . 'data/transport.core.accesspolicytemplategroups.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => false,
     xPDOTransport::UNIQUE_KEY => array('name'),
@@ -353,7 +387,7 @@ unset ($templateGroups, $templateGroup, $attributes);
 
 
 /* modAccessPolicyTemplate */
-$templates = include dirname(__FILE__).'/data/transport.core.accesspolicytemplates.php';
+$templates = include MODX_BUILD_DIR . 'data/transport.core.accesspolicytemplates.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => false,
     xPDOTransport::UNIQUE_KEY => array('name'),
@@ -375,7 +409,7 @@ if (is_array($templates)) {
         if ($idx == $ct) {
             $attributes['resolve'][] = array (
                 'type' => 'php',
-                'source' => dirname(__FILE__) . '/resolvers/resolve.policytemplates.php',
+                'source' => MODX_BUILD_DIR . 'resolvers/resolve.policytemplates.php',
             );
         }
         $package->put($template, $attributes);
@@ -387,7 +421,7 @@ if (is_array($templates)) {
 unset ($templates,$template,$idx,$ct,$attributes);
 
 /* modAccessPolicy */
-$policies = include dirname(__FILE__).'/data/transport.core.accesspolicies.php';
+$policies = include MODX_BUILD_DIR . 'data/transport.core.accesspolicies.php';
 $attributes = array (
     xPDOTransport::PRESERVE_KEYS => false,
     xPDOTransport::UNIQUE_KEY => array('name'),
@@ -401,7 +435,7 @@ if (is_array($policies)) {
         if ($idx == $ct) {
             $attributes['resolve'][] = array (
                 'type' => 'php',
-                'source' => dirname(__FILE__) . '/resolvers/resolve.policies.php',
+                'source' => MODX_BUILD_DIR . 'resolvers/resolve.policies.php',
             );
         }
         $package->put($policy, $attributes);
@@ -436,7 +470,7 @@ $attributes['resolve'][] = array (
 );
 $attributes['resolve'][] = array (
     'type' => 'php',
-    'source' => dirname(__FILE__) . '/resolvers/resolve.core.php',
+    'source' => MODX_BUILD_DIR . 'resolvers/resolve.core.php',
     'target' => "return MODX_BASE_PATH . 'config.core.php';",
 );
 $package->put($c, $attributes);
@@ -471,7 +505,17 @@ $attributes['resolve'][] = array (
 );
 $attributes['resolve'][] = array (
     'type' => 'file',
+    'source' => MODX_BASE_PATH . 'manager/min',
+    'target' => "return MODX_MANAGER_PATH;",
+);
+$attributes['resolve'][] = array (
+    'type' => 'file',
     'source' => MODX_BASE_PATH . 'manager/ht.access',
+    'target' => "return MODX_MANAGER_PATH;",
+);
+$attributes['resolve'][] = array (
+    'type' => 'file',
+    'source' => MODX_BASE_PATH . 'manager/cache.manifest.php',
     'target' => "return MODX_MANAGER_PATH;",
 );
 $attributes['resolve'][] = array (
@@ -481,7 +525,7 @@ $attributes['resolve'][] = array (
 );
 $attributes['resolve'][] = array (
     'type' => 'php',
-    'source' => dirname(__FILE__) . '/resolvers/resolve.core.php',
+    'source' => MODX_BUILD_DIR . 'resolvers/resolve.core.php',
     'target' => "return MODX_MANAGER_PATH . 'config.core.php';",
 );
 $package->put($c, $attributes);
@@ -518,6 +562,10 @@ $files[] = array (
     'target' => "return MODX_CONNECTORS_PATH;",
 );
 $files[] = array (
+    'source' => MODX_BASE_PATH . 'connectors/source',
+    'target' => "return MODX_CONNECTORS_PATH;",
+);
+$files[] = array (
     'source' => MODX_BASE_PATH . 'connectors/system',
     'target' => "return MODX_CONNECTORS_PATH;",
 );
@@ -539,12 +587,12 @@ $fileset = array (
 );
 $attributes['resolve'][] = array (
     'type' => 'php',
-    'source' => dirname(__FILE__) . '/resolvers/resolve.core.php',
+    'source' => MODX_BUILD_DIR . 'resolvers/resolve.core.php',
     'target' => "return MODX_CONNECTORS_PATH . 'config.core.php';",
 );
 $attributes['resolve'][] = array (
     'type' => 'php',
-    'source' => dirname(__FILE__) . '/resolvers/resolve.actionfields.php',
+    'source' => MODX_BUILD_DIR . 'resolvers/resolve.actionfields.php',
 );
 $package->put($fileset, $attributes);
 unset ($fileset, $attributes);

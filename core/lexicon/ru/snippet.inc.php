@@ -1,22 +1,18 @@
 <?php
-/**
- * Snippet Russian lexicon topic
- *
- * @language ru
- * @package modx
- * @subpackage lexicon
- */
 $_lang['snippet'] = 'Сниппет';
 $_lang['snippets_available'] = 'Сниппеты доступные вам для включения в вашу страницу';
 $_lang['snippet_code'] = 'Код сниппета (php)';
 $_lang['snippet_delete_confirm'] = 'Вы уверены, что хотите удалить этот сниппет?';
 $_lang['snippet_desc'] = 'Описание';
+$_lang['snippet_desc_category'] = 'Категория к которой принадлежит этот сниппет.';
+$_lang['snippet_desc_description'] = 'Краткое описание сниппета.';
+$_lang['snippet_desc_name'] = 'Название сниппета. Сниппет будет доступен через тег [[NameOfSnippet]].';
 $_lang['snippet_duplicate_confirm'] = 'Вы уверены, что хотите сделать копию этого сниппета?';
-$_lang['snippet_duplicate_error'] = 'Произошла ошибка в процессе создания дубликата сниппета.';
+$_lang['snippet_duplicate_error'] = 'Произошла ошибка в процессе копирования сниппета.';
 $_lang['snippet_err_create'] = 'Произошла ошибка в процессе создания сниппета.';
 $_lang['snippet_err_delete'] = 'Произошла ошибка при попытке удалить сниппет.';
-$_lang['snippet_err_duplicate'] = 'Произошла ошибка при попытке создания дубликата сниппета.';
-$_lang['snippet_err_exists_name'] = 'Сниппет с таким именем уже существует.';
+$_lang['snippet_err_duplicate'] = 'Произошла ошибка при попытке копировать сниппет.';
+$_lang['snippet_err_exists_name'] = 'Сниппет с именем «[[+name]]» уже существует.';
 $_lang['snippet_err_invalid_name'] = 'Такое имя сниппета недопустимо.';
 $_lang['snippet_err_locked'] = 'Этот сниппет заблокирован для редактирования.';
 $_lang['snippet_err_nf'] = 'Сниппет не найден!';

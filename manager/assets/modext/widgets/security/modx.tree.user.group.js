@@ -16,7 +16,7 @@ MODx.tree.UserGroup = function(config) {
         ,root_name: _('user_groups')
         ,enableDrag: true
         ,enableDrop: true
-        ,rootVisible: false
+        ,rootVisible: true
         ,ddAppendOnly: true
         ,useDefaultToolbar: true
         ,tbar: [{
@@ -78,9 +78,7 @@ Ext.extend(MODx.tree.UserGroup,MODx.tree.Tree,{
         var n = this.cm.activeNode;
         var id = n.id.substr(2).split('_');id = id[1];
         
-        location.href = 'index.php'
-            + '?a=' + MODx.action['security/usergroup/update']
-            + '&id=' + id;
+        location.href = 'index.php?a=security/usergroup/update&id=' + id;
     }
 
     ,getMenu: function() {
@@ -165,35 +163,23 @@ Ext.extend(MODx.tree.UserGroup,MODx.tree.Tree,{
             }
         });
     }
+
+    ,_handleDrop: function(e) {
+        s = false;
+        switch (e.dropNode.attributes.type) {
+            case 'user':
+                s = !(e.point == 'above' || e.point == 'below');
+                s = s && e.target.attributes.type == 'usergroup' && e.point == 'append';
+            break;
+            case 'usergroup':
+                s = true;
+            break;
+        }
+        return s;
+
+    }
 });
 Ext.reg('modx-tree-usergroup',MODx.tree.UserGroup);
-
-MODx.window.CreateUserGroup = function(config) {
-    config = config || {};
-    Ext.applyIf(config,{
-        title: _('user_group_create')
-        ,height: 150
-        ,width: 400
-        ,url: MODx.config.connectors_url+'security/usergroup/index.php'
-        ,action: 'create'
-        ,fields: [{
-            xtype: 'hidden'
-            ,name: 'parent'
-            ,value: 0
-        },{
-            fieldLabel: _('name')
-            ,name: 'name'
-            ,hiddenName: 'name'
-            ,id: 'modx-cug-name'
-            ,xtype: 'textfield'
-            ,allowBlank: false
-            ,anchor: '90%'
-        }]
-    });
-    MODx.window.CreateUserGroup.superclass.constructor.call(this,config);
-};
-Ext.extend(MODx.window.CreateUserGroup,MODx.Window);
-Ext.reg('modx-window-usergroup-create',MODx.window.CreateUserGroup);
 
 MODx.window.CreateUserGroup = function(config) {
     config = config || {};
@@ -202,20 +188,153 @@ MODx.window.CreateUserGroup = function(config) {
         title: _('create_user_group')
         ,id: this.ident
         ,height: 150
-        ,width: 375
+        ,width: 750
+        ,stateful: false
         ,url: MODx.config.connectors_url+'security/group.php'
         ,action: 'create'
         ,fields: [{
-            fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-'+this.ident+'-name'
-            ,xtype: 'textfield'
-            ,anchor: '90%'
-        },{
             name: 'parent'
             ,id: 'modx-'+this.ident+'-parent'
             ,xtype: 'hidden'
+        },{
+            xtype: 'textfield'
+            ,fieldLabel: _('name')
+            ,description: MODx.expandHelp ? '' : _('user_group_desc_name')
+            ,name: 'name'
+            ,id: 'modx-'+this.ident+'-name'
+            ,anchor: '100%'
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-name'
+            ,html: _('user_group_desc_name')
+            ,cls: 'desc-under'
+        },{
+            xtype: 'textarea'
+            ,fieldLabel: _('description')
+            ,description: MODx.expandHelp ? '' : _('user_group_desc_description')
+            ,name: 'description'
+            ,id: 'modx-'+this.ident+'-description'
+            ,anchor: '100%'
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-description'
+            ,html: _('user_group_desc_description')
+            ,cls: 'desc-under'
+        },{
+            xtype: 'fieldset'
+            ,collapsible: true
+            ,collapsed: false
+            ,autoHeight: true
+            ,title: _('user_group_aw')
+            ,items: [{
+                html: '<p style="margin: 5px 0 0">'+_('user_group_aw_desc')+'</p>'
+                ,cls: 'desc-under'
+            },{
+                layout: 'column'
+                ,border: false
+                ,defaults: {
+                    layout: 'form'
+                    ,labelAlign: 'top'
+                    ,anchor: '100%'
+                    ,border: false
+                }
+                ,items: [{
+                    columnWidth: .5
+                    ,items: [{
+                        xtype: 'textfield'
+                        ,name: 'aw_users'
+                        ,fieldLabel: _('user_group_aw_users')
+                        ,description: _('user_group_aw_users_desc')
+                        ,id: this.ident+'-aw-users'
+                        ,anchor: '100%'
+                        ,value: ''
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: this.ident+'-aw-users'
+                        ,html: _('user_group_aw_users_desc')
+                        ,cls: 'desc-under'
+                    },{
+                        fieldLabel: _('user_group_aw_resource_groups')
+                        ,description: _('user_group_aw_resource_groups_desc')
+                        ,name: 'aw_resource_groups'
+                        ,id: this.ident+'-aw-resource-groups'
+                        ,xtype: 'textfield'
+                        ,value: ''
+                        ,anchor: '100%'
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: this.ident+'-aw-resource-groups'
+                        ,html: _('user_group_aw_resource_groups_desc')
+                        ,cls: 'desc-under'
+
+                    },{
+                        boxLabel: _('user_group_aw_parallel')
+                        ,description: _('user_group_aw_parallel_desc')
+                        ,name: 'aw_parallel'
+                        ,id: this.ident+'-aw-parallel'
+                        ,xtype: 'checkbox'
+                        ,checked: false
+                        ,inputValue: 1
+                        ,anchor: '100%'
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: this.ident+'-aw-parallel'
+                        ,html: _('user_group_aw_parallel_desc')
+                        ,cls: 'desc-under'
+                    }]
+                },{
+                    columnWidth: .5
+                    ,items: [{
+                        xtype: 'textfield'
+                        ,name: 'aw_contexts'
+                        ,fieldLabel: _('contexts')
+                        ,description: MODx.expandHelp ? '' : _('user_group_aw_contexts_desc')
+                        ,id: this.ident+'-aw-contexts'
+                        ,anchor: '100%'
+                        ,value: 'web'
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: this.ident+'-aw-contexts'
+                        ,html: _('user_group_aw_contexts_desc')
+                        ,cls: 'desc-under'
+
+                    },{
+                        xtype: 'modx-combo-policy'
+                        ,baseParams: {
+                            action: 'getList'
+                            ,group: 'Admin'
+                            ,combo: '1'
+                        }
+                        ,name: 'aw_manager_policy'
+                        ,fieldLabel: _('user_group_aw_manager_policy')
+                        ,description: MODx.expandHelp ? '' : _('user_group_aw_manager_policy_desc')
+                        ,id: this.ident+'-aw-manager-policy'
+                        ,anchor: '100%'
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: this.ident+'-aw-manager-policy'
+                        ,html: _('user_group_aw_manager_policy_desc')
+                        ,cls: 'desc-under'
+
+                    },{
+                        fieldLabel: _('user_group_aw_categories')
+                        ,description: _('user_group_aw_categories_desc')
+                        ,name: 'aw_categories'
+                        ,id: this.ident+'-aw-categories'
+                        ,xtype: 'textfield'
+                        ,value: ''
+                        ,anchor: '100%'
+                    },{
+                        xtype: MODx.expandHelp ? 'label' : 'hidden'
+                        ,forId: this.ident+'-aw-categories'
+                        ,html: _('user_group_aw_categories_desc')
+                        ,cls: 'desc-under'
+
+                    }]
+                }]
+            }]
         }]
+        ,keys: []
     });
     MODx.window.CreateUserGroup.superclass.constructor.call(this,config);
 };
@@ -234,21 +353,34 @@ MODx.window.AddUserToUserGroup = function(config) {
         ,action: 'create'
         ,fields: [{
             fieldLabel: _('name')
+            ,description: MODx.expandHelp ? '' : _('user_group_user_add_user_desc')
             ,name: 'user'
             ,hiddenName: 'user'
             ,xtype: 'modx-combo-user'
             ,editable: true
             ,typeAhead: true
+            ,allowBlank: false
             ,id: 'modx-'+this.ident+'-user'
-            ,anchor: '90%'
+            ,anchor: '100%'
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-role'
+            ,html: _('user_group_user_add_user_desc')
+            ,cls: 'desc-under'
         },{
             fieldLabel: _('role')
+            ,description: MODx.expandHelp ? '' : _('user_group_user_add_role_desc')
             ,name: 'role'
             ,hiddenName: 'role'
             ,xtype: 'modx-combo-role'
             ,id: 'modx-'+this.ident+'-role'
             ,allowBlank: false
-            ,anchor: '90%'
+            ,anchor: '100%'
+        },{
+            xtype: MODx.expandHelp ? 'label' : 'hidden'
+            ,forId: 'modx-'+this.ident+'-role'
+            ,html: _('user_group_user_add_role_desc')
+            ,cls: 'desc-under'
         },{
             name: 'usergroup'
             ,xtype: 'hidden'

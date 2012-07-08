@@ -1,12 +1,18 @@
 <?php
 /**
+ * Property Set German lexicon topic
+ *
  * @package modx
  * @subpackage lexicon
-
+ *
  * @language de
  * @namespace core
  * @topic propertyset
+ *
+ * MODX Revolution translated to German by Jan-Christoph Ihrens (enigmatic_user, enigma@lunamail.de)
  */
+$_lang['area'] = 'Bereich';
+$_lang['areas'] = 'Bereiche';
 $_lang['class_name'] = 'Klassen-Name';
 $_lang['default'] = 'Standardeigenschaften';
 $_lang['duplicate_of'] = 'Duplikat von [[+name]]';
@@ -25,8 +31,12 @@ $_lang['properties_import_err_upload'] = 'Bitte geben Sie eine gültige Eigensch
 $_lang['properties_import_msg'] = 'Bitte wählen Sie eine gültige Eigenschaften-Datei aus.';
 $_lang['properties_remove'] = 'Eigenschaften löschen';
 $_lang['properties_remove_confirm'] = 'Sind Sie sicher, dass Sie diese Eigenschaften entfernen möchten?';
+$_lang['property'] = 'Eigenschaft';
+$_lang['property_area_desc'] = 'Der Bereich oder die Gruppe, zu dem bzw. zu der diese Eigenschaft gehört.';
 $_lang['property_create'] = 'Eigensch. erstellen';
-$_lang['property_update'] = 'Eigenschaft bearbeiten';
+$_lang['property_description_desc'] = 'Eine kurze Beschreibung der Eigenschaft. Dies kann ein Lexikon-Schlüssel des für die Eigenschaft zuständigen Lexikons sein.';
+$_lang['property_lexicon_desc'] = 'Optional. Das Lexikon, mittels dessen die Felder dieser Eigenschaft übersetzt werden können.';
+$_lang['property_name_desc'] = 'Der Name der Eigenschaft, auf die über [[+eigenschaftsName]] zugegriffen werden kann';
 $_lang['property_option_create'] = 'Eigenschaften-Option erstellen';
 $_lang['property_option_remove'] = 'Eigenschaften-Option löschen';
 $_lang['property_option_remove_confirm'] = 'Sind sie sicher, dass Sie diese Eigenschaften-Option löschen möchten?';
@@ -37,6 +47,8 @@ $_lang['property_revert_all'] = 'Alle zurücksetzen';
 $_lang['property_revert_all_confirm'] = 'Sind Sie sicher, dass Sie alle Eigenschaften auf ihre Standardwerte zurücksetzen möchten?';
 $_lang['property_remove'] = 'Eigenschaft löschen';
 $_lang['property_remove_confirm'] = 'Sind Sie sicher, dass Sie diese Eigenschaft löschen möchten?';
+$_lang['property_update'] = 'Eigenschaft bearbeiten';
+$_lang['property_xtype_desc'] = 'Der Eingabetyp der Eigenschaft.';
 $_lang['propertyset'] = 'Eigenschaften-Gruppe';
 $_lang['propertyset_add'] = 'Eigensch.-Grp. hinzufügen';
 $_lang['propertyset_create'] = 'Eigenschaften-Gruppe erstellen';

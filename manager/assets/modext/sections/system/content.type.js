@@ -19,11 +19,10 @@ MODx.page.ContentType = function(config) {
             ,method: 'remote'
             ,keys: [{
                 key: MODx.config.keymap_save || 's'
-                ,alt: true
                 ,ctrl: true
             }]
         },'-',{
-            process: 'cancel', text: _('cancel'), params: {a:MODx.action['welcome']}
+            process: 'cancel', text: _('cancel'), params: {a:'welcome'}
         },'-',{
             text: _('help_ex')
             ,handler: MODx.loadHelpPane
@@ -31,7 +30,6 @@ MODx.page.ContentType = function(config) {
 		,components: [{
             xtype: 'modx-panel-content-type'
             ,title: ''
-            ,renderTo: 'modx-panel-content-type-div'
         }]
 	});	
 	MODx.page.ContentType.superclass.constructor.call(this,config);

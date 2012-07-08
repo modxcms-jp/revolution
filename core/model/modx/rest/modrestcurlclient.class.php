@@ -5,11 +5,18 @@
  */
 require_once dirname(__FILE__) . '/modrestclient.class.php';
 /**
+ * Handles REST requests through a cURL-based client
+ *
+ * @deprecated To be removed in 2.3. See modRest instead.
+ *
  * @package modx
  * @subpackage rest
  */
 class modRestCurlClient extends modRestClient {
-
+    /**
+     * @param modX $modx A reference to the modX object
+     * @param array $config An array of configuration options
+     */
     function __construct(modX &$modx,array $config = array()) {
         parent::__construct($modx, $config);
         $this->config = array_merge(array(
@@ -18,7 +25,13 @@ class modRestCurlClient extends modRestClient {
     /**
      * Extends modRestClient::request to provide cURL specific request handling
      *
-     * {@inheritdoc}
+     * @param string $host The host of the REST server.
+     * @param string $path The path to request to on the REST server.
+     * @param string $method The HTTP method to use for the request. May be GET,
+     * PUT or POST.
+     * @param array $params An array of parameters to send with the request.
+     * @param array $options An array of options to pass to the request.
+     * @return modRestResponse The response object.
      */
     public function request($host,$path,$method = 'GET',array $params = array(),array $options = array()) {
         /* start our cURL connection */
@@ -43,13 +56,19 @@ class modRestCurlClient extends modRestClient {
      * Configure and set the URL to use, along with any request parameters.
      *
      * @param resource $ch The cURL connection resource
+     * @param string $host The host to send the request to
+     * @param string $path The path of the request
+     * @param string $method The method of the request (GET/POST)
+     * @param array $params An array of request parameters to attach to the URL
+     * @param array $options An array of options when setting the URL
+     * @return boolean Whether or not the URL was set
      * @see modRestClient::request for parameter documentation.
      */
     public function setUrl($ch,$host,$path,$method = 'GET',array $params = array(),array $options = array()) {
         $q = http_build_query($params);
         switch ($method) {
             case 'GET':
-                $path .= '?'.$q;
+                $path .= (strpos($host,'?') === false ? '?' : '&').$q;
                 break;
             case 'POST':
                 curl_setopt($ch,CURLOPT_POST,1);
@@ -62,7 +81,7 @@ class modRestCurlClient extends modRestClient {
                         break;
                     case 'xml':
                         curl_setopt($ch,CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
-                        $xml = ArrayToXML::toXML($params,!empty($options['rootNode']) ? $options['rootNode'] : 'request');
+                        $xml = modRestArrayToXML::toXML($params,!empty($options['rootNode']) ? $options['rootNode'] : 'request');
                         curl_setopt($ch,CURLOPT_POSTFIELDS,$xml);
                         break;
                     default:
@@ -146,8 +165,11 @@ class modRestCurlClient extends modRestClient {
             $proxyUserpwd = $this->modx->getOption('proxy_username',null,'');
             if (!empty($proxyUserpwd)) {
                 $proxyAuthType = $this->modx->getOption('proxy_auth_type',null,'BASIC');
+                $proxyAuthType = $proxyAuthType == 'NTLM' ? CURLAUTH_NTLM : CURLAUTH_BASIC;
                 curl_setopt($ch, CURLOPT_PROXYAUTH,$proxyAuthType);
-                $proxyUserpwd .= ':'.$this->modx->getOption('proxy_password',null,'');
+
+                $proxyPassword = $this->modx->getOption('proxy_password',null,'');
+                if (!empty($proxyPassword)) $proxyUserpwd .= ':'.$proxyPassword;
                 curl_setopt($ch, CURLOPT_PROXYUSERPWD,$proxyUserpwd);
             }
         }
@@ -155,8 +177,14 @@ class modRestCurlClient extends modRestClient {
     }
 }
 
-if (!class_exists('ArrayToXML')) {
-class ArrayToXML {
+if (!class_exists('modRestArrayToXML')) {
+/**
+ * Utility class for array-to-XML transformations.
+ * 
+ * @package modx
+ * @subpackage rest
+ */
+class modRestArrayToXML {
     /**
      * The main function for converting to an XML document.
      * Pass in a multi dimensional array and this recrusively loops through and builds up an XML document.
@@ -186,11 +214,11 @@ class ArrayToXML {
 
             // if there is another array found recrusively call this function
             if ( is_array( $value ) ) {
-                $node = ArrayToXML::isAssoc( $value ) || $numeric ? $xml->addChild( $key ) : $xml;
+                $node = modRestArrayToXML::isAssoc( $value ) || $numeric ? $xml->addChild( $key ) : $xml;
 
                 // recrusive call.
                 if ( $numeric ) $key = 'anon';
-                ArrayToXML::toXml( $value, $key, $node );
+                modRestArrayToXML::toXml( $value, $key, $node );
             } else {
 
                 // add single node.
@@ -224,7 +252,7 @@ class ArrayToXML {
         if ( !$children ) return (string) $xml;
         $arr = array();
         foreach ( $children as $key => $node ) {
-            $node = ArrayToXML::toArray( $node );
+            $node = modRestArrayToXML::toArray( $node );
 
             // support for 'anon' non-associative arrays
             if ( $key == 'anon' ) $key = count( $arr );
@@ -240,7 +268,13 @@ class ArrayToXML {
         return $arr;
     }
 
-    // determine if a variable is an associative array
+    /**
+     * Determine if a variable is an associative array
+     *
+     * @static
+     * @param mixed $array The variable to check
+     * @return boolean True if is an array
+     */
     public static function isAssoc( $array ) {
         return (is_array($array) && 0 !== count(array_diff_key($array, array_keys(array_keys($array)))));
     }

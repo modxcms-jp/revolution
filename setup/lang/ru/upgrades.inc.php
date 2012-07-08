@@ -1,10 +1,4 @@
 <?php
-/**
- * Russian Upgrades Lexicon Topic for Revolution setup.
- *
- * @package setup
- * @subpackage lexicon
- */
 $_lang['add_column'] = 'Добавлен новый столбец `[[+column]]`  к таблице `[[+table]]`.';
 $_lang['add_index'] = 'Добавлен новый индекс `[[+index]]` для таблицы `[[+table]]`.';
 $_lang['add_moduser_classkey'] = 'Добавлено поле class_key для поддержки производных от modUser';
@@ -32,9 +26,11 @@ $_lang['lexiconfocus_add_id'] = 'Добавлено поле `id` в modLexiconF
 $_lang['lexiconfocus_add_pk'] = 'Добавлен PRIMARY KEY к полю `id` в modLexiconFocus.';
 $_lang['lexiconfocus_alter_pk'] = 'Ключ поля `name` в таблице modLexiconFocus изменен с PRIMARY KEY на UNIQUE KEY';
 $_lang['lexiconfocus_drop_pk'] = 'Удален PRIMARY KEY у таблицы modLexiconFocus.';
+$_lang['modify_column'] = 'Modified column `[[+column]]` from `[[+old]]` to `[[+new]]` on table `[[+table]]`';
 $_lang['rename_column'] = 'Переименовано поле `[[+old]]` на `[[+new]]` в таблице `[[+table]]`.';
 $_lang['rename_table'] = 'Таблица `[[+old]]` переименована в `[[+new]]`.';
 $_lang['remove_fulltext_index'] = 'Удален полнотекстовый индекс `[[+index]]`.';
 $_lang['systemsetting_xtype_fix'] = 'Успешно исправлены xtype в modSystemSettings.';
 $_lang['transportpackage_manifest_text'] = 'Изменен тип поля `manifest` с  TEXT на MEDIUMTEXT в `[[+class]]`.';
 $_lang['update_closure_table'] = 'Updating closure table data for class `[[+class]]`.';
+$_lang['update_table_column_data'] = 'Updated data in column [[+column]] of table [[+table]] ( [[+class]] )';

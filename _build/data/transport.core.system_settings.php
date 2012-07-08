@@ -1,27 +1,54 @@
 <?php
 /**
- * Default System Settings for MODx Revolution
+ * Default System Settings for MODX Revolution
  *
  * @package modx
  * @subpackage build
  */
 $settings = array();
-$settings['allow_tags_in_post']= $xpdo->newObject('modSystemSetting');
-$settings['allow_tags_in_post']->fromArray(array (
-  'key' => 'allow_tags_in_post',
-  'value' => '1',
+$settings['access_category_enabled']= $xpdo->newObject('modSystemSetting');
+$settings['access_category_enabled']->fromArray(array (
+  'key' => 'access_category_enabled',
+  'value' => true,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'authentication',
+  'editedon' => null,
+), '', true, true);
+$settings['access_context_enabled']= $xpdo->newObject('modSystemSetting');
+$settings['access_context_enabled']->fromArray(array (
+  'key' => 'access_context_enabled',
+  'value' => true,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'authentication',
+  'editedon' => null,
+), '', true, true);
+$settings['access_resource_group_enabled']= $xpdo->newObject('modSystemSetting');
+$settings['access_resource_group_enabled']->fromArray(array (
+  'key' => 'access_resource_group_enabled',
+  'value' => true,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'authentication',
+  'editedon' => null,
+), '', true, true);
+$settings['allow_forward_across_contexts']= $xpdo->newObject('modSystemSetting');
+$settings['allow_forward_across_contexts']->fromArray(array (
+  'key' => 'allow_forward_across_contexts',
+  'value' => false,
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'system',
   'editedon' => null,
 ), '', true, true);
-$settings['allow_duplicate_alias']= $xpdo->newObject('modSystemSetting');
-$settings['allow_duplicate_alias']->fromArray(array (
-  'key' => 'allow_duplicate_alias',
-  'value' => false,
+$settings['allow_manager_login_forgot_password']= $xpdo->newObject('modSystemSetting');
+$settings['allow_manager_login_forgot_password']->fromArray(array (
+  'key' => 'allow_manager_login_forgot_password',
+  'value' => true,
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
-  'area' => 'furls',
+  'area' => 'authentication',
   'editedon' => null,
 ), '', true, true);
 $settings['allow_multiple_emails']= $xpdo->newObject('modSystemSetting');
@@ -31,6 +58,15 @@ $settings['allow_multiple_emails']->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'authentication',
+  'editedon' => null,
+), '', true, true);
+$settings['allow_tags_in_post']= $xpdo->newObject('modSystemSetting');
+$settings['allow_tags_in_post']->fromArray(array (
+  'key' => 'allow_tags_in_post',
+  'value' => '1',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'system',
   'editedon' => null,
 ), '', true, true);
 $settings['archive_with']= $xpdo->newObject('modSystemSetting');
@@ -78,6 +114,15 @@ $settings['automatic_alias']->fromArray(array (
   'area' => 'furls',
   'editedon' => null,
 ), '', true, true);
+$settings['base_help_url']= $xpdo->newObject('modSystemSetting');
+$settings['base_help_url']->fromArray(array (
+  'key' => 'base_help_url',
+  'value' => 'http://rtfm.modx.com/display/revolution20/',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
 $settings['blocked_minutes']= $xpdo->newObject('modSystemSetting');
 $settings['blocked_minutes']->fromArray(array (
   'key' => 'blocked_minutes',
@@ -123,6 +168,24 @@ $settings['cache_db_expires']->fromArray(array (
   'area' => 'caching',
   'editedon' => null,
 ), '', true, true);
+$settings['cache_db_session']= $xpdo->newObject('modSystemSetting');
+$settings['cache_db_session']->fromArray(array (
+  'key' => 'cache_db_session',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'caching',
+  'editedon' => null,
+), '', true, true);
+$settings['cache_db_session_lifetime']= $xpdo->newObject('modSystemSetting');
+$settings['cache_db_session_lifetime']->fromArray(array (
+  'key' => 'cache_db_session_lifetime',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'caching',
+  'editedon' => null,
+), '', true, true);
 $settings['cache_default']= $xpdo->newObject('modSystemSetting');
 $settings['cache_default']->fromArray(array (
   'key' => 'cache_default',
@@ -150,18 +213,9 @@ $settings['cache_expires']->fromArray(array (
   'area' => 'caching',
   'editedon' => null,
 ), '', true, true);
-$settings['cache_json']= $xpdo->newObject('modSystemSetting');
-$settings['cache_json']->fromArray(array (
-  'key' => 'cache_json',
-  'value' => '0',
-  'xtype' => 'combo-boolean',
-  'namespace' => 'core',
-  'area' => 'caching',
-  'editedon' => null,
-), '', true, true);
-$settings['cache_json_expires']= $xpdo->newObject('modSystemSetting');
-$settings['cache_json_expires']->fromArray(array (
-  'key' => 'cache_json_expires',
+$settings['cache_format']= $xpdo->newObject('modSystemSetting');
+$settings['cache_format']->fromArray(array (
+  'key' => 'cache_format',
   'value' => '0',
   'xtype' => 'textfield',
   'namespace' => 'core',
@@ -252,7 +306,7 @@ $settings['clear_cache_refresh_trees']->fromArray(array (
 $settings['compress_css']= $xpdo->newObject('modSystemSetting');
 $settings['compress_css']->fromArray(array (
   'key' => 'compress_css',
-  'value' => false,
+  'value' => true,
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'manager',
@@ -261,15 +315,24 @@ $settings['compress_css']->fromArray(array (
 $settings['compress_js']= $xpdo->newObject('modSystemSetting');
 $settings['compress_js']->fromArray(array (
   'key' => 'compress_js',
-  'value' => false,
+  'value' => true,
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
-$settings['concat_js']= $xpdo->newObject('modSystemSetting');
-$settings['concat_js']->fromArray(array (
-  'key' => 'concat_js',
+$settings['compress_js_max_files']= $xpdo->newObject('modSystemSetting');
+$settings['compress_js_max_files']->fromArray(array (
+  'key' => 'compress_js_max_files',
+  'value' => 10,
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['compress_js_groups']= $xpdo->newObject('modSystemSetting');
+$settings['compress_js_groups']->fromArray(array (
+  'key' => 'compress_js_groups',
   'value' => false,
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
@@ -285,6 +348,33 @@ $settings['container_suffix']->fromArray(array (
   'area' => 'furls',
   'editedon' => null,
 ), '', true, true);
+$settings['context_tree_sort']= $xpdo->newObject('modSystemSetting');
+$settings['context_tree_sort']->fromArray(array (
+  'key' => 'context_tree_sort',
+  'value' => false,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['context_tree_sortby']= $xpdo->newObject('modSystemSetting');
+$settings['context_tree_sortby']->fromArray(array (
+  'key' => 'context_tree_sortby',
+  'value' => 'rank',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['context_tree_sortdir']= $xpdo->newObject('modSystemSetting');
+$settings['context_tree_sortdir']->fromArray(array (
+  'key' => 'context_tree_sortdir',
+  'value' => 'ASC',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
 $settings['cultureKey']= $xpdo->newObject('modSystemSetting');
 $settings['cultureKey']->fromArray(array (
   'key' => 'cultureKey',
@@ -294,13 +384,40 @@ $settings['cultureKey']->fromArray(array (
   'area' => 'language',
   'editedon' => null,
 ), '', true, true);
-$settings['custom_resource_classes']= $xpdo->newObject('modSystemSetting');
-$settings['custom_resource_classes']->fromArray(array (
-  'key' => 'custom_resource_classes',
+$settings['date_timezone']= $xpdo->newObject('modSystemSetting');
+$settings['date_timezone']->fromArray(array (
+  'key' => 'date_timezone',
   'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'system',
+  'editedon' => null,
+), '', true, true);
+$settings['debug']= $xpdo->newObject('modSystemSetting');
+$settings['debug']->fromArray(array (
+  'key' => 'debug',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'system',
+  'editedon' => null,
+), '', true, true);
+$settings['default_duplicate_publish_option']= $xpdo->newObject('modSystemSetting');
+$settings['default_duplicate_publish_option']->fromArray(array (
+  'key' => 'default_duplicate_publish_option',
+  'value' => 'preserve',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['default_media_source']= $xpdo->newObject('modSystemSetting');
+$settings['default_media_source']->fromArray(array (
+  'key' => 'default_media_source',
+  'value' => 1,
+  'xtype' => 'modx-combo-source',
+  'namespace' => 'core',
+  'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
 $settings['default_per_page']= $xpdo->newObject('modSystemSetting');
@@ -312,11 +429,29 @@ $settings['default_per_page']->fromArray(array (
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
+$settings['default_context']= $xpdo->newObject('modSystemSetting');
+$settings['default_context']->fromArray(array (
+  'key' => 'default_context',
+  'value' => 'web',
+  'xtype' => 'modx-combo-context',
+  'namespace' => 'core',
+  'area' => 'site',
+  'editedon' => null,
+), '', true, true);
 $settings['default_template']= $xpdo->newObject('modSystemSetting');
 $settings['default_template']->fromArray(array (
   'key' => 'default_template',
   'value' => '1',
   'xtype' => 'modx-combo-template',
+  'namespace' => 'core',
+  'area' => 'site',
+  'editedon' => null,
+), '', true, true);
+$settings['default_content_type']= $xpdo->newObject('modSystemSetting');
+$settings['default_content_type']->fromArray(array (
+  'key' => 'default_content_type',
+  'value' => '1',
+  'xtype' => 'modx-combo-content-type',
   'namespace' => 'core',
   'area' => 'site',
   'editedon' => null,
@@ -469,7 +604,7 @@ $settings['forgot_login_email']= $xpdo->newObject('modSystemSetting');
 $settings['forgot_login_email']->fromArray(array (
   'key' => 'forgot_login_email',
   'value' => '<p>Hello [[+username]],</p>
-<p>A request for a password reset has been issued for your MODx user. If you sent this, you may follow this link and use this password to login. If you did not send this request, please ignore this email.</p>
+<p>A request for a password reset has been issued for your MODX user. If you sent this, you may follow this link and use this password to login. If you did not send this request, please ignore this email.</p>
 
 <p>
     <strong>Activation Link:</strong> [[+url_scheme]][[+http_host]][[+manager_url]]?modahsh=[[+hash]]<br />
@@ -477,12 +612,21 @@ $settings['forgot_login_email']->fromArray(array (
     <strong>Password:</strong> [[+password]]<br />
 </p>
 
-<p>After you log into the MODx Manager, you can change your password again, if you wish.</p>
+<p>After you log into the MODX Manager, you can change your password again, if you wish.</p>
 
 <p>Regards,<br />Site Administrator</p>',
   'xtype' => 'textarea',
   'namespace' => 'core',
   'area' => 'authentication',
+  'editedon' => null,
+), '', true, true);
+$settings['form_customization_use_all_groups']= $xpdo->newObject('modSystemSetting');
+$settings['form_customization_use_all_groups']->fromArray(array (
+  'key' => 'form_customization_use_all_groups',
+  'value' => false,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
 $settings['forward_merge_excludes']= $xpdo->newObject('modSystemSetting');
@@ -491,7 +635,7 @@ $settings['forward_merge_excludes']->fromArray(array (
   'value' => 'type,published,class_key,context_key',
   'xtype' => 'textfield',
   'namespace' => 'core',
-  'area' => 'core',
+  'area' => 'system',
   'editedon' => null,
 ), '', true, true);
 $settings['friendly_alias_lowercase_only']= $xpdo->newObject('modSystemSetting');
@@ -575,15 +719,6 @@ $settings['friendly_alias_trim_chars']->fromArray(array (
   'area' => 'furls',
   'editedon' => null,
 ), '', true, true);
-$settings['friendly_alias_urls']= $xpdo->newObject('modSystemSetting');
-$settings['friendly_alias_urls']->fromArray(array (
-  'key' => 'friendly_alias_urls',
-  'value' => '1',
-  'xtype' => 'combo-boolean',
-  'namespace' => 'core',
-  'area' => 'furls',
-  'editedon' => null,
-), '', true, true);
 $settings['friendly_alias_word_delimiter']= $xpdo->newObject('modSystemSetting');
 $settings['friendly_alias_word_delimiter']->fromArray(array (
   'key' => 'friendly_alias_word_delimiter',
@@ -611,6 +746,24 @@ $settings['friendly_urls']->fromArray(array (
   'area' => 'furls',
   'editedon' => null,
 ), '', true, true);
+$settings['friendly_urls_strict']= $xpdo->newObject('modSystemSetting');
+$settings['friendly_urls_strict']->fromArray(array (
+  'key' => 'friendly_urls_strict',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'furls',
+  'editedon' => null,
+), '', true, true);
+$settings['global_duplicate_uri_check']= $xpdo->newObject('modSystemSetting');
+$settings['global_duplicate_uri_check']->fromArray(array (
+  'key' => 'global_duplicate_uri_check',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'furls',
+  'editedon' => null,
+), '', true, true);
 $settings['hidemenu_default']= $xpdo->newObject('modSystemSetting');
 $settings['hidemenu_default']->fromArray(array (
   'key' => 'hidemenu_default',
@@ -618,6 +771,60 @@ $settings['hidemenu_default']->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'core',
   'area' => 'site',
+  'editedon' => null,
+), '', true, true);
+$settings['inline_help']= $xpdo->newObject('modSystemSetting');
+$settings['inline_help']->fromArray(array (
+  'key' => 'inline_help',
+  'value' => 1,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['locale']= $xpdo->newObject('modSystemSetting');
+$settings['locale']->fromArray(array (
+  'key' => 'locale',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'language',
+  'editedon' => null,
+), '', true, true);
+$settings['log_level']= $xpdo->newObject('modSystemSetting');
+$settings['log_level']->fromArray(array (
+  'key' => 'log_level',
+  'value' => '1',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'system',
+  'editedon' => null,
+), '', true, true);
+$settings['log_target']= $xpdo->newObject('modSystemSetting');
+$settings['log_target']->fromArray(array (
+  'key' => 'log_target',
+  'value' => 'FILE',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'system',
+  'editedon' => null,
+), '', true, true);
+$settings['link_tag_scheme']= $xpdo->newObject('modSystemSetting');
+$settings['link_tag_scheme']->fromArray(array (
+  'key' => 'link_tag_scheme',
+  'value' => -1,
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'site',
+  'editedon' => null,
+), '', true, true);
+$settings['lock_ttl']= $xpdo->newObject('modSystemSetting');
+$settings['lock_ttl']->fromArray(array (
+  'key' => 'lock_ttl',
+  'value' => 360,
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'system',
   'editedon' => null,
 ), '', true, true);
 $settings['mail_charset']= $xpdo->newObject('modSystemSetting');
@@ -687,7 +894,7 @@ $settings['mail_smtp_pass']= $xpdo->newObject('modSystemSetting');
 $settings['mail_smtp_pass']->fromArray(array (
   'key' => 'mail_smtp_pass',
   'value' => '',
-  'xtype' => 'textfield',
+  'xtype' => 'text-password',
   'namespace' => 'core',
   'area' => 'mail',
   'editedon' => null,
@@ -746,6 +953,60 @@ $settings['manager_date_format']->fromArray(array (
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
+$settings['manager_favicon_url']= $xpdo->newObject('modSystemSetting');
+$settings['manager_favicon_url']->fromArray(array (
+  'key' => 'manager_favicon_url',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['manager_html5_cache']= $xpdo->newObject('modSystemSetting');
+$settings['manager_html5_cache']->fromArray(array (
+  'key' => 'manager_html5_cache',
+  'value' => 0,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['manager_js_cache_file_locking']= $xpdo->newObject('modSystemSetting');
+$settings['manager_js_cache_file_locking']->fromArray(array (
+  'key' => 'manager_js_cache_file_locking',
+  'value' => true,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['manager_js_cache_max_age']= $xpdo->newObject('modSystemSetting');
+$settings['manager_js_cache_max_age']->fromArray(array (
+  'key' => 'manager_js_cache_max_age',
+  'value' => 3600,
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['manager_js_document_root']= $xpdo->newObject('modSystemSetting');
+$settings['manager_js_document_root']->fromArray(array (
+  'key' => 'manager_js_document_root',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['manager_js_zlib_output_compression']= $xpdo->newObject('modSystemSetting');
+$settings['manager_js_zlib_output_compression']->fromArray(array (
+  'key' => 'manager_js_zlib_output_compression',
+  'value' => 0,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
 $settings['manager_time_format']= $xpdo->newObject('modSystemSetting');
 $settings['manager_time_format']->fromArray(array (
   'key' => 'manager_time_format',
@@ -782,6 +1043,15 @@ $settings['manager_language']->fromArray(array (
   'area' => 'language',
   'editedon' => null,
 ), '', true, true);
+$settings['manager_login_url_alternate']= $xpdo->newObject('modSystemSetting');
+$settings['manager_login_url_alternate']->fromArray(array (
+  'key' => 'manager_login_url_alternate',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'authentication',
+  'editedon' => null,
+), '', true, true);
 $settings['manager_theme']= $xpdo->newObject('modSystemSetting');
 $settings['manager_theme']->fromArray(array (
   'key' => 'manager_theme',
@@ -791,11 +1061,20 @@ $settings['manager_theme']->fromArray(array (
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
-$settings['manager_use_tabs']= $xpdo->newObject('modSystemSetting');
-$settings['manager_use_tabs']->fromArray(array (
-  'key' => 'manager_use_tabs',
-  'value' => '1',
-  'xtype' => 'combo-boolean',
+$settings['manager_week_start']= $xpdo->newObject('modSystemSetting');
+$settings['manager_week_start']->fromArray(array (
+  'key' => 'manager_week_start',
+  'value' => 0,
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['modx_browser_default_sort']= $xpdo->newObject('modSystemSetting');
+$settings['modx_browser_default_sort']->fromArray(array (
+  'key' => 'modx_browser_default_sort',
+  'value' => 'name',
+  'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'manager',
   'editedon' => null,
@@ -807,6 +1086,15 @@ $settings['modx_charset']->fromArray(array (
   'xtype' => 'modx-combo-charset',
   'namespace' => 'core',
   'area' => 'language',
+  'editedon' => null,
+), '', true, true);
+$settings['principal_targets']= $xpdo->newObject('modSystemSetting');
+$settings['principal_targets']->fromArray(array (
+  'key' => 'principal_targets',
+  'value' => 'modAccessContext,modAccessResourceGroup,modAccessCategory,sources.modAccessMediaSource',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'authentication',
   'editedon' => null,
 ), '', true, true);
 $settings['proxy_auth_type']= $xpdo->newObject('modSystemSetting');
@@ -831,7 +1119,7 @@ $settings['proxy_password']= $xpdo->newObject('modSystemSetting');
 $settings['proxy_password']->fromArray(array (
   'key' => 'proxy_password',
   'value' => '',
-  'xtype' => 'textfield',
+  'xtype' => 'text-password',
   'namespace' => 'core',
   'area' => 'proxy',
   'editedon' => null,
@@ -914,6 +1202,15 @@ $settings['phpthumb_cache_source_enabled']->fromArray(array (
   'key' => 'phpthumb_cache_source_enabled',
   'value' => false,
   'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'phpthumb',
+  'editedon' => null,
+), '', true, true);
+$settings['phpthumb_document_root']= $xpdo->newObject('modSystemSetting');
+$settings['phpthumb_document_root']->fromArray(array (
+  'key' => 'phpthumb_document_root',
+  'value' => '',
+  'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'phpthumb',
   'editedon' => null,
@@ -1099,6 +1396,15 @@ $settings['request_controller']->fromArray(array (
   'area' => 'gateway',
   'editedon' => null,
 ), '', true, true);
+$settings['request_method_strict']= $xpdo->newObject('modSystemSetting');
+$settings['request_method_strict']->fromArray(array (
+  'key' => 'request_method_strict',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'gateway',
+  'editedon' => null,
+), '', true, true);
 $settings['request_param_alias']= $xpdo->newObject('modSystemSetting');
 $settings['request_param_alias']->fromArray(array (
   'key' => 'request_param_alias',
@@ -1130,6 +1436,15 @@ $settings['resource_tree_node_name']= $xpdo->newObject('modSystemSetting');
 $settings['resource_tree_node_name']->fromArray(array (
   'key' => 'resource_tree_node_name',
   'value' => 'pagetitle',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
+$settings['resource_tree_node_tooltip']= $xpdo->newObject('modSystemSetting');
+$settings['resource_tree_node_tooltip']->fromArray(array (
+  'key' => 'resource_tree_node_tooltip',
+  'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'manager',
@@ -1171,10 +1486,28 @@ $settings['server_protocol']->fromArray(array (
   'area' => 'system',
   'editedon' => null,
 ), '', true, true);
+$settings['session_cookie_domain']= $xpdo->newObject('modSystemSetting');
+$settings['session_cookie_domain']->fromArray(array (
+  'key' => 'session_cookie_domain',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'session',
+  'editedon' => null,
+), '', true, true);
 $settings['session_cookie_lifetime']= $xpdo->newObject('modSystemSetting');
 $settings['session_cookie_lifetime']->fromArray(array (
   'key' => 'session_cookie_lifetime',
   'value' => '604800',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'session',
+  'editedon' => null,
+), '', true, true);
+$settings['session_cookie_path']= $xpdo->newObject('modSystemSetting');
+$settings['session_cookie_path']->fromArray(array (
+  'key' => 'session_cookie_path',
+  'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'session',
@@ -1189,10 +1522,37 @@ $settings['session_cookie_secure']->fromArray(array (
   'area' => 'session',
   'editedon' => null,
 ), '', true, true);
+$settings['session_cookie_httponly']= $xpdo->newObject('modSystemSetting');
+$settings['session_cookie_httponly']->fromArray(array (
+  'key' => 'session_cookie_httponly',
+  'value' => false,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'session',
+  'editedon' => null,
+), '', true, true);
+$settings['session_gc_maxlifetime']= $xpdo->newObject('modSystemSetting');
+$settings['session_gc_maxlifetime']->fromArray(array (
+  'key' => 'session_gc_maxlifetime',
+  'value' => '604800',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'session',
+  'editedon' => null,
+), '', true, true);
 $settings['session_handler_class']= $xpdo->newObject('modSystemSetting');
 $settings['session_handler_class']->fromArray(array (
   'key' => 'session_handler_class',
   'value' => 'modSessionHandler',
+  'xtype' => 'textfield',
+  'namespace' => 'core',
+  'area' => 'session',
+  'editedon' => null,
+), '', true, true);
+$settings['session_name']= $xpdo->newObject('modSystemSetting');
+$settings['session_name']->fromArray(array (
+  'key' => 'session_name',
+  'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'session',
@@ -1207,18 +1567,27 @@ $settings['set_header']->fromArray(array (
   'area' => 'system',
   'editedon' => null,
 ), '', true, true);
+$settings['show_tv_categories_header']= $xpdo->newObject('modSystemSetting');
+$settings['show_tv_categories_header']->fromArray(array (
+  'key' => 'show_tv_categories_header',
+  'value' => true,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
 $settings['signupemail_message']= $xpdo->newObject('modSystemSetting');
 $settings['signupemail_message']->fromArray(array (
   'key' => 'signupemail_message',
   'value' => '<p>Hello [[+uid]],</p>
-    <p>Here are your login details for the [[+sname]] MODx Manager:</p>
+    <p>Here are your login details for the [[+sname]] MODX Manager:</p>
 
     <p>
         <strong>Username:</strong> [[+uid]]<br />
         <strong>Password:</strong> [[+pwd]]<br />
     </p>
 
-    <p>Once you log into the MODx Manager at [[+surl]], you can change your password.</p>
+    <p>Once you log into the MODX Manager at [[+surl]], you can change your password.</p>
 
     <p>Regards,<br />Site Administrator</p>',
   'xtype' => 'textarea',
@@ -1229,7 +1598,7 @@ $settings['signupemail_message']->fromArray(array (
 $settings['site_name']= $xpdo->newObject('modSystemSetting');
 $settings['site_name']->fromArray(array (
   'key' => 'site_name',
-  'value' => 'MODx Revolution',
+  'value' => 'MODX Revolution',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'site',
@@ -1316,6 +1685,15 @@ $settings['tree_root_id']->fromArray(array (
   'area' => 'manager',
   'editedon' => null,
 ), '', true, true);
+$settings['tvs_below_content']= $xpdo->newObject('modSystemSetting');
+$settings['tvs_below_content']->fromArray(array (
+  'key' => 'tvs_below_content',
+  'value' => 0,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'manager',
+  'editedon' => null,
+), '', true, true);
 $settings['udperms_allowroot']= $xpdo->newObject('modSystemSetting');
 $settings['udperms_allowroot']->fromArray(array (
   'key' => 'udperms_allowroot',
@@ -1337,7 +1715,7 @@ $settings['unauthorized_page']->fromArray(array (
 $settings['upload_files']= $xpdo->newObject('modSystemSetting');
 $settings['upload_files']->fromArray(array (
   'key' => 'upload_files',
-  'value' => 'txt,html,htm,xml,js,css,zip,gz,rar,z,tgz,tar,htaccess,mp3,mp4,aac,wav,au,wmv,avi,mpg,mpeg,pdf,doc,xls,txt',
+  'value' => 'txt,html,htm,xml,js,css,zip,gz,rar,z,tgz,tar,htaccess,mp3,mp4,aac,wav,au,wmv,avi,mpg,mpeg,pdf,doc,docx,xls,xlsx,ppt,pptx,jpg,jpeg,png,gif,psd,ico,bmp,odt,ods,odp,odb,odg,odf',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'file',
@@ -1415,6 +1793,15 @@ $settings['use_multibyte']->fromArray(array (
   'area' => 'language',
   'editedon' => null,
 ), '', true, true);
+$settings['use_weblink_target']= $xpdo->newObject('modSystemSetting');
+$settings['use_weblink_target']->fromArray(array (
+  'key' => 'use_weblink_target',
+  'value' => false,
+  'xtype' => 'combo-boolean',
+  'namespace' => 'core',
+  'area' => 'site',
+  'editedon' => null,
+), '', true, true);
 $settings['webpwdreminder_message']= $xpdo->newObject('modSystemSetting');
 $settings['webpwdreminder_message']->fromArray(array (
   'key' => 'webpwdreminder_message',
@@ -1468,7 +1855,7 @@ $settings['welcome_screen']->fromArray(array (
 $settings['welcome_screen_url']= $xpdo->newObject('modSystemSetting');
 $settings['welcome_screen_url']->fromArray(array (
   'key' => 'welcome_screen_url',
-  'value' => 'http://misc.modx.com/revolution/welcome.20.html',
+  'value' => 'http://misc.modx.com/revolution/welcome.22.html',
   'xtype' => 'textfield',
   'namespace' => 'core',
   'area' => 'manager',

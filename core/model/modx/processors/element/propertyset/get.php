@@ -4,12 +4,14 @@
  *
  * @package modx
  * @subpackage processors.element.propertyset
+ * @var modX $modx
  */
 if (!$modx->hasPermission('view_propertyset')) return $modx->error->failure($modx->lexicon('permission_denied'));
 $modx->lexicon->load('propertyset');
 
 /* if getting properties for an element as well */
 if (!empty($scriptProperties['elementId']) && !empty($scriptProperties['elementType'])) {
+    /** @var modElement $element */
     $element = $modx->getObject($scriptProperties['elementType'],$scriptProperties['elementId']);
     if ($element) {
         $default = $element->get('properties');
@@ -23,6 +25,7 @@ if (!isset($scriptProperties['id']) || $scriptProperties['id'] == '') {
 }
 /* if grabbing a modPropertySet */
 if ($scriptProperties['id'] != 0) {
+    /** @var modPropertySet $set */
     $set = $modx->getObject('modPropertySet',$scriptProperties['id']);
 
 } elseif (isset($default)) {
@@ -49,15 +52,24 @@ $data = array();
 /* put in default properties for element */
 if (isset($default)) {
     foreach ($default as $property) {
+        if (!empty($property['options']) && is_array($property['options'])) {
+            foreach ($property['options'] as &$option) {
+                if (empty($option['text']) && !empty($option['name'])) $option['text'] = $option['name'];
+                $option['text'] = !empty($property['lexicon']) ? $modx->lexicon($option['text']) : $option['text'];
+            }
+        }
+
         $data[$property['name']] = array(
             $property['name'],
             $property['desc'],
-            $property['type'],
-            $property['options'],
+            !empty($property['type']) ? $property['type'] : 'textfield',
+            !empty($property['options']) ? $property['options'] : array(),
             $property['value'],
-            $property['lexicon'],
+            !empty($property['lexicon']) ? $property['lexicon'] : '',
             false,
             $property['desc_trans'],
+            !empty($property['area']) ? $property['area'] : '',
+            !empty($property['area_trans']) ? $property['area_trans'] : '',
         );
     }
 }
@@ -73,15 +85,23 @@ foreach ($properties as $property) {
     if (!isset($data[$property['name']]) && !empty($scriptProperties['elementId'])) {
         $overridden = 2;
     }
+
+    foreach($property['options'] as &$option) {
+        if (empty($option['text']) && !empty($option['name'])) $option['text'] = $option['name'];
+        $option['text'] = !empty($property['lexicon']) ? $modx->lexicon($option['text']) : $option['text'];
+    }
+
     $data[$property['name']] = array(
         $property['name'],
         $property['desc'],
-        $property['type'],
-        $property['options'],
+        !empty($property['type']) ? $property['type'] : 'textfield',
+        !empty($property['options']) ? $property['options'] : array(),
         $property['value'],
-        $property['lexicon'],
+        !empty($property['lexicon']) ? $property['lexicon'] : '',
         $overridden,
         $property['desc_trans'],
+        !empty($property['area']) ? $property['area'] : '',
+        !empty($property['area_trans']) ? $property['area_trans'] : '',
     );
 }
 

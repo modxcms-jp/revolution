@@ -252,6 +252,12 @@ $events['OnTVInputRenderList']->fromArray(array (
   'service' => 1,
   'groupname' => 'Template Variables',
 ), '', true, true);
+$events['OnTVInputPropertiesList']= $xpdo->newObject('modEvent');
+$events['OnTVInputPropertiesList']->fromArray(array (
+  'name' => 'OnTVInputPropertiesList',
+  'service' => 1,
+  'groupname' => 'Template Variables',
+), '', true, true);
 $events['OnTVOutputRenderList']= $xpdo->newObject('modEvent');
 $events['OnTVOutputRenderList']->fromArray(array (
   'name' => 'OnTVOutputRenderList',
@@ -290,6 +296,31 @@ $events['OnUserGroupRemove']->fromArray(array (
   'service' => 1,
   'groupname' => 'User Groups',
 ), '', true, true);
+$events['OnUserGroupBeforeFormSave']= $xpdo->newObject('modEvent');
+$events['OnUserGroupBeforeFormSave']->fromArray(array (
+  'name' => 'OnBeforeUserGroupFormSave',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+$events['OnUserGroupFormSave']= $xpdo->newObject('modEvent');
+$events['OnUserGroupFormSave']->fromArray(array (
+  'name' => 'OnUserGroupFormSave',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+$events['OnUserGroupBeforeFormRemove']= $xpdo->newObject('modEvent');
+$events['OnUserGroupBeforeFormRemove']->fromArray(array (
+  'name' => 'OnBeforeUserGroupFormRemove',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+$events['OnUserGroupFormRemove']= $xpdo->newObject('modEvent');
+$events['OnUserGroupFormRemove']->fromArray(array (
+  'name' => 'OnBeforeUserGroupFormRemove',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+
 
 
 /* Resources */
@@ -398,6 +429,18 @@ $events['OnResourceDuplicate']->fromArray(array (
 $events['OnResourceToolbarLoad']= $xpdo->newObject('modEvent');
 $events['OnResourceToolbarLoad']->fromArray(array (
   'name' => 'OnResourceToolbarLoad',
+  'service' => 1,
+  'groupname' => 'Resources',
+), '', true, true);
+$events['OnResourceRemoveFromResourceGroup']= $xpdo->newObject('modEvent');
+$events['OnResourceRemoveFromResourceGroup']->fromArray(array (
+  'name' => 'OnResourceRemoveFromResourceGroup',
+  'service' => 1,
+  'groupname' => 'Resources',
+), '', true, true);
+$events['OnResourceAddToResourceGroup']= $xpdo->newObject('modEvent');
+$events['OnResourceAddToResourceGroup']->fromArray(array (
+  'name' => 'OnResourceAddToResourceGroup',
   'service' => 1,
   'groupname' => 'Resources',
 ), '', true, true);
@@ -559,6 +602,30 @@ $events['OnUserActivate']->fromArray(array (
   'service' => 1,
   'groupname' => 'Users',
 ), '', true, true);
+$events['OnBeforeUserDeactivate']= $xpdo->newObject('modEvent');
+$events['OnBeforeUserDeactivate']->fromArray(array (
+  'name' => 'OnBeforeUserDeactivate',
+  'service' => 1,
+  'groupname' => 'Users',
+), '', true, true);
+$events['OnUserDeactivate']= $xpdo->newObject('modEvent');
+$events['OnUserDeactivate']->fromArray(array (
+  'name' => 'OnUserDeactivate',
+  'service' => 1,
+  'groupname' => 'Users',
+), '', true, true);
+$events['OnBeforeUserDuplicate']= $xpdo->newObject('modEvent');
+$events['OnBeforeUserDuplicate']->fromArray(array (
+  'name' => 'OnBeforeUserDuplicate',
+  'service' => 1,
+  'groupname' => 'Users',
+), '', true, true);
+$events['OnUserDuplicate']= $xpdo->newObject('modEvent');
+$events['OnUserDuplicate']->fromArray(array (
+  'name' => 'OnUserDuplicate',
+  'service' => 1,
+  'groupname' => 'Users',
+), '', true, true);
 $events['OnUserChangePassword']= $xpdo->newObject('modEvent');
 $events['OnUserChangePassword']->fromArray(array (
   'name' => 'OnUserChangePassword',
@@ -589,7 +656,30 @@ $events['OnUserRemove']->fromArray(array (
   'service' => 1,
   'groupname' => 'Users',
 ), '', true, true);
-
+$events['OnUserBeforeAddToGroup']= $xpdo->newObject('modEvent');
+$events['OnUserBeforeAddToGroup']->fromArray(array (
+  'name' => 'OnUserBeforeAddToGroup',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+$events['OnUserAddToGroup']= $xpdo->newObject('modEvent');
+$events['OnUserAddToGroup']->fromArray(array (
+  'name' => 'OnUserAddToGroup',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+$events['OnUserBeforeRemoveFromGroup']= $xpdo->newObject('modEvent');
+$events['OnUserBeforeRemoveFromGroup']->fromArray(array (
+  'name' => 'OnUserBeforeRemoveFromGroup',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
+$events['OnUserRemoveFromGroup']= $xpdo->newObject('modEvent');
+$events['OnUserRemoveFromGroup']->fromArray(array (
+  'name' => 'OnUserRemoveFromGroup',
+  'service' => 1,
+  'groupname' => 'User Groups',
+), '', true, true);
 
 /* System */
 $events['OnWebPagePrerender']= $xpdo->newObject('modEvent');
@@ -634,6 +724,12 @@ $events['OnFileManagerUpload']->fromArray(array (
   'service' => 1,
   'groupname' => 'System',
 ), '', true, true);
+$events['OnFileCreateFormPrerender']= $xpdo->newObject('modEvent');
+$events['OnFileCreateFormPrerender']->fromArray(array (
+  'name' => 'OnFileCreateFormPrerender',
+  'service' => 1,
+  'groupname' => 'System',
+), '', true, true);
 $events['OnFileEditFormPrerender']= $xpdo->newObject('modEvent');
 $events['OnFileEditFormPrerender']->fromArray(array (
   'name' => 'OnFileEditFormPrerender',
@@ -643,6 +739,18 @@ $events['OnFileEditFormPrerender']->fromArray(array (
 $events['OnManagerPageInit']= $xpdo->newObject('modEvent');
 $events['OnManagerPageInit']->fromArray(array (
   'name' => 'OnManagerPageInit',
+  'service' => 2,
+  'groupname' => 'System',
+), '', true, true);
+$events['OnManagerPageBeforeRender']= $xpdo->newObject('modEvent');
+$events['OnManagerPageBeforeRender']->fromArray(array (
+  'name' => 'OnManagerPageBeforeRender',
+  'service' => 2,
+  'groupname' => 'System',
+), '', true, true);
+$events['OnManagerPageAfterRender']= $xpdo->newObject('modEvent');
+$events['OnManagerPageAfterRender']->fromArray(array (
+  'name' => 'OnManagerPageAfterRender',
   'service' => 2,
   'groupname' => 'System',
 ), '', true, true);
@@ -924,6 +1032,44 @@ $events['OnPropertySetBeforeRemove']->fromArray(array (
   'name' => 'OnPropertySetBeforeRemove',
   'service' => 1,
   'groupname' => 'Property Sets',
+), '', true, true);
+
+/* Media Source */
+$events['OnMediaSourceBeforeFormDelete']= $xpdo->newObject('modEvent');
+$events['OnMediaSourceBeforeFormDelete']->fromArray(array (
+  'name' => 'OnMediaSourceBeforeFormDelete',
+  'service' => 1,
+  'groupname' => 'Media Sources',
+), '', true, true);
+$events['OnMediaSourceBeforeFormSave']= $xpdo->newObject('modEvent');
+$events['OnMediaSourceBeforeFormSave']->fromArray(array (
+  'name' => 'OnMediaSourceBeforeFormSave',
+  'service' => 1,
+  'groupname' => 'Media Sources',
+), '', true, true);
+$events['OnMediaSourceGetProperties']= $xpdo->newObject('modEvent');
+$events['OnMediaSourceGetProperties']->fromArray(array (
+  'name' => 'OnMediaSourceGetProperties',
+  'service' => 1,
+  'groupname' => 'Media Sources',
+), '', true, true);
+$events['OnMediaSourceFormDelete']= $xpdo->newObject('modEvent');
+$events['OnMediaSourceFormDelete']->fromArray(array (
+  'name' => 'OnMediaSourceFormDelete',
+  'service' => 1,
+  'groupname' => 'Media Sources',
+), '', true, true);
+$events['OnMediaSourceFormSave']= $xpdo->newObject('modEvent');
+$events['OnMediaSourceFormSave']->fromArray(array (
+  'name' => 'OnMediaSourceFormSave',
+  'service' => 1,
+  'groupname' => 'Media Sources',
+), '', true, true);
+$events['OnMediaSourceDuplicate']= $xpdo->newObject('modEvent');
+$events['OnMediaSourceDuplicate']->fromArray(array (
+  'name' => 'OnMediaSourceDuplicate',
+  'service' => 1,
+  'groupname' => 'Media Sources',
 ), '', true, true);
 
 return $events;

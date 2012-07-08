@@ -7,10 +7,10 @@
  * @subpackage lexicon
  */
 $_lang['action'] = 'Action';
-$_lang['action_confirm_remove'] = 'Are you sure you want to remove this action? This could potentially break your MODx manager interface.';
+$_lang['action_confirm_remove'] = 'Are you sure you want to remove this action? This could potentially break your MODX manager interface.';
 $_lang['action_create'] = 'Create Action';
 $_lang['action_create_here'] = 'Create Action Here';
-$_lang['action_desc'] = 'Actions are abstractions of MODx controllers. They can be used to create custom manager pages, as well as reorganize the top menu of the MODx manager.';
+$_lang['action_desc'] = 'Actions are abstractions of MODX controllers. They can be used to create custom manager pages, as well as reorganize the top menu of the MODX manager.';
 $_lang['action_err_create'] = 'An error occurred while creating the action.';
 $_lang['action_err_nf'] = 'Action not found!';
 $_lang['action_err_ns'] = 'No action specified!';
@@ -20,10 +20,11 @@ $_lang['action_none'] = 'No Action';
 $_lang['action_parent_err_nf'] = 'Parent Action not found!';
 $_lang['action_parent_err_ns'] = 'Parent Action not specified!';
 $_lang['action_place_here'] = 'Place Action Here';
-$_lang['action_remove'] = 'Remove Action';
+$_lang['action_remove'] = 'Delete Action';
 $_lang['action_update'] = 'Update Action';
 $_lang['actions'] = 'Actions';
 $_lang['controller'] = 'Controller';
+$_lang['controller_err_ae'] = 'Controller already exists with this path for this Namespace.';
 $_lang['controller_err_nf'] = 'Controller file not found!';
 $_lang['controller_err_ns'] = 'No controller specified!';
 $_lang['controller_parent'] = 'Parent Controller';

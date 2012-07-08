@@ -15,19 +15,18 @@ MODx.page.CreateRole = function(config) {
 	Ext.applyIf(config,{
 		form: 'mutate_role'
 		,actions: {
-            'new': MODx.action['security/role/create']
-            ,edit: MODx.action['security/role/update']
-            ,cancel: MODx.action['security/role']
+            'new': 'security/role/create'
+            ,edit: 'security/role/update'
+            ,cancel: 'security/role'
         }
         ,buttons: [{
             process: 'create', text: _('save'), method: 'remote'
             ,keys: [{
                 key: MODx.config.keymap_save || 's'
-                ,alt: true
                 ,ctrl: true
             }]
         },'-',{
-            process: 'cancel', text: _('cancel'), params:{a:MODx.action['security/role']}
+            process: 'cancel', text: _('cancel'), params:{a:'security/role'}
         },'-',{
             text: _('help_ex')
             ,handler: MODx.loadHelpPane

@@ -16,7 +16,7 @@ $givenPassword = $scriptProperties['password'];
 $rememberme= isset ($scriptProperties['rememberme']) ? ($scriptProperties['rememberme'] == 'on' || $scriptProperties['rememberme'] == true) : false;
 $lifetime= (integer) $modx->getOption('lifetime', $scriptProperties, $modx->getOption('session_cookie_lifetime', null,0));
 $loginContext= isset ($scriptProperties['login_context']) ? $scriptProperties['login_context'] : $modx->context->get('key');
-$addContexts= isset ($scriptProperties['add_contexts']) ? explode(',', $scriptProperties['add_contexts']) : array();
+$addContexts= isset ($scriptProperties['add_contexts']) && !empty($scriptProperties['add_contexts']) ? explode(',', $scriptProperties['add_contexts']) : array();
 
 /* Events are fired based on the primary loginContext */
 $mgrEvents = ($loginContext == 'mgr');
@@ -48,6 +48,7 @@ if (is_array($rt)) {
     unset($key,$value);
 }
 
+/** @var $user modUser */
 $user= $modx->getObjectGraph('modUser', '{"Profile":{},"UserSettings":{}}', array ('modUser.username' => $username));
 
 if (!$user) {
@@ -79,36 +80,39 @@ if (!$user->get('active')) {
     return $modx->error->failure($modx->lexicon('login_user_inactive'));
 }
 
-$up= & $user->Profile;
-$us= & $user->UserSettings;
-foreach ($us as $settingPK => $setting) {
+foreach ($user->UserSettings as $settingPK => $setting) {
     $sname= $setting->get('key');
     $$sname= $setting->get('value');
 }
-if ($up->get('failed_logins') >= $modx->getOption('failed_login_attempts') && $up->get('blockeduntil') > time()) {
+if ($user->Profile->get('failed_logins') >= $modx->getOption('failed_login_attempts') && $user->Profile->get('blockeduntil') > time()) {
     return $modx->error->failure($modx->lexicon('login_blocked_too_many_attempts'));
 }
-if ($up->get('failedlogincount') >= $modx->getOption('failed_login_attempts') && $up->get('blockeduntil') < time()) {
-    $up->set('failedlogincount', 0);
-    $up->set('blockeduntil', time() - 1);
-    $up->save();
+if ($user->Profile->get('failedlogincount') >= $modx->getOption('failed_login_attempts')) {
+    $user->Profile->set('failedlogincount', 0);
+    $user->Profile->set('blocked', 1);
+    $user->Profile->set('blockeduntil', time() + (60 * $modx->getOption('blocked_minutes')));
+    $user->Profile->save();
 }
-if ($up->get('blocked')) {
+if ($user->Profile->get('blockeduntil') != 0 && $user->Profile->get('blockeduntil') < time()) {
+    $user->Profile->set('failedlogincount', 0);
+    $user->Profile->set('blocked', 0);
+    $user->Profile->set('blockeduntil', 0);
+    $user->Profile->save();
+}
+if ($user->Profile->get('blocked')) {
     return $modx->error->failure($modx->lexicon('login_blocked_admin'));
 }
-if ($up->get('blockeduntil') > time()) {
+if ($user->Profile->get('blockeduntil') > time()) {
     return $modx->error->failure($modx->lexicon('login_blocked_error'));
 }
-if ($up->get('blockedafter') > 0 && $up->get('blockedafter') < time()) {
+if ($user->Profile->get('blockedafter') > 0 && $user->Profile->get('blockedafter') < time()) {
     return $modx->error->failure($modx->lexicon('login_blocked_error'));
 }
+
 if (isset ($allowed_ip) && $allowed_ip) {
-    if (($hostname = gethostbyaddr($_SERVER['REMOTE_ADDR'])) && ($hostname != $_SERVER['REMOTE_ADDR'])) {
-        if (gethostbyname($hostname) != $_SERVER['REMOTE_ADDR']) {
-            return $modx->error->failure($modx->lexicon('login_hostname_error'));
-        }
-    }
-    if (!in_array($_SERVER['REMOTE_ADDR'], explode(',', str_replace(' ', '', $allowed_ip)))) {
+    $ip = $modx->request->getClientIp();
+    $ip = $ip['ip'];
+    if (!in_array($ip, explode(',', str_replace(' ', '', $allowed_ip)))) {
         return $modx->error->failure($modx->lexicon('login_blocked_ip'));
     }
 }
@@ -136,11 +140,18 @@ if ($mgrEvents) {
 /* check if plugin authenticated the user */
 if (!$rt || (is_array($rt) && !in_array(true, $rt))) {
     /* check user password - local authentication */
-    if ($user->get('password') != md5($givenPassword)) {
-        $flc = ((int)$up->get('failedlogincount'))+1;
-        $up->set('failedlogincount',$flc);
-        $up->save();
-        
+    if (!$user->passwordMatches($givenPassword)) {
+        if (!array_key_exists('login_failed', $_SESSION)) {
+            $_SESSION['login_failed'] = 0;
+        }
+        if ($_SESSION['login_failed'] == 0) {
+            $flc = ((integer) $user->Profile->get('failedlogincount')) + 1;
+            $user->Profile->set('failedlogincount', $flc);
+            $user->Profile->save();
+            $_SESSION['login_failed']++;
+        } else {
+            $_SESSION['login_failed'] = 0;
+        }
         return $modx->error->failure($modx->lexicon('login_username_password_incorrect'));
     }
 }
@@ -177,8 +188,12 @@ if ($mgrEvents) {
     $modx->invokeEvent("OnWebLogin", $postLoginAttributes);
 }
 
+$userToken = $user->getUserToken($this->modx->context->get('key'));
 $returnUrl = isset($scriptProperties['returnUrl']) ? $scriptProperties['returnUrl'] : '';
-$response = array('url' => $returnUrl);
+$response = array(
+    'url' => $returnUrl,
+    'token' => $userToken,
+);
 switch ($loginContext) {
     case 'mgr':
         $manager_login_startup_url = $modx->getOption('manager_url', null, $returnUrl);
@@ -186,7 +201,10 @@ switch ($loginContext) {
             $manager_login_startup= intval($manager_login_startup);
             if ($manager_login_startup) $manager_login_startup_url .= '?id=' . $manager_login_startup;
         }
-        $response= array('url' => $manager_login_startup_url);
+        $response= array(
+            'url' => $manager_login_startup_url,
+            'token' => $userToken,
+        );
         break;
     case 'web':
     default:
@@ -195,7 +213,10 @@ switch ($loginContext) {
             $login_startup = intval($login_startup);
             if ($login_startup) $login_startup_url = $modx->makeUrl($login_startup, $loginContext, '', 'full');
         }
-        $response= array('url' => $login_startup_url);
+        $response= array(
+            'url' => $login_startup_url,
+            'token' => $userToken,
+        );
 }
 
 return $modx->error->success('', $response);

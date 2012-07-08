@@ -6,7 +6,6 @@
  * @package modx
  * @subpackage lexicon
  */
-
 $_lang['action'] = 'Action';
 $_lang['action_desc'] = 'Cette règle s\'appliquera à l\'action spécifiée.';
 $_lang['activate'] = 'Activer';
@@ -33,7 +32,7 @@ $_lang['filter_by_rule_type'] = 'Filtrer par règle…';
 $_lang['filter_by_search'] = 'Rechercher…';
 $_lang['for_parent'] = 'Pour le parent';
 $_lang['for_parent_desc'] = 'Cochez ceci lorsque vous souhaitez que la règle s\'applique au parent. À n\'utiliser qu\'avec des ressources ou objets ayant un champ `parent`. Utile pour la page de "création" de ressources.';
-$_lang['form_customization_msg'] = 'Voici une liste des règles actuellement appliquées. Des informations supplémentaires sur les règles de personnalisation des formulaires peuvent être consultées <a href="http://rtfm.modx.com/display/revolution20/Customizing+the+Manager" target="_blank">sur la documentation de MODx (Ang.)</a> . Veuillez noter que des règles incorrectes peuvent provoquer des problèmes avec votre installation de MODx Revolution. Les règles inactives sont grisées.';
+$_lang['form_customization_msg'] = 'Voici une liste des règles actuellement appliquées. Des informations supplémentaires sur les règles de personnalisation des formulaires peuvent être consultées <a href="http://rtfm.modx.com/display/revolution20/Customizing+the+Manager" target="_blank">sur la documentation de MODX (Ang.)</a> . Veuillez noter que des règles incorrectes peuvent provoquer des problèmes avec votre installation de MODX Revolution. Les règles inactives sont grisées.';
 $_lang['form_rules'] = 'Règles du formulaire';
 $_lang['import'] = 'Importer';
 $_lang['import_from_xml'] = 'Importer un nouveau set depuis un XML';
@@ -57,6 +56,8 @@ $_lang['profiles'] = 'Profils de personnalisation de formulaire';
 $_lang['profiles_msg'] = 'Liste de vos profils de personnalisation de formulaire. Les profils peuvent contenir plusieurs règles de personnalisation et être activés ou désactivés. Ils peuvent également être configurés pour ne s\'appliquer qu\'à certain groupes d\'utilisateurs.';
 $_lang['rank'] = 'Rang';
 $_lang['rank_desc'] = 'L\'ordre dans lequel les règles sont exécutées. Un petit nombre signifie qu\'il sera exécuté plus tôt.';
+$_lang['region'] = 'Région';
+$_lang['regions'] = 'Régions';
 $_lang['rule'] = 'Règle';
 $_lang['rule_create'] = 'Créer une règle';
 $_lang['rule_desc'] = 'Le type de la règle qui sera appliquée à ce champ.';
@@ -77,7 +78,7 @@ $_lang['rules'] = 'Règles';
 $_lang['set'] = 'Set';
 $_lang['set_and_fields'] = 'Set d\'information et champs';
 $_lang['set_change_template'] = 'Changer le modèle pour le set';
-$_lang['set_change_template_confirm'] = 'Êtes-vous sûr de vouloir faire ceci? Ceci changera le modèle pour lequel ces règles s\'appliquent. Si vous êtes sûr, MODx enregistrera en premier lieu vos modifications avant de recharger la page et rafraîchir les nouvelles variables de modèle pour ce nouveau model.';
+$_lang['set_change_template_confirm'] = 'Êtes-vous sûr de vouloir faire ceci? Ceci changera le modèle pour lequel ces règles s\'appliquent. Si vous êtes sûr, MODX enregistrera en premier lieu vos modifications avant de recharger la page et rafraîchir les nouvelles variables de modèle pour ce nouveau model.';
 $_lang['set_constraint_field_desc'] = 'Définir le champ de contrainte permet que les règles de ce set ne s\'exécutent que sur les ressources remplissant ces contraintes.';
 $_lang['set_constraint_desc'] = 'Définissez la valeur du champ (indiqué ci-dessus) pour restreindre les règles de ce set à ne s\'exécuter que si les ressources ont cette valeur de champ de contrainte.';
 $_lang['set_create'] = 'Créer un nouveau set';
@@ -94,18 +95,18 @@ $_lang['set_remove_confirm'] = 'Êtes-vous sûr de vouloir supprimer ce set? Cet
 $_lang['set_remove_multiple'] = 'Supprimer plusieur sets';
 $_lang['set_remove_multiple_confirm'] = 'Êtes-vous sûr de vouloir supprimer ces sets? Cette opération est irreverssible.';
 $_lang['set_tab_err_ae'] = 'Un onglet ayant cet ID existe déjà. Veuillez en indiquer un autre.';
-$_lang['set_tabs_msg'] = 'Vous pouvez ajuster ici les onglets pour cette page, inclue leur visibilité et titre. double-cliquez sur une cellule pour éditer sa valeur. Laissez le champ vide pour utiliser la valeur par défaut.';
+$_lang['set_tabs_msg'] = 'Vous pouvez ajuster ici les onglets et régions pour cette page, inclue leur visibilité et titre. double-cliquez sur une cellule pour éditer sa valeur. Laissez le champ vide pour utiliser la valeur par défaut.';
 $_lang['set_template_desc'] = 'Choisir un modèle empêchera les règles du set de s\'exécuter, à moins que la ressource n\'utilise ce modèle.';
-$_lang['set_tvs_msg'] = 'Vous pouvez définir ici leur visibilité, leurs noms, leurs valeurs par défaut et leurs onglets en double-cliquant sur la cellule dans la grille. Note: si vous déplacez une variable de modèle dans un autre onglet, vous pouvez définir son ordre dans le champ "ordre d\'onglet". Laissez vide pour utiliser la valeur par défaut.';
+$_lang['set_tvs_msg'] = 'Vous pouvez définir ici leur visibilité, leurs noms, leurs valeurs par défaut et leurs onglets en double-cliquant sur la cellule dans la grille. Note: si vous déplacez une variable de modèle dans unu autre région, vous pouvez définir son ordre dans le champ "ordre de région". Laissez vide pour utiliser la valeur par défaut.';
 $_lang['sets'] = 'Set de personnalisation de formulaire';
-$_lang['simplexml_err_nf'] = 'MODx requiert l\'extension PHP SimpleXML pour utiliser cette fonction. Veuillez vous assurer que cette extension est installée avant de continuer.';
+$_lang['simplexml_err_nf'] = 'MODX requiert l\'extension PHP SimpleXML pour utiliser cette fonction. Veuillez vous assurer que cette extension est installée avant de continuer.';
 $_lang['tab'] = 'Onglet';
 $_lang['tab_create'] = 'Créer un nouvel onglet';
 $_lang['tab_id'] = 'ID';
 $_lang['tab_name'] = 'Nom de l\'onglet';
-$_lang['tab_title'] = 'Titre de l\'onglet';
+$_lang['tab_title'] = 'Titre';
 $_lang['tab_new'] = 'Nouvel onglet';
-$_lang['tab_rank'] = 'Ordre de l\'onglet';
+$_lang['tab_rank'] = 'Ordre de région';
 $_lang['tab_remove'] = 'Supprimer l\'onglet';
 $_lang['tab_remove_confirm'] = 'Êtes-vous sûr de vouloir supprimer cet onglet?';
 $_lang['tab_visible'] = 'Onglet visible';
@@ -124,4 +125,4 @@ $_lang['usergroup_remove'] = 'Supprimer le groupe d\'utilisateur du set';
 $_lang['usergroup_remove_confirm'] = 'Êtes-vous sûr de vouloir que ce set ne s\'applique plus à ce groupe d\'utilisateurs?';
 $_lang['usergroups'] = 'Groupes d\'utilisateurs';
 $_lang['visible'] = 'Visible';
-$_lang['xmlwriter_err_nf'] = 'MODx requiert l\'extension PHP XMLWriter pour utiliser cette fonction. Veuillez vous assurer que cette extension est installée avant de continuer.';
+$_lang['xmlwriter_err_nf'] = 'MODX requiert l\'extension PHP XMLWriter pour utiliser cette fonction. Veuillez vous assurer que cette extension est installée avant de continuer.';

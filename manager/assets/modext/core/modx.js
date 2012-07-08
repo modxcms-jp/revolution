@@ -2,6 +2,20 @@ Ext.namespace('MODx');
 Ext.apply(Ext,{
     isFirebug: (window.console && window.console.firebug)
 });
+/* work around IE9 createContextualFragment bug
+   http://www.sencha.com/forum/showthread.php?125869-Menu-shadow-probolem-in-IE9
+ */
+if ((typeof Range !== "undefined") && !Range.prototype.createContextualFragment)
+{
+	Range.prototype.createContextualFragment = function(html)
+	{
+		var frag = document.createDocumentFragment(),
+		div = document.createElement("div");
+		frag.appendChild(div);
+		div.outerHTML = html;
+		return frag;
+	};
+}
 /**
  * @class MODx
  * @extends Ext.Component
@@ -17,14 +31,18 @@ MODx = function(config) {
 Ext.extend(MODx,Ext.Component,{
     config: {}
     ,util:{},window:{},panel:{},tree:{},form:{},grid:{},combo:{},toolbar:{},page:{},msg:{}
+    ,expandHelp: true
+    ,defaultState: []
 
     ,startup: function() {
         this.initQuickTips();
         this.request = this.getURLParameters();
         this.Ajax = this.load({ xtype: 'modx-ajax' });
         Ext.override(Ext.form.Field,{
-            defaultAutoCreate: {tag: "input", type: "text", size: "20", autocomplete: "on" }
+            defaultAutoCreate: {tag: "input", type: "text", size: "20", autocomplete: "on", msgTarget: 'under' }
         });
+
+        Ext.Ajax.on('requestexception',this.onAjaxException,this);
         Ext.menu.Menu.prototype.enableScrolling = false;
         this.addEvents({
             beforeClearCache: true
@@ -35,9 +53,15 @@ Ext.extend(MODx,Ext.Component,{
             ,afterReleaseLocks: true
             ,ready: true
         });
-        Ext.state.Manager.setProvider(new Ext.state.CookieProvider({
-            expires: new Date(new Date().getTime()+(1000*60*60*24))
-        }));
+    }
+	
+    ,add: function(cmp) {
+        var ctr = Ext.getCmp('modx-content');
+        if (ctr) {
+            ctr.removeAll();
+            ctr.add({ xtype: cmp });
+            ctr.doLayout();
+        }
     }
 
     ,load: function() {
@@ -72,6 +96,32 @@ Ext.extend(MODx,Ext.Component,{
             }
         }
         return arg;
+    }
+
+    ,onAjaxException: function(conn,r,opt,e) {
+        try {
+            r = Ext.decode(r.responseText);
+        } catch (e) {
+            Ext.MessageBox.show({
+                title: _('error')
+                ,msg: e.message+': '+ r.responseText
+                ,buttons: Ext.MessageBox.OK
+                ,cls: 'modx-js-parse-error'
+                ,minWidth: 600
+                ,maxWidth: 750
+                ,modal: false
+                ,width: 600
+            });
+        }
+        if (r && (r.code == 401 || (r.object && r.object.code == 401))) {
+            if (!MODx.loginWindow) {
+                MODx.loginWindow = MODx.load({
+                    xtype: 'modx-window-login'
+                    ,username: MODx.user.username
+                });
+            }
+            MODx.loginWindow.show();
+        }
     }
 
     ,loadAccordionPanels: function() { return []; }
@@ -160,16 +210,18 @@ Ext.extend(MODx,Ext.Component,{
 
     ,getPageStructure: function(v,c) {
         c = c || {};
-        if (MODx.config.manager_use_tabs) {
-            Ext.applyIf(c,{xtype: 'modx-tabs',itemId: 'tabs' ,style: 'margin-top: .5em;',items: v});
-        } else {
-            Ext.applyIf(c,{xtype:'portal',itemId: 'tabs' ,items:[{columnWidth:1,items: v,forceLayout: true}]});
-        }
+        Ext.applyIf(c,{
+            xtype: 'modx-tabs'
+            ,itemId: 'tabs'
+            ,items: v
+			,cls: 'structure-tabs'
+        });
         return c;
     }
 
+    ,helpUrl: false
     ,loadHelpPane: function(b) {
-        var url = MODx.config.help_url;
+        var url = MODx.helpUrl;
         if (!url) { return false; }
         MODx.helpWindow = new Ext.Window({
             title: _('help')
@@ -185,31 +237,42 @@ Ext.extend(MODx,Ext.Component,{
 
     ,addTab: function(tbp,opt) {
         var tabs = Ext.getCmp(tbp);
-        Ext.applyIf(opt,{
-            id: 'modx-'+Ext.id()+'-tab'
-            ,layout: 'form'
-            ,cls: 'modx-resource-tab'
-            ,bodyStyle: 'padding: 15px;'
-            ,autoHeight: true
-            ,defaults: {
-                border: false
-                ,msgTarget: 'side'
-                ,width: 400
-            }
-        });
-        tabs.add(opt);
-        tabs.doLayout();
-        tabs.setActiveTab(0);
+        if (tabs) {
+            Ext.applyIf(opt,{
+                id: 'modx-'+Ext.id()+'-tab'
+                ,layout: 'form'
+                ,cls: 'modx-resource-tab'
+                ,bodyStyle: 'padding: 15px;'
+                ,autoHeight: true
+                ,defaults: {
+                    border: false
+                    ,msgTarget: 'side'
+                    ,width: 400
+                }
+            });
+            tabs.add(opt);
+            tabs.doLayout();
+            tabs.setActiveTab(0);
+        }
     }
     ,hiddenTabs: []
-    ,hideTab: function(ct,tab) {
+    ,hideTab: function(ct,tab) {this.hideRegion(ct,tab);}
+    ,hideRegion: function(ct,tab) {
         var tp = Ext.getCmp(ct);
-        if (!tp) return false;
-        
-        tp.hideTabStripItem(tab);
-        MODx.hiddenTabs.push(tab);
-        var idx = this._getNextActiveTab(tp,tab);
-        tp.setActiveTab(idx);
+        if (tp) {
+            var tabObj = tp.getItem(tab);
+            if (tabObj) {
+                var z = tp.hideTabStripItem(tab);
+                MODx.hiddenTabs.push(tab);
+                var idx = this._getNextActiveTab(tp,tab);
+                tp.setActiveTab(idx);
+            } else {
+                var region = Ext.getCmp(tab);
+                if (region) {
+                    region.hide();
+                }
+            }
+        }
     }
     ,_getNextActiveTab: function(tp,tab) {
         if (MODx.hiddenTabs.indexOf(tab) != -1) {
@@ -229,7 +292,7 @@ Ext.extend(MODx,Ext.Component,{
 
         for (var i=0;i<tvs.length;i++) {
             var tr = Ext.get(tvs[i]+'-tr');
-            
+
             if (!tr) { return; }
             var fp = Ext.getCmp(tab);
             if (!fp) { return; }
@@ -247,15 +310,49 @@ Ext.extend(MODx,Ext.Component,{
     }
     ,hideTV: function(tvs) {
         if (!Ext.isArray(tvs)) { tvs = [tvs]; }
-        MODx.on("ready",function() { this.hideTVs(tvs); },this);
+        this.hideTVs(tvs);
     }
     ,hideTVs: function(tvs) {
         if (!Ext.isArray(tvs)) { tvs = [tvs]; }
         var el;
         for (var i=0;i<tvs.length;i++) {
             el = Ext.get(tvs[i]+'-tr');
-            el.setVisibilityMode(Ext.Element.DISPLAY);
-            el.hide();
+            if (el) {
+                el.setVisibilityMode(Ext.Element.DISPLAY);
+                el.hide();
+            }
+        }
+    }
+    ,renameLabel: function(ct,flds,vals) {
+        var cto;
+        if (ct == 'modx-panel-resource' && flds.indexOf('modx-resource-content') != -1) {
+            cto = Ext.getCmp('modx-resource-content');
+            if (cto) {
+                if (cto.setTitle) {
+                    cto.setTitle(vals[0]);
+                } else if (cto.setLabel) {
+                    cto.setLabel(flds,vals);
+                } else {
+                    cto.label.update(vals[0]);
+                }
+            }
+        } else {
+            cto = Ext.getCmp(ct);
+            if (cto) {
+                cto.setLabel(flds,vals);
+            }
+        }
+    }
+    ,renameTab: function(tb,title) {
+        var tab = Ext.getCmp(tb);
+        if (tab) {
+            tab.setTitle(title);
+        }
+    }
+    ,hideField: function(ct,flds) {
+        ct = Ext.getCmp(ct);
+        if (ct) {
+            ct.hideField(flds);
         }
     }
     ,preview: function() {
@@ -279,6 +376,15 @@ Ext.extend(MODx,Ext.Component,{
             });
         }
         return true;
+    }
+    ,debug: function(msg) {
+        if (MODx.config.ui_debug_mode == 1) {
+            console.log(msg);
+        }
+    }
+
+    ,isEmpty: function(v) {
+        return Ext.isEmpty(v) || v === false || v === 'false' || v === 'FALSE' || v === '0' || v === 0;
     }
 });
 Ext.reg('modx',MODx);
@@ -395,10 +501,10 @@ Ext.extend(MODx.form.Handler,Ext.Component,{
 
     ,errorExt: function(r,frm) {
         this.unhighlightFields();
-        if (r.errors !== null && frm) {
+        if (r && r.errors !== null && frm) {
             frm.markInvalid(r.errors);
         }
-        if (r.message !== undefined && r.message !== '') {
+        if (r && r.message !== undefined && r.message !== '') {
             this.showError(r.message);
         } else {
             MODx.msg.hide();
@@ -479,12 +585,18 @@ Ext.extend(MODx.Msg,Ext.Component,{
 
         var fadeOpts = {remove:true,useDisplay:true};
         if (!opt.dontHide) {
-            m.pause(opt.delay || 1.5).ghost("t",fadeOpts);
+            if(!Ext.isIE8) {
+                m.pause(opt.delay || 1.5).ghost("t",fadeOpts);
+            } else {
+                fadeOpts.duration = (opt.delay || 1.5);
+                m.ghost("t",fadeOpts);
+            }
         } else {
             m.on('click',function() {
                 m.ghost('t',fadeOpts);
             });
         }
+
     }
     ,getStatusMarkup: function(opt) {
         var mk = '<div class="modx-status-msg">';
@@ -494,3 +606,217 @@ Ext.extend(MODx.Msg,Ext.Component,{
     }
 });
 Ext.reg('modx-msg',MODx.Msg);
+
+/**
+ * Server-side state provider for MODx
+ *
+ * @class MODx.state.HttpProvider
+ * @extends Ext.state.Provider
+ * @constructor
+ * @param {Object} config Configuration object.
+ */
+MODx.HttpProvider = function(config) {
+    config = config || {};
+    this.addEvents(
+        'readsuccess'
+        ,'readfailure'
+        ,'writesuccess'
+        ,'writefailure'
+    );
+    MODx.HttpProvider.superclass.constructor.call(this,config);
+    Ext.apply(this, config, {
+        delay: 1000
+        ,dirty: false
+        ,started: false
+        ,autoStart: true
+        ,autoRead: true
+        ,queue: {}
+        ,readUrl: MODx.config.connectors_url+'system/registry/register.php'
+        ,writeUrl: MODx.config.connectors_url+'system/registry/register.php'
+        ,method: 'post'
+        ,baseParams: {
+            register: 'state'
+            ,topic: ''
+        }
+        ,writeBaseParams: {
+            action: 'send'
+            ,message: ''
+            ,message_key: ''
+            ,message_format: 'json'
+            ,delay: 0
+            ,ttl: 0
+            ,kill: 0
+        }
+        ,readBaseParams: {
+            action: 'read'
+            ,format: 'json'
+            ,poll_limit: 1
+            ,poll_interval: 1
+            ,time_limit: 10
+            ,message_limit: 200
+            ,remove_read: 0
+            ,show_filename: 0
+            ,include_keys: 1
+        }
+        ,paramNames: {
+            topic: 'topic'
+            ,name: 'name'
+            ,value: 'value'
+            ,message: 'message'
+            ,message_key: 'message_key'
+        }
+    });
+    this.config = config;
+    if (this.autoRead) {
+        this.readState();
+    }
+    this.dt = new Ext.util.DelayedTask(this.submitState, this);
+    if (this.autoStart) {
+        this.start();
+    }
+};
+Ext.extend(MODx.HttpProvider, Ext.state.Provider, {
+    initState: function(state) {
+        if (state instanceof Object) {
+            Ext.iterate(state, function(name, value, o) {
+                this.state[name] = value;//this.decodeValue(value);
+            }, this)
+        } else {
+            this.state = {};
+        }
+    }
+    ,set: function(name, value) {
+        if (!name) {
+            return;
+        }
+        this.queueChange(name, value);
+    }
+    ,get : function(name, defaultValue){
+        return typeof this.state[name] == "undefined" ?
+            defaultValue : this.state[name];
+    }
+    ,start: function() {
+        this.dt.delay(this.delay);
+        this.started = true;
+    }
+    ,stop: function() {
+        this.dt.cancel();
+        this.started = false;
+    }
+    ,queueChange:function(name, value) {
+        var lastValue = this.state[name];
+        var found = this.queue[name] !== undefined;
+        if (found) {
+            lastValue = this.queue[name];
+        }
+        var changed = undefined === lastValue || lastValue !== value;
+        if (changed) {
+            this.queue[name] = value;
+            this.dirty = true;
+        }
+        if (this.started) {
+            this.start();
+        }
+        return changed;
+    }
+    ,submitState: function() {
+        if (!this.dirty) {
+            this.dt.delay(this.delay);
+            return;
+        }
+        this.dt.cancel();
+
+        var o = {
+             url: this.writeUrl
+            ,method: this.method
+            ,scope: this
+            ,success: this.onWriteSuccess
+            ,failure: this.onWriteFailure
+            ,queue: Ext.apply({}, this.queue)
+            ,params: {}
+        };
+        var params = Ext.apply({}, this.baseParams, this.writeBaseParams);
+        params[this.paramNames.topic] = '/ys/user-' + MODx.user.id + '/';
+        params[this.paramNames.message] = Ext.encode(this.queue);
+
+        Ext.apply(o.params, params);
+        // be optimistic
+        this.dirty = false;
+
+        Ext.Ajax.request(o);
+    }
+    ,clear: function(name) {
+        this.set(name, undefined);
+    }
+    ,onWriteSuccess: function(r,o) {
+        r = Ext.decode(r.responseText);
+        if (true !== r.success) {
+            this.dirty = true;
+        } else {
+            Ext.iterate(o.queue, function(name, value) {
+                if(!name) {
+                    return;
+                }
+                if (undefined === value || null === value) {
+                    MODx.HttpProvider.superclass.clear.call(this, name);
+                } else {
+                    // parent sets value and fires event
+                    MODx.HttpProvider.superclass.set.call(this, name, value);
+                }
+            }, this);
+            if (false === this.dirty) {
+                this.queue = {};
+            } else {
+                Ext.iterate(o.queue, function(name, value) {
+                    var found = this.queue[name] !== undefined;
+                    if (true === found && value === this.queue[name]) {
+                        delete this.queue[name];
+                    }
+                }, this);
+            }
+            this.fireEvent('writesuccess', this);
+        }
+    }
+    ,onWriteFailure: function(r) {
+        r = Ext.decode(r.responseText);
+        this.dirty = true;
+        this.fireEvent('writefailure', this);
+    }
+    ,onReadFailure: function(r) {
+        r = Ext.decode(r.responseText);
+        this.fireEvent('readfailure', this);
+    }
+    ,onReadSuccess: function(r) {
+        r = Ext.decode(r.responseText);
+        var state;
+        if (true === r.success && r.message) {
+            state = Ext.decode(r.message);
+            if (!(state instanceof Object)) {
+                return;
+            }
+            Ext.iterate(state, function(name, value, o) {
+                this.state[name] = value;
+            }, this);
+            this.queue = {};
+            this.dirty = false;
+            this.fireEvent('readsuccess', this);
+        }
+    }
+    ,readState: function() {
+        var o = {
+             url: this.readUrl
+            ,method: this.method
+            ,scope: this
+            ,success: this.onReadSuccess
+            ,failure: this.onReadFailure
+            ,params: {}
+        };
+
+        var params = Ext.apply({}, this.baseParams, this.readBaseParams);
+        params[this.paramNames.topic] = '/ys/user-' + MODx.user.id + '/';
+
+        Ext.apply(o.params, params);
+        Ext.Ajax.request(o);
+    }
+});
+

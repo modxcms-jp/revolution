@@ -1,11 +1,4 @@
 <?php
-/**
- * Plugin Russian lexicon topic
- *
- * @language ru
- * @package modx
- * @subpackage lexicon
- */
 $_lang['event'] = 'Событие';
 $_lang['events'] = 'События';
 $_lang['plugin'] = 'Плагин';
@@ -14,11 +7,14 @@ $_lang['plugin_add_to_event'] = 'Выберите события, которые
 $_lang['plugin_code'] = 'Код плагина (php)';
 $_lang['plugin_config'] = 'Конфигурация плагина:';
 $_lang['plugin_desc'] = 'Описание';
+$_lang['plugin_desc_category'] = 'Категория к которой принадлежит этот плагин.';
+$_lang['plugin_desc_description'] = 'Краткое описание плагина.';
+$_lang['plugin_desc_name'] = 'Название плагина.';
 $_lang['plugin_delete_confirm'] = 'Вы уверены, что хотите удалить плагин?';
 $_lang['plugin_disabled'] = 'Плагин отключен';
 $_lang['plugin_duplicate_confirm'] = 'Вы уверены, что хотите сделать копию этого плагина?';
 $_lang['plugin_err_create'] = 'При создании плагина произошла ошибка.';
-$_lang['plugin_err_exists_name'] = 'Плагин с таким названием уже существует .';
+$_lang['plugin_err_exists_name'] = 'Плагин с именем «[[+name]]» уже существует .';
 $_lang['plugin_err_invalid_name'] = 'Такое имя плагина недопустимо.';
 $_lang['plugin_err_nf'] = 'Плагин не найден!';
 $_lang['plugin_err_ns'] = 'Плагин не указан.';

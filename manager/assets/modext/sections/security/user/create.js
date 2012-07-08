@@ -19,11 +19,10 @@ MODx.page.CreateUser = function(config) {
             ,checkDirty: true
             ,keys: [{
                 key: MODx.config.keymap_save || 's'
-                ,alt: true
                 ,ctrl: true
             }]
         },'-',{
-            process: 'cancel', text: _('cancel'), params: {a:MODx.action['security/user']}
+            process: 'cancel', text: _('cancel'), params: {a:'security/user'}
         },'-',{
             text: _('help_ex')
             ,handler: MODx.loadHelpPane

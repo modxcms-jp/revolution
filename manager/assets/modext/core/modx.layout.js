@@ -20,39 +20,84 @@ MODx.Layout = function(config){
         'HTTP_MODAUTH': config.auth
     };
     MODx.siteId = config.auth;
+    MODx.expandHelp = !Ext.isEmpty(MODx.config.inline_help);
+
+    var sp = new MODx.HttpProvider();
+    Ext.state.Manager.setProvider(sp);
+    sp.initState(MODx.defaultState);
 
     var tabs = [];
     var showTree = false;
     if (MODx.perm.resource_tree) {
        tabs.push({
-            xtype: 'modx-tree-resource'
-            ,title: _('resources')
-            ,id: 'modx-resource-tree'
+            title: _('resources')
+            ,id: 'modx-resource-tree-ct'
+            ,listeners: {
+              activate : function(panel){
+                if (Ext.get('modx-resource-tree') == null){
+                  Ext.get(Ext.query('#'+panel.id+' div.x-panel-bwrap')).item(0).remove();
+                  MODx.load({
+                      xtype: 'modx-tree-resource'
+                      ,id: 'modx-resource-tree'
+                      ,renderTo: panel.id
+                  });
+                }
+              }
+            }
         });
         showTree = true;
     }
     if (MODx.perm.element_tree) {
         tabs.push({
-            xtype: 'modx-tree-element'
-            ,title: _('elements')
-            ,id: 'modx-element-tree'
+            title: _('elements')
+            ,id: 'modx-element-tree-ct'
+            ,listeners: {
+              activate : function(panel){
+                if (Ext.get('modx-element-tree') == null){
+                  Ext.get(Ext.query('#'+panel.id+' div.x-panel-bwrap')).item(0).remove();
+                  MODx.load({
+                      xtype: 'modx-tree-element'
+                      ,id: 'modx-element-tree'
+                      ,renderTo: panel.id
+                  });
+                }
+              }
+            }
         });
         showTree = true;
     }
     if (MODx.perm.file_tree) {
         tabs.push({
-            xtype: 'modx-tree-directory'
-            ,title: _('files')
-            ,id: 'modx-file-tree'
+            title: _('files')
+            ,id: 'modx-file-tree-ct'
             ,hideFiles: false
+            ,listeners: {
+              activate : function(panel){
+                if (Ext.get('modx-file-tree') == null){
+                  Ext.get(Ext.query('#'+panel.id+' div.x-panel-bwrap')).item(0).remove();
+                  MODx.load({
+                      xtype: 'modx-tree-directory'
+                      ,id: 'modx-file-tree'
+                      ,renderTo: panel.id
+                  });
+                }
+              }
+            }
         });
         showTree = true;
     }
+    var activeTab = 0;
 
     Ext.applyIf(config,{
          layout: 'border'
         ,id: 'modx-layout'
+		,saveState: true
         ,items: [{
+            xtype: 'box'
+            ,region: 'north'
+            ,applyTo: 'modx-header'
+            ,height: 92
+        },{
              region: 'west'
             ,applyTo: 'modx-leftbar'
             ,id: 'modx-leftbar-tabs'
@@ -60,13 +105,12 @@ MODx.Layout = function(config){
             ,width: 310
             ,minSize: 150
             ,maxSize: 800
-            ,autoHeight: true
+            ,autoScroll: true
             ,unstyled: true
             ,collapseMode: 'mini'
             ,useSplitTips: true
             ,monitorResize: true
             ,forceLayout: true
-            ,stateful: false
             ,items: [{
                  xtype: 'modx-tabs'
                 ,plain: true
@@ -76,10 +120,11 @@ MODx.Layout = function(config){
                      autoScroll: true
                     ,fitToFrame: true
                 }
+                ,id: 'modx-leftbar-tabpanel'
                 ,border: false
-                ,activeTab: 0
+                ,activeTab: activeTab
                 ,stateful: true
-                ,stateId: 'modx-leftbar-state'
+                ,stateId: 'modx-leftbar-tabs'
                 ,stateEvents: ['tabchange']
                 ,getState:function() {
                     return {
@@ -88,13 +133,17 @@ MODx.Layout = function(config){
                 }
                 ,items: tabs
             }]
+			,listeners:{
+				statesave: this.onStatesave
+				,scope: this
+			}
         },{
             region: 'center'
             ,applyTo: 'modx-content'
             ,id: 'modx-content'
             ,border: false
-            ,autoHeight: true
-            ,margins: '0 30 0 15'
+            ,autoScroll: true
+            ,padding: '0 1px 0 0'
             ,bodyStyle: 'background-color:transparent;'
         }]
     });
@@ -115,8 +164,7 @@ MODx.Layout = function(config){
     this.fireEvent('afterLayout');
 };
 Ext.extend(MODx.Layout,Ext.Viewport,{
-
-    loadKeys: function() {
+	loadKeys: function() {
         Ext.KeyMap.prototype.stopEvent = true;
         var k = new Ext.KeyMap(Ext.get(document));
         k.addBinding({
@@ -133,7 +181,7 @@ Ext.extend(MODx.Layout,Ext.Viewport,{
             ,shift: true
             ,fn: function() {
                 var t = Ext.getCmp('modx-resource-tree');
-                if (t) { t.quickCreate(document,{},'modResource','web',0); }
+                if (t) { t.quickCreate(document,{},'modDocument','web',0); }
             }
             ,stopEvent: true
         });
@@ -162,11 +210,19 @@ Ext.extend(MODx.Layout,Ext.Viewport,{
         this.leftbarVisible ? this.hideLeftbar(.3) : this.showLeftbar(.3);
         this.leftbarVisible = !this.leftbarVisible;
     }
-    ,hideLeftbar: function(d) {
-        Ext.getCmp('modx-leftbar-tabs').collapse();
+    ,hideLeftbar: function(anim, state) {	
+		Ext.getCmp('modx-leftbar-tabs').collapse(anim);
+		if(state != undefined){	this.saveState = state;	}
     }
-    ,showLeftbar: function(d) {
-        Ext.getCmp('modx-leftbar-tabs').expand();
+	,onStatesave: function(p, state){
+		var panelState = state.collapsed;
+		if(panelState && !this.saveState){
+			Ext.state.Manager.set('modx-leftbar-tabs', {collapsed: false});
+			this.saveState = true;
+		}
+	}
+    ,showLeftbar: function(anim) {
+        Ext.getCmp('modx-leftbar-tabs').expand(anim);
     }
 });
 Ext.reg('modx-layout',MODx.Layout);

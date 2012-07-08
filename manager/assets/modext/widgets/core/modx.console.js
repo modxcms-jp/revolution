@@ -7,7 +7,7 @@ MODx.Console = function(config) {
         ,shadow: true
         ,resizable: false
         ,collapsible: false
-        ,closable: false
+        ,closable: true
         ,maximizable: true
         ,autoScroll: true
         ,height: 400
@@ -30,7 +30,6 @@ MODx.Console = function(config) {
             ,scope: this
         },{
             text: _('ok')
-            ,id: 'modx-console-ok'
             ,itemId: 'okBtn'
             ,disabled: true
             ,scope: this
@@ -47,7 +46,7 @@ MODx.Console = function(config) {
     this.on('hide',function() {
         this.getComponent('body').el.update('');
     });
-    
+    this.on('complete',this.onComplete,this);
 };
 Ext.extend(MODx.Console,Ext.Window,{
     mgr: null
@@ -72,20 +71,22 @@ Ext.extend(MODx.Console,Ext.Window,{
         });
         Ext.Direct.addProvider(this.provider);
         Ext.Direct.on('message', function(e,p) {
-            if (e.data.search('COMPLETED') != -1) {
-                this.provider.disconnect();
+            var out = this.getComponent('body');
+            if (out) {
+                out.el.insertHtml('beforeEnd',e.data);
+                e.data = '';
+                out.el.scroll('b', out.el.getHeight(), true);
+            }
+            if (e.complete) {
                 this.fireEvent('complete');
-                this.fbar.getComponent('okBtn').setDisabled(false);
-            } else {
-                var out = this.getComponent('body');
-                if (out) {
-                    out.el.insertHtml('beforeEnd',e.data);
-                    e.data = '';
-                    out.el.scroll('b', out.el.getHeight(), true);
-                }
             }
             delete e;
         },this);
+    }
+
+    ,onComplete: function() {
+        this.provider.disconnect();
+        this.fbar.getComponent('okBtn').setDisabled(false);
     }
     
     ,download: function() {

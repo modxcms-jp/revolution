@@ -1,9 +1,12 @@
 <?php
 /**
- * German Upgrades Lexicon Topic for Revolution setup.
+ * German Upgrades Lexicon Topic for Revolution setup
  *
  * @package setup
  * @subpackage lexicon
+ * @language de
+ *
+ * MODX Revolution translated to German by Jan-Christoph Ihrens (enigmatic_user, enigma@lunamail.de)
  */
 $_lang['add_column'] = 'Neue Spalte `[[+column]]` zu `[[+table]]` hinzugefügt.';
 $_lang['add_index'] = 'Neuen Index für `[[+index]]` in der Tabelle `[[+table]]` hinzugefügt.';
@@ -32,9 +35,11 @@ $_lang['lexiconfocus_add_id'] = 'modLexiconFocus: Spalte `id` hinzugefügt.';
 $_lang['lexiconfocus_add_pk'] = 'modLexiconFocus: PRIMARY KEY zur Spalte `id` hinzugefügt.';
 $_lang['lexiconfocus_alter_pk'] = 'modLexiconFocus: `name` von PRIMARY KEY in UNIQUE KEY geändert.';
 $_lang['lexiconfocus_drop_pk'] = 'modLexiconFocus: PRIMARY KEY entfernt.';
+$_lang['modify_column'] = 'Spalte `[[+column]]` von `[[+old]]` in `[[+new]]` geändert in der Tabelle `[[+table]]`';
 $_lang['rename_column'] = 'Spalte `[[+old]]` in `[[+new]]` umbenannt in der Tabelle `[[+table]]`.';
 $_lang['rename_table'] = 'Tabelle `[[+old]]` umbenannt in `[[+new]]`.';
 $_lang['remove_fulltext_index'] = 'Volltext-Index `[[+index]]` entfernt.';
 $_lang['systemsetting_xtype_fix'] = 'xtypes für modSystemSettings erfolgreich angepasst.';
 $_lang['transportpackage_manifest_text'] = 'Spalte `manifest` von MEDIUMTEXT in TEXT geändert in `[[+class]]`.';
 $_lang['update_closure_table'] = 'Daten der Closure-Tabelle für Klasse `[[+class]]` aktualisiert.';
+$_lang['update_table_column_data'] = 'Daten in der Spalte [[+column]] der Tabelle [[+table]] ([[+class]]) aktualisiert.';

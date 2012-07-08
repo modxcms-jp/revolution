@@ -1,11 +1,15 @@
 <?php
 /**
+ * TV Input Types German lexicon topic
+ *
  * @package modx
  * @subpackage lexicon
-
+ *
  * @language de
  * @namespace core
  * @topic tv_input_types
+ *
+ * MODX Revolution translated to German by Jan-Christoph Ihrens (enigmatic_user, enigma@lunamail.de)
  */
 $_lang['autotag'] = 'Auto-Tag';
 $_lang['text'] = 'Text';

@@ -9,11 +9,10 @@ MODx.page.ImportHTML = function(config) {
         ,buttons: [{
             process: 'import', text: _('import_site'), method: 'remote'
         },{
-            process: 'cancel', text: _('cancel'), params: {a:MODx.action['welcome']}
+            process: 'cancel', text: _('cancel'), params: {a:'welcome'}
         }]
         ,components: [{
             xtype: 'modx-panel-import-html'
-            ,renderTo: 'modx-import-html-div'
         }]
     });
     MODx.page.ImportHTML.superclass.constructor.call(this,config);

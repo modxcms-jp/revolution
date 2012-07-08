@@ -10,13 +10,16 @@ require_once MODX_CORE_PATH . 'model/modx/mail/modmail.class.php';
 /**
  * PHPMailer implementation of the modMail service.
  *
- * {@inheritdoc}
+ * @package modx
+ * @subpackage mail
  */
 class modPHPMailer extends modMail {
     /**
      * Constructs a new instance of the modPHPMailer class.
      *
-     * {@inheritdoc}
+     * @param modX $modx A reference to the modX instance
+     * @param array $attributes An array of attributes for the instance
+     * @return modPHPMailer
      */
     function __construct(modX &$modx, array $attributes= array()) {
         parent :: __construct($modx, $attributes);
@@ -28,7 +31,8 @@ class modPHPMailer extends modMail {
      * Sets a PHPMailer attribute corresponding to the modX::MAIL_* constants or
      * a custom key.
      *
-     * {@inheritdoc}
+     * @param string $key The attribute key to set
+     * @param mixed $value The value to set
      */
     public function set($key, $value) {
         parent :: set($key, $value);
@@ -56,6 +60,7 @@ class modPHPMailer extends modMail {
                 break;
             case modMail::MAIL_FROM :
                 $this->mailer->From= $this->attributes[$key];
+                $this->mailer->Sender= $this->attributes[$key];
                 break;
             case modMail::MAIL_FROM_NAME :
                 $this->mailer->FromName= $this->attributes[$key];
@@ -117,7 +122,10 @@ class modPHPMailer extends modMail {
     /**
      * Adds an address to the mailer
      *
-     * {@inheritdoc}
+     * @param string $type The type of address (to, reply-to, bcc, cc)
+     * @param string $email The email address to address to
+     * @param string $name The name of the email address
+     * @return boolean True if was addressed
      */
     public function address($type, $email, $name= '') {
         $set= false;
@@ -151,7 +159,8 @@ class modPHPMailer extends modMail {
     /**
      * Adds a custom header to the mailer
      *
-     * {@inheritdoc}
+     * @param string $header The header to set
+     * @return boolean True if the header was successfully set
      */
     public function header($header) {
         $set= parent :: header($header);
@@ -164,7 +173,8 @@ class modPHPMailer extends modMail {
     /**
      * Send the email, applying any attributes to the mailer before sending.
      *
-     * {@inheritdoc}
+     * @param array $attributes An array of attributes to pass when sending
+     * @return boolean True if the email was successfully sent
      */
     public function send(array $attributes= array()) {
         $sent = parent :: send($attributes);
@@ -175,19 +185,21 @@ class modPHPMailer extends modMail {
     /**
      * Resets all PHPMailer attributes, including recipients and attachments.
      *
-     * {@inheritdoc}
+     * @param array $attributes An array of attributes to pass when resetting
      */
-    public function reset($attributes= array()) {
+    public function reset(array $attributes= array()) {
         parent :: reset($attributes);
         $this->mailer->ClearAllRecipients();
+        $this->mailer->ClearReplyTos();
         $this->mailer->ClearAttachments();
+        $this->mailer->ClearCustomHeaders();
         $this->mailer->IsHTML(false);
     }
 
     /**
      * Loads the PHPMailer object used to send the emails in this implementation.
      *
-     * {@inheritdoc}
+     * @return boolean True if the mailer class was successfully loaded
      */
     protected function _getMailer() {
         $success= false;
@@ -210,7 +222,10 @@ class modPHPMailer extends modMail {
     /**
      * Attaches a file to the mailer.
      *
-     * {@inheritdoc}
+     * @param mixed $file The file to attach
+     * @param string $name The name of the file to attach as
+     * @param string $encoding The encoding of the attachment
+     * @param string $type The header type of the attachment
      */
     public function attach($file,$name = '',$encoding = 'base64',$type = 'application/octet-stream') {
         parent :: attach($file);
@@ -219,8 +234,6 @@ class modPHPMailer extends modMail {
 
     /**
      * Clears all existing attachments.
-     *
-     * {@inheritdoc}
      */
     public function clearAttachments() {
         parent :: clearAttachments();

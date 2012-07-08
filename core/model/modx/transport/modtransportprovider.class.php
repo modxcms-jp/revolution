@@ -8,7 +8,18 @@
  *
  * @uses modRestClient This REST implementation is used to communicate with a
  * remote server that can provide information about and downloads of one or more
- * MODx transport packages.
+ * MODX transport packages.
+ *
+ * @property string $name The name of the provider
+ * @property string $description A description of the provider
+ * @property string $service_url The service URL, or entry point, to the provider
+ * @property string $username The username needed to connect to the provider
+ * @property string $api_key The API key needed to connect to the specified provider
+ * @property datetime $created When this provider was created
+ * @property timestamp $updated When this provider was last updated
+ *
+ * @package modx
+ * @subpackage transport
  */
 class modTransportProvider extends xPDOSimpleObject {
     /**
@@ -31,9 +42,10 @@ class modTransportProvider extends xPDOSimpleObject {
     /**
      * Sends a REST request to the provider
      *
-     * @param string $path
-     * @param string $method
-     * @param array $params
+     * @param string $path The path of the request
+     * @param string $method The method of the request (GET/POST)
+     * @param array $params An array of parameters to send to the REST request
+     * @return mixed The response from the REST request
      */
     public function request($path,$method = 'GET',$params = array()) {
         if ($this->xpdo->rest == null) $this->getClient();
@@ -43,7 +55,11 @@ class modTransportProvider extends xPDOSimpleObject {
 
         $params = array_merge(array(
             'api_key' => $this->get('api_key'),
+            'username' => $this->get('username'),
+            'uuid' => $this->xpdo->uuid,
+            'database' => $this->xpdo->config['dbtype'],
             'revolution_version' => $productVersion,
+            'http_host' => $this->xpdo->getOption('http_host'),
         ),$params);
         return $this->xpdo->rest->request($this->get('service_url'),$path,$method,$params);
     }
@@ -85,7 +101,8 @@ class modTransportProvider extends xPDOSimpleObject {
     /**
      * Overrides xPDOObject::save to set the createdon date.
      *
-     * {@inheritdoc}
+     * @param boolean $cacheFlag
+     * @return boolean True if successful
      */
     public function save($cacheFlag= null) {
         if ($this->isNew() && !$this->get('created')) {

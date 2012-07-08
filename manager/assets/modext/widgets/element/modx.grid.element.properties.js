@@ -4,13 +4,15 @@ MODx.panel.ElementProperties = function(config) {
         id: 'modx-panel-element-properties'
         ,title: _('properties')
         ,header: false
-        ,bodyStyle: 'padding: 15px;'
         ,defaults: { collapsible: false ,autoHeight: true ,border: false }
+		,layout: 'form'
         ,items: [{
             html: '<p>'+_('element_properties_desc')+'</p>'
+			,bodyCssClass: 'panel-desc'
             ,itemId: 'desc-properties'
         },{
             xtype: 'modx-grid-element-properties'
+			,cls:'main-wrapper'
             ,id: 'modx-grid-element-properties'
             ,itemId: 'grid-properties'
             ,autoHeight: true
@@ -18,6 +20,28 @@ MODx.panel.ElementProperties = function(config) {
             ,panel: config.elementPanel
             ,elementId: config.elementId
             ,elementType: config.elementType
+        },{
+            layout: 'form'
+            ,border: false
+            ,cls: 'main-wrapper'
+            ,items: [{
+                xtype: 'xcheckbox'
+                ,boxLabel: _('property_preprocess')
+                ,description: MODx.expandHelp ? '' : _('property_preprocess_msg')
+                ,name: 'property_preprocess'
+                ,id: 'modx-element-property-preprocess'
+                ,inputValue: true
+                ,hideLabel: true
+                ,checked: config.record.property_preprocess || 0
+                ,listeners: {
+                    'check':{fn:function() {Ext.getCmp(this.config.elementPanel).markDirty();},scope:this}
+                }
+            },{
+                xtype: MODx.expandHelp ? 'label' : 'hidden'
+                ,forId: 'modx-element-property-preprocess'
+                ,html: _('property_preprocess_msg')
+                ,cls: 'desc-under'
+            }]
         }]
     });
     MODx.panel.ElementProperties.superclass.constructor.call(this,config);
@@ -37,14 +61,18 @@ MODx.grid.ElementProperties = function(config) {
         title: _('properties')
         ,id: 'modx-grid-element-properties'
         ,maxHeight: 300
-        ,fields: ['name','desc','xtype','options','value','lexicon','overridden','desc_trans']
+        ,fields: ['name','desc','xtype','options','value','lexicon','overridden','desc_trans','area','area_trans']
         ,autoExpandColumn: 'value'
         ,sortBy: 'name'
-        ,width: '100%'
+        ,anchor: '100%'
         ,sm: new Ext.grid.RowSelectionModel({singleSelect:false})
         ,loadMask: true
         ,lockProperties: true
         ,plugins: [this.exp]
+        ,grouping: true
+        ,groupBy: 'area_trans'
+        ,singleText: _('property')
+        ,pluralText: _('properties')
         ,columns: [this.exp,{
             header: _('name')
             ,dataIndex: 'name'
@@ -63,10 +91,30 @@ MODx.grid.ElementProperties = function(config) {
             ,id: 'value'
             ,width: 250
             ,renderer: this.renderDynField.createDelegate(this,[this],true)
-            ,editor: { xtype: 'textfield' }
             ,sortable: true
+        },{
+            header: _('area')
+            ,dataIndex: 'area_trans'
+            ,id: 'area'
+            ,width: 150
+            ,sortable: true
+            ,hidden: true
         }]
         ,tbar: [{
+            text: _('property_create')
+            ,id: 'modx-btn-property-create'
+            ,handler: this.create
+            ,scope: this
+            ,disabled: true
+        },'-',{
+            text: _('properties_default_locked')
+            ,id: 'modx-btn-propset-lock'
+            ,handler: this.togglePropertiesLock
+            ,enableToggle: true
+            ,pressed: true
+            ,disabled: MODx.perm.unlock_element_properties ? false : true
+            ,scope: this
+        },'->',{
             xtype: 'modx-combo-property-set'
             ,id: 'modx-combo-property-set'
             ,baseParams: {
@@ -80,26 +128,6 @@ MODx.grid.ElementProperties = function(config) {
                 'select': {fn:this.changePropertySet,scope:this}
             }
         },{
-            text: _('property_create')
-            ,id: 'modx-btn-property-create'
-            ,handler: this.create
-            ,scope: this
-            ,disabled: true
-        },'-',{
-            text: _('property_revert_all')
-            ,id: 'modx-btn-property-revert-all'
-            ,handler: this.revertAll
-            ,scope:this
-            ,disabled: true
-        },'-',{
-            text: _('properties_default_locked')
-            ,id: 'modx-btn-propset-lock'
-            ,handler: this.togglePropertiesLock
-            ,enableToggle: true
-            ,pressed: true
-            ,disabled: MODx.perm.unlock_element_properties ? false : true
-            ,scope: this
-        },'->',{
             text: _('propertyset_add')
             ,handler: this.addPropertySet
             ,scope: this
@@ -110,6 +138,12 @@ MODx.grid.ElementProperties = function(config) {
             ,hidden: MODx.request.id ? false : true
         }]
         ,bbar: [{
+            text: _('property_revert_all')
+            ,id: 'modx-btn-property-revert-all'
+            ,handler: this.revertAll
+            ,scope:this
+            ,disabled: true
+        },'-',{
             text: _('properties_import')
             ,handler: this.importProperties
             ,scope: this
@@ -310,11 +344,14 @@ Ext.extend(MODx.grid.ElementProperties,MODx.grid.LocalProperty,{
                     var rec = new this.propRecord({
                         name: r.name
                         ,desc: r.desc
+                        ,desc_trans: r.desc
                         ,xtype: r.xtype
                         ,options: r.options
                         ,value: r.value
                         ,lexicon: r.lexicon
                         ,overridden: this.isDefaultPropSet() ? 0 : 2
+                        ,area: r.area
+                        ,area_trans: r.area
                     });
                     this.getStore().add(rec);
                     this.propertyChanged();
@@ -335,11 +372,14 @@ Ext.extend(MODx.grid.ElementProperties,MODx.grid.LocalProperty,{
                     var rec = s.getAt(this.menu.recordIndex);
                     rec.set('name',r.name);
                     rec.set('desc',r.desc);
+                    rec.set('desc_trans', r.desc);
                     rec.set('xtype',r.xtype);
                     rec.set('options',r.options);
                     rec.set('value',r.value);
                     rec.set('lexicon',r.lexicon);
                     rec.set('overridden',r.overridden == 2 ? 2 : (!def ? 1 : 0));
+                    rec.set('area',r.area);
+                    rec.set('area_trans',r.area);
                     this.getView().refresh();
                     this.onDirty();
                 },scope:this}
@@ -355,10 +395,13 @@ Ext.extend(MODx.grid.ElementProperties,MODx.grid.LocalProperty,{
                 var rec = this.getStore().getAt(ri);
                 rec.set('name',d[0]);
                 rec.set('desc',d[1]);
+                rec.set('desc_trans',d[1]);
                 rec.set('xtype',d[2]);
                 rec.set('options',d[3]);
                 rec.set('value',d[4]);
                 rec.set('overridden',0);
+                rec.set('area',d[5]);
+                rec.set('area_trans',d[5]);
                 rec.commit();
             }
         },this);
@@ -415,6 +458,7 @@ Ext.extend(MODx.grid.ElementProperties,MODx.grid.LocalProperty,{
                     /* handle <> in values, desc */
                     for (var i in data) {
                         if (data[i][4]) { data[i][4] = data[i][4].replace(/&gt;/g,'>').replace(/&lt;/g,'<'); }
+                        if (data[i][5]) { data[i][5] = data[i][5].replace(/&gt;/g,'>').replace(/&lt;/g,'<'); }
                         if (data[i][1]) { data[i][1] = data[i][1].replace(/&gt;/g,'>').replace(/&lt;/g,'<'); }
                     }
                     s.loadData(data);
@@ -516,11 +560,11 @@ MODx.grid.ElementPropertyOption = function(config) {
         ,autoHeight: true
         ,maxHeight: 300
         ,width: '100%'
-        ,fields: ['name','value']
+        ,fields: ['text','value','name']
         ,data: []
         ,columns: [{
             header: _('name')
-            ,dataIndex: 'name'
+            ,dataIndex: 'text'
             ,width: 150
             ,editor: { xtype: 'textfield' ,allowBlank: false }
         },{
@@ -537,7 +581,7 @@ MODx.grid.ElementPropertyOption = function(config) {
         }]
     });
     MODx.grid.ElementPropertyOption.superclass.constructor.call(this,config);
-    this.optRecord = Ext.data.Record.create([{name: 'name'},{name: 'value'}]);
+    this.optRecord = Ext.data.Record.create([{name: 'text'},{name: 'value'}]);
 };
 Ext.extend(MODx.grid.ElementPropertyOption,MODx.grid.LocalGrid,{
     create: function(btn,e) {
@@ -546,7 +590,7 @@ Ext.extend(MODx.grid.ElementPropertyOption,MODx.grid.LocalGrid,{
             ,listeners: {
                 'success': {fn:function(r) {
                     var rec = new this.optRecord({
-                        name: r.name
+                        text: r.text
                         ,value: r.value
                     });
                     this.getStore().add(rec);
@@ -580,54 +624,111 @@ MODx.window.CreateElementProperty = function(config) {
         title: _('property_create')
         ,id: 'modx-window-element-property-create'
         ,height: 250
-        ,width: 450
+        ,width: 650
         ,saveBtnText: _('done')
         ,fields: [{
-            fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-cep-name'
-            ,xtype: 'textfield'            
-            ,width: 200
-            ,allowBlank: false
-        },{
-            fieldLabel: _('description')
-            ,name: 'desc'
-            ,id: 'modx-cep-desc'
-            ,xtype: 'textarea'
-            ,width: 200
-        },{
-            fieldLabel: _('type')
-            ,name: 'xtype'
-            ,id: 'modx-cep-xtype'
-            ,xtype: 'modx-combo-xtype'
-            ,width: 200
-            ,listeners: {
-                'select': {fn:function(cb,r,i) {
-                    var g = Ext.getCmp('modx-cep-grid-element-property-options');
-                    if (!g) return;
-                    if (cb.getValue() == 'list') {
-                       g.show();
-                    } else {
-                       g.hide();
-                    }
-                    this.syncSize();
-                },scope:this}
+            layout: 'column'
+            ,border: false
+            ,defaults: {
+                layout: 'form'
+                ,labelAlign: 'top'
+                ,anchor: '100%'
+                ,border: false
             }
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('lexicon')
-            ,name: 'lexicon'
-            ,id: 'modx-cep-lexicon'
-            ,width: 200
-            ,allowBlank: true
+            ,items: [{
+                columnWidth: .6
+                ,items: [{
+                    fieldLabel: _('name')
+                    ,description: MODx.expandHelp ? '' : _('property_name_desc')
+                    ,name: 'name'
+                    ,id: 'modx-cep-name'
+                    ,xtype: 'textfield'
+                    ,anchor: '100%'
+                    ,allowBlank: false
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-cep-name'
+                    ,html: _('property_name_desc')
+                    ,cls: 'desc-under'
+                },{
+                    fieldLabel: _('description')
+                    ,description: MODx.expandHelp ? '' : _('property_description_desc')
+                    ,name: 'desc'
+                    ,id: 'modx-cep-desc'
+                    ,xtype: 'textarea'
+                    ,anchor: '100%'
+                    ,height: 120
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-cep-description'
+                    ,html: _('property_description_desc')
+                    ,cls: 'desc-under'
+                }]
+            },{
+                columnWidth: .4
+                ,items: [{
+                    fieldLabel: _('type')
+                    ,description: MODx.expandHelp ? '' : _('property_xtype_desc')
+                    ,name: 'xtype'
+                    ,id: 'modx-cep-xtype'
+                    ,xtype: 'modx-combo-xtype'
+                    ,anchor: '100%'
+                    ,listeners: {
+                        'select': {fn:function(cb) {
+                            var g = Ext.getCmp('modx-cep-grid-element-property-options');
+                            if (!g) return;
+                            if (cb.getValue() == 'list') {
+                               g.show();
+                            } else {
+                               g.hide();
+                            }
+                            this.syncSize();
+                        },scope:this}
+                    }
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-cep-xtype'
+                    ,html: _('property_xtype_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('lexicon')
+                    ,description: MODx.expandHelp ? '' : _('property_lexicon_desc')
+                    ,name: 'lexicon'
+                    ,id: 'modx-cep-lexicon'
+                    ,anchor: '100%'
+                    ,allowBlank: true
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-cep-lexicon'
+                    ,html: _('property_lexicon_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('area')
+                    ,description: MODx.expandHelp ? '' : _('property_area_desc')
+                    ,name: 'area'
+                    ,id: 'modx-cep-area'
+                    ,anchor: '100%'
+                    ,allowBlank: true
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-cep-area'
+                    ,html: _('property_area_desc')
+                    ,cls: 'desc-under'
+                }]
+            }]
         },{
             xtype: 'modx-element-value-field'
             ,xtypeField: 'modx-cep-xtype'
             ,id: 'modx-cep-value'
+            ,anchor: '100%'
         },{
             xtype: 'modx-grid-element-property-options'
             ,id: 'modx-cep-grid-element-property-options'
+            ,anchor: '100%'
         }]
+        ,keys: []
     });
     MODx.window.CreateElementProperty.superclass.constructor.call(this,config);
     this.on('show',this.onShow,this);
@@ -675,47 +776,101 @@ MODx.window.UpdateElementProperty = function(config) {
         title: _('property_update')
         ,id: 'modx-window-element-property-update'
         ,height: 250
-        ,width: 450
+        ,width: 650
         ,saveBtnText: _('done')
         ,forceLayout: true
         ,fields: [{
-            fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-uep-name'
-            ,xtype: 'textfield'
-            ,width: 200
-        },{
-            fieldLabel: _('description')
-            ,name: 'desc'
-            ,id: 'modx-uep-desc'
-            ,xtype: 'textarea'
-            ,width: 200
-        },{
-            fieldLabel: _('type')
-            ,name: 'xtype'
-            ,xtype: 'modx-combo-xtype'
-            ,id: 'modx-uep-xtype'
-            ,width: 200
-            ,listeners: {
-                'select': {fn:function(cb,r,i) {
-                    var g = Ext.getCmp('modx-uep-grid-element-property-options');
-                    if (!g) return;
-                    var v = cb.getValue();
-                    if (v == 'list') {
-                        g.show();
-                    } else {
-                        g.hide();
-                    }
-                    this.syncSize();         
-                },scope:this}
+            layout: 'column'
+            ,border: false
+            ,defaults: {
+                layout: 'form'
+                ,labelAlign: 'top'
+                ,anchor: '100%'
+                ,border: false
             }
-        },{
-            xtype: 'textfield'
-            ,fieldLabel: _('lexicon')
-            ,name: 'lexicon'
-            ,id: 'modx-uep-lexicon'
-            ,width: 200
-            ,allowBlank: true
+            ,items: [{
+                columnWidth: .6
+                ,items: [{
+                    fieldLabel: _('name')
+                    ,description: MODx.expandHelp ? '' : _('property_name_desc')
+                    ,name: 'name'
+                    ,id: 'modx-uep-name'
+                    ,xtype: 'textfield'
+                    ,anchor: '100%'
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-uep-name'
+                    ,html: _('property_name_desc')
+                    ,cls: 'desc-under'
+                },{
+                    fieldLabel: _('description')
+                    ,description: MODx.expandHelp ? '' : _('property_description_desc')
+                    ,name: 'desc'
+                    ,id: 'modx-uep-desc'
+                    ,xtype: 'textarea'
+                    ,anchor: '100%'
+                    ,height: 120
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-uep-description'
+                    ,html: _('property_description_desc')
+                    ,cls: 'desc-under'
+                }]
+            },{
+                columnWidth: .4
+                ,items: [{
+                    fieldLabel: _('type')
+                    ,description: MODx.expandHelp ? '' : _('property_xtype_desc')
+                    ,name: 'xtype'
+                    ,xtype: 'modx-combo-xtype'
+                    ,id: 'modx-uep-xtype'
+                    ,anchor: '100%'
+                    ,listeners: {
+                        'select': {fn:function(cb) {
+                            var g = Ext.getCmp('modx-uep-grid-element-property-options');
+                            if (!g) return;
+                            var v = cb.getValue();
+                            if (v == 'list') {
+                                g.show();
+                            } else {
+                                g.hide();
+                            }
+                            this.syncSize();
+                        },scope:this}
+                    }
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-uep-xtype'
+                    ,html: _('property_xtype_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('lexicon')
+                    ,description: MODx.expandHelp ? '' : _('property_lexicon_desc')
+                    ,name: 'lexicon'
+                    ,id: 'modx-uep-lexicon'
+                    ,anchor: '100%'
+                    ,allowBlank: true
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-uep-lexicon'
+                    ,html: _('property_lexicon_desc')
+                    ,cls: 'desc-under'
+                },{
+                    xtype: 'textfield'
+                    ,fieldLabel: _('area')
+                    ,description: MODx.expandHelp ? '' : _('property_area_desc')
+                    ,name: 'area'
+                    ,id: 'modx-cep-area'
+                    ,anchor: '100%'
+                    ,allowBlank: true
+                },{
+                    xtype: MODx.expandHelp ? 'label' : 'hidden'
+                    ,forId: 'modx-cep-area'
+                    ,html: _('property_area_desc')
+                    ,cls: 'desc-under'
+                }]
+            }]
         },{
             xtype: 'hidden'
             ,name: 'overridden'
@@ -725,11 +880,13 @@ MODx.window.UpdateElementProperty = function(config) {
             ,xtypeField: 'modx-uep-xtype'
             ,name: 'value'
             ,id: 'modx-uep-value'
+            ,anchor: '100%'
         },{
             id: 'modx-uep-grid-element-property-options'
             ,xtype: 'modx-grid-element-property-options'
             ,autoHeight: true
         }]
+        ,keys: []
     });
     MODx.window.UpdateElementProperty.superclass.constructor.call(this,config);
     this.on('show',this.onShow,this);
@@ -769,7 +926,7 @@ Ext.extend(MODx.window.UpdateElementProperty,MODx.Window,{
             var opts = [];
             for (var x in opt) {
               if (opt.hasOwnProperty(x)) {
-                opts.push([opt[x].name,opt[x].value]);
+                opts.push([opt[x].text,opt[x].value]);
               }
             }
             g.getStore().loadData(opts);
@@ -796,16 +953,16 @@ MODx.window.CreateElementPropertyOption = function(config) {
         ,saveBtnText: _('done')
         ,fields: [{
             fieldLabel: _('name')
-            ,name: 'name'
-            ,id: 'modx-cepo-name'
+            ,name: 'text'
+            ,id: 'modx-cepo-text'
             ,xtype: 'textfield'
-            ,width: 200
+            ,anchor: '100%'
         },{
             fieldLabel: _('value')
             ,name: 'value'
             ,id: 'modx-cepo-value'
             ,xtype: 'textfield'
-            ,width: 200
+            ,anchor: '100%'
         }]
     });
     MODx.window.CreateElementPropertyOption.superclass.constructor.call(this,config);
@@ -872,7 +1029,6 @@ MODx.form.ElementValueField = function(config) {
         fieldLabel: _('value')
         ,name: 'value'
         ,xtype: 'textfield'
-        ,width: 200
     });
     MODx.form.ElementValueField.superclass.constructor.call(this,config);
     this.config = config;
@@ -935,12 +1091,14 @@ MODx.window.AddPropertySet = function(config) {
             ,id: 'modx-aps-elementType'
         },{
             html: _('propertyset_panel_desc')
+            ,cls: 'panel-desc'
+            
         },MODx.PanelSpacer,{
             xtype: 'modx-combo-property-set'
             ,fieldLabel: _('propertyset')
             ,name: 'propertyset'
             ,id: 'modx-aps-propertyset'
-            ,anchor: '95%'
+            ,anchor: '100%'
             ,baseParams: {
                 action: 'getList'
                 ,showNotAssociated: true
@@ -973,13 +1131,13 @@ MODx.window.AddPropertySet = function(config) {
                 ,fieldLabel: _('name')
                 ,name: 'name'
                 ,id: 'modx-aps-name'
-                ,anchor: '95%'
+                ,anchor: '100%'
             },{
                 xtype: 'textarea'
                 ,fieldLabel: _('description')
                 ,name: 'description'
                 ,id: 'modx-aps-description'
-                ,anchor: '95%'
+                ,anchor: '100%'
                 ,grow: true
             }]
         }]
@@ -1002,13 +1160,14 @@ MODx.window.ImportProperties = function(config) {
             html: _('properties_import_msg')
             ,id: 'modx-impp-desc'
             ,border: false
-            ,bodyStyle: 'margin: 10px;'
+            ,cls: 'panel-desc'
+            ,style: 'margin-bottom: 10px;'
         },{
             xtype: 'textfield'
             ,fieldLabel: _('file')
             ,name: 'file'
             ,id: 'modx-impp-file'
-            ,anchor: '95%'
+            ,anchor: '100%'
             ,inputType: 'file'
         }]
     });

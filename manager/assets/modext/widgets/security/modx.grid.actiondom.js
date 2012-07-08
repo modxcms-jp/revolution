@@ -42,12 +42,18 @@ MODx.grid.ActionDom = function(config) {
             ,width: 150
             ,sortable: true
             ,editor: { xtype: 'modx-combo-rule-type' ,renderer: true }
+            ,renderer: function(v,md) {
+                return Ext.util.Format.htmlEncode(v);
+            }
         },{
             header: _('value')
             ,dataIndex: 'value'
             ,width: 300
             ,sortable: true
             ,editor: { xtype: 'textfield' }
+            ,renderer: function(v,md) {
+                return Ext.util.Format.htmlEncode(v);
+            }
         },{
             header: _('usergroup')
             ,dataIndex: 'principal'
@@ -124,10 +130,7 @@ MODx.grid.ActionDom = function(config) {
                 ,'render': {fn: function(cmp) {
                     new Ext.KeyMap(cmp.getEl(), {
                         key: Ext.EventObject.ENTER
-                        ,fn: function() {
-                            this.fireEvent('change',this.getValue());
-                            this.blur();
-                            return true;}
+                        ,fn: this.blur
                         ,scope: cmp
                     });
                 },scope:this}
@@ -437,7 +440,7 @@ MODx.window.CreateActionDom = function(config) {
             ,description: _('for_parent_desc')
             ,name: 'for_parent'
             ,id: 'modx-'+this.ident+'-for-parent'
-            ,xtype: 'checkbox'
+            ,xtype: 'xcheckbox'
             ,value: 1
             ,checked: false
         },{ html: '<hr />' },{
@@ -452,7 +455,7 @@ MODx.window.CreateActionDom = function(config) {
             ,description: _('active_desc')
             ,name: 'active'
             ,id: 'modx-'+this.ident+'-active'
-            ,xtype: 'checkbox'
+            ,xtype: 'xcheckbox'
             ,value: 1
             ,checked: true
         }]
@@ -562,7 +565,7 @@ MODx.window.UpdateActionDom = function(config) {
             ,description: _('for_parent_desc')
             ,name: 'for_parent'
             ,id: 'modx-'+this.ident+'-for-parent'
-            ,xtype: 'checkbox'
+            ,xtype: 'xcheckbox'
             ,value: 1
             ,checked: config.record && !Ext.isEmpty(config.record.for_parent) ? true : false
         },{ html: '<hr />' },{
@@ -577,7 +580,7 @@ MODx.window.UpdateActionDom = function(config) {
             ,description: _('active_desc')
             ,name: 'active'
             ,id: 'modx-'+this.ident+'-active'
-            ,xtype: 'checkbox'
+            ,xtype: 'xcheckbox'
             ,value: 1
         }]
     });

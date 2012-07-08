@@ -1,12 +1,11 @@
-<?php
+﻿<?php
 /**
  * User Thai lexicon topic
  *
  * @language th
  * @package modx
  * @subpackage lexicon
- 
- * @author Mr.Kittipong Intaboot COE#18,KKU
+ * by Mr.Kittipong Intaboot COE#18,KKU (@kittipongint)
  * @co-author Miss.Nattayanee Darath COE#17,KKU
  * @updated 2010-07-21
  */
@@ -24,7 +23,7 @@ $_lang['login_options'] = 'ตัวเลือกการเข้าระ�
 $_lang['minimum_role'] = 'บทบาทขั้นต่ำ';
 $_lang['password'] = 'รหัสผ่าน';
 $_lang['password_confirm'] = 'ยืนยันรหัสผ่าน';
-$_lang['password_gen_gen'] = 'ให้ MODx สร้างรหัสผ่านให้';
+$_lang['password_gen_gen'] = 'ให้ MODX สร้างรหัสผ่านให้';
 $_lang['password_gen_method'] = 'วิธีสร้างรหัสผ่านใหม่';
 $_lang['password_gen_specify'] = 'ให้ฉันระบุรหัสผ่านเอง:';
 $_lang['password_method'] = 'วิธีแจ้งรหัสผ่าน';

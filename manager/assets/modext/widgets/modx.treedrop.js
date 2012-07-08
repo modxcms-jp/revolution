@@ -20,7 +20,10 @@ Ext.extend(MODx.TreeDrop,Ext.Component,{
             ,notifyEnter: function(ddSource, e, data) {
                 if (ddTarget.getEl) {
                     var el = ddTarget.getEl();
-                    if (el) { el.frame(); }
+                    if (el) { 
+                        el.frame(); 
+                        el.focus();
+                    }
                 }
             }
             ,notifyDrop: function(ddSource, e, data) {
@@ -34,7 +37,20 @@ Ext.extend(MODx.TreeDrop,Ext.Component,{
                     case 'chunk': win = true; break;
                     case 'tv': win = true; break;
                     case 'file': v = data.node.attributes.url; break;
-                    default: return false; break;
+                    default:
+                        var dh = Ext.getCmp(data.node.attributes.type+'-drop-handler');
+                        if (dh) {
+                            return dh.handle(data,{
+                                ddTargetEl: ddTargetEl
+                                ,cfg: cfg
+                                ,iframe: cfg.iframe
+                                ,iframeEl: cfg.iframeEl
+                                ,onInsert: cfg.onInsert
+                                ,panel: cfg.panel
+                            });
+                        }
+                        return false;
+                        break;
                 }
                 if (win) {
                     MODx.loadInsertElement({
@@ -85,7 +101,11 @@ Ext.extend(MODx.TreeDrop,Ext.Component,{
 Ext.reg('modx-treedrop',MODx.TreeDrop);
 
 MODx.loadInsertElement = function(r) {
-    var w = MODx.load({
+    if (MODx.InsertElementWindow) {
+        MODx.InsertElementWindow.hide();
+        MODx.InsertElementWindow.destroy();
+    }
+    MODx.InsertElementWindow = MODx.load({
         xtype: 'modx-window-insert-element'
         ,record: r
         ,listeners: {
@@ -94,8 +114,8 @@ MODx.loadInsertElement = function(r) {
             ,'hide': {fn:function() { this.destroy(); }}
         }
     });
-    w.setValues(r);
-    w.show();
+    MODx.InsertElementWindow.setValues(r);
+    MODx.InsertElementWindow.show();
 };
 
 MODx.insertAtCursor = function(myField, myValue,h) {
@@ -105,18 +125,22 @@ MODx.insertAtCursor = function(myField, myValue,h) {
             myValue = z;
         }
     }
-    if (document.selection) { 
-        myField.focus(); 
-        sel = document.selection.createRange(); 
-        sel.text = myValue; 
+    myField.blur();
+    if (document.selection) {
+        sel = document.selection.createRange();
+        sel.text = myValue;
     } else if (myField.selectionStart || myField.selectionStart == '0') {
-        var startPos = myField.selectionStart; 
-        var endPos = myField.selectionEnd; 
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
         myField.value = myField.value.substring(0, startPos)+ myValue+ myField.value.substring(endPos, myField.value.length); 
-    } else { 
-        myField.value += myValue; 
+        myField.selectionStart = startPos + myValue.length;
+        myField.selectionEnd = myField.selectionStart;
+    } else {
+        myField.value += myValue;
     }
+    myField.focus();
 };
+
 MODx.insertForRTE = function(v,cfg) {
     var fn = cfg.onInsert || false;
     if (fn) {
@@ -135,6 +159,14 @@ MODx.insertForRTE = function(v,cfg) {
     }
 };
 
+MODx.insertIntoContent = function(v,opt) {
+    if (opt.iframe) {
+        MODx.insertForRTE(v,opt.cfg);
+    } else {
+        MODx.insertAtCursor(opt.ddTargetEl,v);
+    }
+}
+
 MODx.window.InsertElement = function(config) {
     config = config || {};
     Ext.applyIf(config,{
@@ -152,7 +184,7 @@ MODx.window.InsertElement = function(config) {
             ,name: 'classKey'
             ,id: 'modx-dise-classkey'
         },{
-            xtype: 'checkbox'
+            xtype: 'xcheckbox'
             ,fieldLabel: _('cached')
             ,name: 'cached'
             ,id: 'modx-dise-cached'
@@ -192,9 +224,11 @@ MODx.window.InsertElement = function(config) {
             ,title: _('properties')
             ,autoHeight: true
             ,collapsible: true
+            ,autoScroll: true
             ,items: [{
                 html: '<div id="modx-iprops-form"></div>'
-                ,autoHeight: true
+                ,height: 400
+                ,autoScroll: true
             }]
         }]
     });
@@ -240,11 +274,12 @@ Ext.extend(MODx.window.InsertElement,MODx.Window,{
             ,id: 'modx-iprops-fp'
             ,layout: 'form'
             ,autoHeight: true
+            ,autoScroll: true
             ,labelWidth: 150
             ,border: false
             ,items: vs
             ,renderTo: 'modx-iprops-form'
-        })    
+        });
     }
     ,submit: function() {
         var v = '[[';

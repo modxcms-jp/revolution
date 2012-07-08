@@ -10,6 +10,7 @@ MODx.panel.SystemSettings = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'modx-panel-system-settings'
+        ,cls: 'container'
         ,bodyStyle: ''
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
@@ -19,25 +20,21 @@ MODx.panel.SystemSettings = function(config) {
             ,cls: 'modx-page-header'
         },{
             layout: 'form'
-            ,bodyStyle: 'padding: 15px'
             ,autoHeight: true
             ,defaults: { border: false }
             ,items: [{
                 html: '<p>'+_('settings_desc')+'</p>'
+               ,bodyCssClass: 'panel-desc'
             },{
-                id: 'modx-system-settings-grid-ct'
+                xtype: 'modx-grid-system-settings'
+				,cls: 'main-wrapper'
+				,preventSaveRefresh: true
             },{
                 html: MODx.onSiteSettingsRender
             }]
         }]
     });
     MODx.panel.SystemSettings.superclass.constructor.call(this,config);
-    /* load after b/c of safari/ie focus bug */
-    MODx.load({
-        xtype: 'modx-grid-system-settings'
-        ,renderTo: 'modx-system-settings-grid-ct'
-        ,preventSaveRefresh: true
-    });
 };
 Ext.extend(MODx.panel.SystemSettings,MODx.FormPanel);
 Ext.reg('modx-panel-system-settings',MODx.panel.SystemSettings);

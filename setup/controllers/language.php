@@ -1,5 +1,8 @@
 <?php
 /**
+ * @var modInstall $install
+ * @var modInstallParser $parser
+ * @var modInstallRequest $this
  * @package setup
  */
 /* parse language selection */
@@ -11,8 +14,7 @@ if (!empty($_POST['proceed'])) {
     $cookiePath = preg_replace('#[/\\\\]$#', '', dirname(dirname($_SERVER['REQUEST_URI'])));
     setcookie('modx_setup_language', $language, 0, $cookiePath . '/');
     unset($_POST['proceed']);
-
-    $settings = $install->getConfig();
+    $settings = $install->request->getConfig();
     $settings = array_merge($settings,$_POST);
     $install->settings->store($settings);
     $this->proceed('welcome');
@@ -22,6 +24,7 @@ $install->settings->erase();
 
 $langs = array();
 $path = dirname(dirname(__FILE__)).'/lang/';
+/** @var DirectoryIterator $file */
 foreach (new DirectoryIterator($path) as $file) {
     $basename = $file->getFilename();
 	if (!in_array($basename, array('.', '..','.htaccess','.svn','.git')) && $file->isDir()) {
@@ -31,7 +34,7 @@ foreach (new DirectoryIterator($path) as $file) {
 	}
 }
 sort($langs);
-$this->parser->assign('langs', $langs);
+$parser->set('langs', $langs);
 unset($path,$file,$handle);
 
 $actualLanguage = 'ja';
@@ -44,10 +47,10 @@ foreach ($langs as $language) {
         .($language == $actualLanguage ? ' selected="selected"' : '')
         .'>' . $language . '</option>' . "\n";
 }
-$this->parser->assign('languages',$languages);
+$parser->set('languages',$languages);
 
 if (!empty($_REQUEST['restarted'])) {
-    $this->parser->assign('restarted',true);
+    $parser->set('restarted',true);
 }
 
-return $this->parser->fetch('language.tpl');
+return $parser->render('language.tpl');

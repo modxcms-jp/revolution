@@ -1,13 +1,20 @@
 <?php
 /**
+ * Chunk German lexicon topic
+ *
  * @package modx
  * @subpackage lexicon
-
+ *
  * @language de
  * @namespace core
  * @topic chunk
+ *
+ * MODX Revolution translated to German by Jan-Christoph Ihrens (enigmatic_user, enigma@lunamail.de)
  */
 $_lang['chunk'] = 'Chunk';
+$_lang['chunk_desc_category'] = 'Die Kategorie, zu der dieser Chunk gehört.';
+$_lang['chunk_desc_description'] = 'Eine kurze Beschreibung dieses Chunks.';
+$_lang['chunk_desc_name'] = 'Der Name dieses Chunks. Der Chunk kann dann mittels der [[$nameOfChunk]]-Tags genutzt werden.';
 $_lang['chunk_code'] = 'Chunk-Code (HTML)';
 $_lang['chunk_desc'] = 'Beschreibung';
 $_lang['chunk_delete_confirm'] = 'Sind Sie sicher, dass Sie diesen Chunk löschen möchten?';

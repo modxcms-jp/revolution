@@ -13,10 +13,11 @@ MODx.page.CreateStatic = function(config) {
         ,formpanel: 'modx-panel-resource'
         ,id: 'modx-page-update-resource'
         ,which_editor: 'none'
+        ,action: 'create'
         ,actions: {
-            'new': MODx.action['resource/create']
-            ,edit: MODx.action['resource/update']
-            ,cancel: MODx.action['welcome']
+            'new': 'resource/create'
+            ,edit: 'resource/update'
+            ,cancel: 'welcome'
         }
         ,buttons: this.getButtons(config)
         ,loadStay: true
@@ -27,6 +28,7 @@ MODx.page.CreateStatic = function(config) {
             ,record: config.record || {}
             ,publish_document: config.publish_document
             ,access_permissions: config.access_permissions
+            ,show_tvs: config.show_tvs
         }]
     });
     MODx.page.CreateStatic.superclass.constructor.call(this,config);
@@ -37,12 +39,12 @@ Ext.extend(MODx.page.CreateStatic,MODx.Component,{
         if (cfg.canSave == 1) {
             btns.push({
                 process: 'create'
+                ,id: 'modx-abtn-save'
                 ,text: _('save')
                 ,method: 'remote'
                 ,checkDirty: true
                 ,keys: [{
                     key: MODx.config.keymap_save || 's'
-                    ,alt: true
                     ,ctrl: true
                 }]
             });
@@ -51,12 +53,14 @@ Ext.extend(MODx.page.CreateStatic,MODx.Component,{
         btns.push({
             process: 'cancel'
             ,text: _('cancel')
-            ,params: { a: MODx.action['welcome'] }
+            ,params: { a: 'welcome' }
+            ,id: 'modx-abtn-cancel'
         });
         btns.push('-');
         btns.push({
             text: _('help_ex')
             ,handler: MODx.loadHelpPane
+            ,id: 'modx-abtn-help'
         });
         return btns;
     }

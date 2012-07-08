@@ -1,8 +1,8 @@
 <?php
 /**
- * MODx Revolution
+ * MODX Revolution
  *
- * Copyright 2006-2010 by the MODx Team.
+ * Copyright 2006-2012 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -21,39 +21,61 @@
  *
  * @package modx-test
  */
-require_once 'PHPUnit/Framework.php';
 /**
- * Extends the basic PHPUnit TestCase class to provide MODx specific methods
+ * Extends the basic PHPUnit TestCase class to provide MODX specific methods
  *
  * @package modx-test
  */
-class MODxTestCase extends PHPUnit_Framework_TestCase {
-
-    protected $modx = null;
+abstract class MODxTestCase extends PHPUnit_Framework_TestCase {
+    /**
+     * @var modX $modx
+     */
+    public $modx = null;
+    /**
+     * @var bool
+     */
+    public $debug = false;
 
     /**
-     * Ensure all tests have a reference to the MODx object
+     * Ensure all tests have a reference to the MODX object
      */
     public function setUp() {
-        $this->modx =& MODxTestHarness::_getConnection();
+        $this->modx =& MODxTestHarness::getFixture('modX', 'modx');
+        if ($this->modx->request) {
+            $this->modx->request->loadErrorHandler();
+            $this->modx->error->reset();
+        }
+        /* setup some basic test-environment options to allow us to simulate a site */
+        $this->modx->setOption('http_host','unit.modx.com');
+        $this->modx->setOption('base_url','/');
+        $this->modx->setOption('site_url','http://unit.modx.com/');
     }
 
     /**
      * Remove reference at end of test case
      */
-    public function tearDown() {
-        $this->modx = null;
+    public function tearDown() {}
+
+    /**
+     * Check a MODX return result for a success flag
+     *
+     * @param modProcessorResponse $result The result response
+     * @return boolean
+     */
+    public function checkForSuccess(&$result) {
+        if (empty($result) || !($result instanceof modProcessorResponse)) return false;
+        return !$result->isError();
     }
 
     /**
-     * Check a MODx return result for a success flag
-     *
-     * @param array $result The result response
+     * Check a MODX processor response and return results
+     *  
+     * @param string $result The response
+     * @return array
      */
-    public function checkForSuccess(&$result) {
-        if ($result === true) return true;
-        if (!is_array($result)) $result = $this->modx->fromJSON($result);
-        $success = !empty($result['success']) && $result['success'] = true;
-        return $success;
+    public function getResults(&$result) {
+        $response = ltrim(rtrim($result->response,')'),'(');
+        $response = $this->modx->fromJSON($response);
+        return !empty($response['results']) ? $response['results'] : array();
     }
 }

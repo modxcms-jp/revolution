@@ -77,25 +77,22 @@ if ($errpage == null || !is_array($errpage)) {
 /* clear file info cache */
 clearstatcache();
 if (!empty($warnings)) {
-    $config_check_results = '<h4>' . $modx->lexicon('configcheck_notok') . '</h4>';
+    $config_check_results = '<h4>' . $modx->lexicon('configcheck_notok') . '</h4><ul>';
 
     for ($i = 0; $i < count($warnings); $i++) {
         switch ($warnings[$i][0]) {
             case $modx->lexicon('configcheck_configinc');
-                $warnings[$i][1] = $modx->lexicon('configcheck_configinc_msg');
-                if (isset ($_SESSION['mgrConfigCheck']) && !$_SESSION['mgrConfigCheck'])
-                    $modx->logEvent(0, 2, $warnings[$i][1], $modx->lexicon('configcheck_configinc'));
+                $warnings[$i][1] = $modx->lexicon('configcheck_configinc_msg',array(
+                    'path' => $modx->getOption('core_path',null,MODX_CORE_PATH).'config/'.MODX_CONFIG_KEY.'.inc.php',
+                ));
                 break;
             case $modx->lexicon('configcheck_installer') :
-                $warnings[$i][1] = $modx->lexicon('configcheck_installer_msg');
-                if (isset ($_SESSION['mgrConfigCheck']) && !$_SESSION['mgrConfigCheck'])
-                    $modx->logEvent(0, 2, $warnings[$i][1], $modx->lexicon('configcheck_installer'));
+                $warnings[$i][1] = $modx->lexicon('configcheck_installer_msg',array(
+                    'path' => $modx->getOption('base_path',null,MODX_BASE_PATH).'setup/',
+                ));
                 break;
             case $modx->lexicon('configcheck_cache') :
                 $warnings[$i][1] = $modx->lexicon('configcheck_cache_msg');
-                if (isset ($_SESSION['mgrConfigCheck']) && !$_SESSION['mgrConfigCheck'])
-                    $modx->logEvent(0, 2, $warnings[$i][1], $modx->lexicon('configcheck_cache'));
-                break;
                 break;
             case $modx->lexicon('configcheck_lang_difference') :
                 $warnings[$i][1] = $modx->lexicon('configcheck_lang_difference_msg');
@@ -119,19 +116,16 @@ if (!empty($warnings)) {
                 $warnings[$i][1] = $modx->lexicon('configcheck_default_msg');
         }
 
-        $admin_warning = $_SESSION['mgrRole'] != 1 ? $modx->lexicon('configcheck_admin') : '';
-        $config_check_results .= '
-                            <div class="fakefieldset">
+        $config_check_results .= '<li class="fakefieldset">
                             <p><strong>' . $modx->lexicon('configcheck_warning') . '</strong> ' . $warnings[$i][0] . '</p>
-                            <p style="padding-left:1em"><em>' . $modx->lexicon('configcheck_what') . '</em><br />
-                            ' . $warnings[$i][1] . ' ' . $admin_warning . '</p>
-                            </div>
-                    ';
+                            <p><em>' . $modx->lexicon('configcheck_what') . '</em></p>
+                            <p>' . $warnings[$i][1] . ' </p>
+                            </li>';
         if ($i != count($warnings) - 1) {
             $config_check_results .= '<br />';
         }
+        $config_check_results .= '</ul>';
     }
-    $_SESSION['mgrConfigCheck'] = true;
     return false;
 } else {
     $config_check_results = $modx->lexicon('configcheck_ok');

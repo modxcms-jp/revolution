@@ -7,6 +7,10 @@ $settings['database_charset'] = $settings['database_connection_charset'];
 unset($settings['action']);
 $install->settings->store($settings);
 $mode = $install->settings->get('installmode');
+/* if advanced upgrade, get old settings */
+if($mode === modInstall::MODE_UPGRADE_REVO_ADVANCED) {
+    $settings = array_merge($settings, $install->request->getConfig($mode));
+}
 
 $data = array();
 $errors = array();
@@ -32,7 +36,7 @@ if (!$dbExists) {
         /* otherwise try to create the database */
         $dbExists = $xpdo->manager->createSourceContainer(
             array(
-                'dbname' => trim($install->settings->get('dbase'), '`')
+                'dbname' => $install->settings->get('dbase')
                 ,'host' => $install->settings->get('database_server')
             )
             ,$install->settings->get('database_user')

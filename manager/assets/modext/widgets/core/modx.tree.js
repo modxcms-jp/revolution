@@ -75,28 +75,27 @@ MODx.tree.Tree = function(config) {
         ,cls: 'modx-tree'
         ,root: root
         ,preventRender: false
+        ,stateful: true
         ,menuConfig: {defaultAlign: 'tl-b?' ,enableScrolling: false}
     });
     if (config.remoteToolbar === true && (config.tbar === undefined || config.tbar === null)) {
         Ext.Ajax.request({
-            url: config.url
+            url: config.remoteToolbarUrl || config.url
             ,params: {
-                action: 'getToolbar'
+                action: config.remoteToolbarAction || 'getToolbar'
             }
-            ,scope: this
             ,success: function(r) {
                 r = Ext.decode(r.responseText);
-                if (r.success) {
-                    var itms = this._formatToolbar(r.object);
-                    var tb = this.getTopToolbar();
-                    if (tb) {
-                        for (var i=0;i<itms.length;i++) {
-                            tb.add(itms[i]);
-                        }
-                        tb.doLayout();
+                var itms = this._formatToolbar(r.object);
+                var tb = this.getTopToolbar();
+                if (tb) {
+                    for (var i=0;i<itms.length;i++) {
+                        tb.add(itms[i]);
                     }
+                    tb.doLayout();
                 }
             }
+            ,scope:this
         });
         config.tbar = {bodyStyle: 'padding: 0'};
     } else {
@@ -138,6 +137,19 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
      * Sets up the tree and initializes it with the specified options.
      */
     ,setup: function(config) {
+        config.listeners = config.listeners || {};
+        config.listeners.render = {fn:function() {
+            this.root.expand();
+            var tl = this.getLoader();
+            Ext.apply(tl,{fullMask : new Ext.LoadMask(this.getEl(),{msg:_('loading')})});
+            tl.fullMask.removeMask=false;
+            tl.on({
+                'load' : function(){this.fullMask.hide();}
+                ,'loadexception' : function(){this.fullMask.hide();}
+                ,'beforeload' : function(){this.fullMask.show();}
+                ,scope : tl
+            });
+        },scope:this};
         MODx.tree.Tree.superclass.constructor.call(this,config);
         this.addEvents('afterSort','beforeSort');
         this.cm = new Ext.menu.Menu(config.menuConfig);
@@ -153,19 +165,9 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
         this.on('load',this._initExpand,this,{single: true});
         this.on('expandnode',this._saveState,this);
         this.on('collapsenode',this._saveState,this);
-        
-        this.on('render',function() {
-            this.root.expand();
-            var tl = this.getLoader();
-            Ext.apply(tl,{fullMask : new Ext.LoadMask(this.getEl(),{msg:_('loading')})});
-            tl.fullMask.removeMask=false;
-            tl.on({
-                'load' : function(){this.fullMask.hide();}
-                ,'loadexception' : function(){this.fullMask.hide();}
-                ,'beforeload' : function(){this.fullMask.show();}
-                ,scope : tl
-            });
-        },this);
+		
+        /* Absolute positionning fix  */
+        this.on('expandnode',function(){ var cnt = Ext.getCmp('modx-content'); if (cnt) { cnt.doLayout(); } },this);
     }
 	
     /**
@@ -193,7 +195,10 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     ,addContextMenuItem: function(items) {
         var a = items, l = a.length;
         for(var i = 0; i < l; i++) {
-            a[i].scope = this;
+            a[i].scope = a[i].scope || this;
+            if (a[i].handler && typeof a[i].handler == 'string') {
+                a[i].handler = eval(a[i].handler);
+            }
             this.cm.add(a[i]);
         }
     }
@@ -208,13 +213,27 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
         this.cm.activeNode = node;        
         this.cm.removeAll();
         var m;
-        if (this.getMenu) {
-            m = this.getMenu(node,e);
-        } else if (node.attributes.menu && node.attributes.menu.items) {
-            m = node.attributes.menu.items;
+        var handled = false;
+
+        if (!Ext.isEmpty(node.attributes.treeHandler) || (node.isRoot && !Ext.isEmpty(node.childNodes[0].attributes.treeHandler))) {
+            var h = Ext.getCmp(node.isRoot ? node.childNodes[0].attributes.treeHandler : node.attributes.treeHandler);
+            if (h) {
+                if (node.isRoot) { node.attributes.type = 'root'; }
+                m = h.getMenu(this,node,e);
+                handled = true;
+            }
         }
-        this.addContextMenuItem(m);
-        this.cm.showAt(e.xy);
+        if (!handled) {
+            if (this.getMenu) {
+                m = this.getMenu(node,e);
+            } else if (node.attributes.menu && node.attributes.menu.items) {
+                m = node.attributes.menu.items;
+            }
+        }
+        if (m && m.length > 0) {
+            this.addContextMenuItem(m);
+            this.cm.showAt(e.xy);
+        }
         e.preventDefault();
         e.stopEvent();
     }
@@ -279,11 +298,11 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     ,remove: function(text,substr,split) {
         var node = this.cm.activeNode;
         var id = this._extractId(node.id,substr,split);
-        var p = {action: 'remove'};
+        var p = {action: this.config.removeAction || 'remove'};
         var pk = this.config.primaryKey || 'id';
         p[pk] = id;
         MODx.msg.confirm({
-            title: _('warning')
+            title: this.config.removeTitle || _('warning')
             ,text: _(text)
             ,url: this.config.url
             ,params: p
@@ -331,11 +350,16 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
      * @param {Ext.tree.TreeNode} n The most recent expanded or collapsed node.
      */
     ,_saveState: function(n) {
+        if (!this.stateful) {
+            return true;
+        }
         var s = Ext.state.Manager.get(this.treestate_id);
         var p = n.getPath();
         var i;
         if (!Ext.isObject(s) && !Ext.isArray(s)) {
             s = [s]; /* backwards compat */
+        } else {
+            s = s.slice();
         }
         if (Ext.isEmpty(p) || p == undefined) return; /* ignore invalid paths */
         if (n.expanded) { /* if expanding, add to state */
@@ -385,6 +409,8 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
         if (e.ctrlKey) {return true;}
         if (n.attributes.page && n.attributes.page !== '') {
             location.href = n.attributes.page;
+        } else {
+            n.toggle();
         }
         return true;
     }
@@ -442,6 +468,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
                 },scope:this}
                 ,'failure': {fn:function(r) {
                     MODx.form.Handler.errorJSON(r);
+                    this.refresh();
                     return false;
                 },scope:this}
             }
@@ -451,7 +478,17 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     /**
      * Abstract definition to handle drop events.
      */
-    ,_handleDrop: function() { }
+    ,_handleDrop: function(dropEvent) {
+        var node = dropEvent.dropNode;
+        if (node.isRoot) return false;
+
+        if (!Ext.isEmpty(node.attributes.treeHandler)) {
+            var h = Ext.getCmp(node.attributes.treeHandler);
+            if (h) {
+                return h.handleDrop(this,dropEvent);
+            }
+        }
+    }
 
     /**
      * Semi unique ids across edits
@@ -471,9 +508,12 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
     }
 	
     ,loadAction: function(p) {
-        var id = this.cm.activeNode.id.split('_');id = id[1];
-        var u = 'index.php?id='+id+'&'+p;
-        location.href = u;
+        var id = '';
+        if (this.cm.activeNode && this.cm.activeNode.id) {
+            var pid = this.cm.activeNode.id.split('_');
+            id = 'id='+pid[1];
+        }
+        location.href = 'index.php?'+id+'&'+p;
     }
     /**
      * Loads the default toolbar for the tree.
@@ -534,7 +574,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
      * Gets a default toolbar setup
      */
     ,getToolbar: function() {
-        var iu = MODx.config.template_url+'images/restyle/icons/';
+        var iu = MODx.config.manager_url+'templates/default/images/restyle/icons/';
         return [{
             icon: iu+'arrow_down.png'
             ,cls: 'x-btn-icon'
@@ -567,7 +607,7 @@ Ext.extend(MODx.tree.Tree,Ext.tree.TreePanel,{
             }
             Ext.applyIf(a[i],{
                 scope: this
-                ,cls: 'x-btn-icon'
+                ,cls: this.config.toolbarItemCls || 'x-btn-icon'
             });
         }
         return a;

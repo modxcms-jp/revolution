@@ -1,15 +1,17 @@
-/* @override http://bruce.bravado.dom:8080/modxsite/assets/modx.css */
-    /* GLOBAL */
+/* GLOBAL */
 body {
-    font-family: Verdana, Arial, Helvetica,sans-serif;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica,
+        sans-serif;
 }
 
 strong,em,b,i {
-    font-family: Verdana,Arial, Helvetica, sans-serif;
+    font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", Verdana,
+        Arial, Helvetica, sans-serif;
 }
 
 h1,h2,h3,h4,h5,h6,address {
-    font-family: Verdana,Arial, Helvetica, sans-serif;
+    font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", Verdana,
+        Arial, Helvetica, sans-serif;
     margin-top: 0;
 }
 
@@ -18,7 +20,10 @@ p {
 }
 
 #whatwhyhow p,#footer p {
-    color: #fff;
+    color: #aaa;
+}
+#whatwhyhow a,#footer a {
+    color: #ccc !important;
 }
 
 img.left {
@@ -64,7 +69,7 @@ hr {
     max-width: 250px;
     float: left;
     padding: 0;
-    font: bold 12px/ 23px Verdana, sans-serif;
+    font: bold 11px/ 23px "Lucida Grande", Lucida, Verdana, sans-serif;
 }
 
 .buttonlinks span,#footer .buttonlinks span,#whatwhyhow .buttonlinks span {
@@ -101,8 +106,9 @@ hr {
 
 /* HEADER */
 #header {
-    background: url(images/header_background.png) repeat-x;
+    background: url(images/headers.jpg) repeat-x 10px -340px;/*-34,-285,-340*/
     margin-bottom: 38px;
+    height:30px;
 }
 
 #metaheader {
@@ -111,7 +117,7 @@ hr {
 }
 
 #mainheader {
-    height: 131px;
+    height: 100px;
     position: relative;
 }
 
@@ -134,8 +140,8 @@ hr {
 
 #quickstart a,#metanav a {
     text-decoration: none;
-    color: #fff;
-    font: bold 12px/ 30px Verdana, sans-serif;
+    color: #ccc;
+    font: normal 12px/ 30px "Lucida Grande", Lucida, Verdana, sans-serif;
     text-transform: uppercase;
     display: block;
 }
@@ -214,9 +220,9 @@ hr {
     width: 228px;
     height: 63px;
     line-height: 63px;
-    margin: 32px 0 0;
+    margin: 34px 0 0;
     display: block;
-    background-image: url(images/modx_logo_header.png);
+    background-image: url(images/modx-logo.png);
     text-indent: -9999px;
     position: absolute;
     top: 0;
@@ -287,14 +293,16 @@ hr {
 /* FOOTER */
 #footer {
     color: #fff;
-    background: #64ab24 url(images/footer_fold_top.jpg) repeat-x;
-    padding-top: 55px;
-    margin-top: 38px;
+    background: #222 url(images/headers.jpg) repeat-x 602px -130px;
+    padding-top: 36px;
+    margin-top: 26px;
 }
 
 #footer-inner {
-    background: #64ab24 url(images/footer_fold_bottom.jpg) repeat-x 0 bottom;
-    padding-bottom: 55px;
+    padding-bottom: 35px;
+}
+#footer #footer-inner a {
+    color: #88E646;
 }
 
 #footer h6 {
@@ -397,7 +405,7 @@ hr {
     height: 26px;
     text-align: left;
     width: auto;
-    font: bold 12px/ 25px Verdana, sans-serif;
+    font: bold 11px/ 25px "Lucida Grande", Lucida, Verdana, sans-serif;
 }
 
 #nlsubmit :hover {
@@ -548,12 +556,15 @@ hr {
 }
 
 /* CONTENT */
+#contentarea {
+    margin-top: 77px;
+}
+
 #contentarea h2 {
-    color: #5a8f34;
+    color: #0F7096;
     margin-bottom: .5em;
     line-height: 1em;
     font-size: 1.7em;
-    font-weight: bold;
 }
 
 #contentarea h3 {
@@ -764,7 +775,7 @@ hr {
 }
 
 #featuredquote dt {
-    color: #5a8f34;
+    color: #0F7096;
     font-weight: bold;
     font-size: 1.1em;
 }

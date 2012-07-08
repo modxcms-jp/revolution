@@ -9,11 +9,10 @@ MODx.page.ImportResource = function(config) {
         ,buttons: [{
             process: 'import', text: _('import_resources'), method: 'remote'
         },{
-            process: 'cancel', text: _('cancel'), params: {a:MODx.action['welcome']}
+            process: 'cancel', text: _('cancel'), params: {a:'welcome'}
         }]
         ,components: [{
             xtype: 'modx-panel-import-resources'
-            ,renderTo: 'modx-import-resources-div'
         }]
     });
     MODx.page.ImportResource.superclass.constructor.call(this,config);

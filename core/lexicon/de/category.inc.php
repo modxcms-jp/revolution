@@ -1,15 +1,20 @@
 <?php
 /**
+ * Category German lexicon topic
+ *
  * @package modx
  * @subpackage lexicon
-
+ *
  * @language de
  * @namespace core
  * @topic category
+ *
+ * MODX Revolution translated to German by Jan-Christoph Ihrens (enigmatic_user, enigma@lunamail.de)
  */
 $_lang['categories'] = 'Kategorien';
 $_lang['category_confirm_delete'] = 'Sind Sie sicher, dass Sie diese Kategorie löschen möchten? Alle Elemente in dieser Kategorie werden als unkategorisiert eingeordnet.';
 $_lang['category_create'] = 'Kategorie anlegen';
+$_lang['category_err_ae'] = 'Eine Kategorie mit diesem Namen existiert bereits. Bitte versuchen Sie es mit einem anderen Namen.';
 $_lang['category_err_create'] = 'Ein Fehler trat auf beim Versuch, die Kategorie anzulegen.';
 $_lang['category_err_not_found'] = 'Kategorie nicht gefunden!';
 $_lang['category_err_nf'] = 'Kategorie nicht gefunden.';

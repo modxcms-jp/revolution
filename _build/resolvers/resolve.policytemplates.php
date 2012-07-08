@@ -12,7 +12,9 @@ $map = array(
     'ResourceTemplate' => 'Resource',
     'AdministratorTemplate' => 'Admin',
     'ObjectTemplate' => 'Object',
+    'ContextTemplate' => 'Object',
     'ElementTemplate' => 'Element',
+    'MediaSourceTemplate' => 'MediaSource',
 );
 
 $templates = $transport->xpdo->getCollection('modAccessPolicyTemplate');

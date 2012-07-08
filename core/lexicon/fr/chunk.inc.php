@@ -7,12 +7,15 @@
  * @subpackage lexicon
  */
 $_lang['chunk'] = 'Chunk';
+$_lang['chunk_desc_category'] = 'La catégorie à laquelle appartient ce Chunk.';
+$_lang['chunk_desc_description'] = 'Courte description du chunk.';
+$_lang['chunk_desc_name'] = 'Nom du chunk, qui sera disponible en utilisant le tag [[$nomDuChunk]].';
 $_lang['chunk_code'] = 'Code source du chunk (html)';
 $_lang['chunk_desc'] = 'Description';
 $_lang['chunk_delete_confirm'] = 'Voulez-vous vraiment supprimer ce chunk?';
 $_lang['chunk_duplicate_confirm'] = 'Voulez-vous vraiment dupliquer ce chunk?';
 $_lang['chunk_err_duplicate'] = 'Erreur dans la duplication du chunk';
-$_lang['chunk_err_exists_name'] = 'Un chunk du même nom existe déjà.';
+$_lang['chunk_err_exists_name'] = 'Un chunk ayant pour nom "[[+name]]" existe déjà.';
 $_lang['chunk_err_invalid_name'] = 'Nom de chunk invalide.';
 $_lang['chunk_err_locked'] = 'Le chunk est verrouillé.';
 $_lang['chunk_err_remove'] = 'Une erreur s\'est produite en tentant de supprimer le chunk.';

@@ -24,7 +24,7 @@ MODx.Window = function(config) {
         ,buttons: [{
             text: config.cancelBtnText || _('cancel')
             ,scope: this
-            ,handler: function() { this.hide(); }
+            ,handler: function() { config.closeAction !== 'close' ? this.hide() : this.close(); }
         },{
             text: config.saveBtnText || _('save')
             ,scope: this
@@ -51,6 +51,7 @@ MODx.Window = function(config) {
         if (this.config.blankValues) { this.fp.getForm().reset(); }
         if (this.config.allowDrop) { this.loadDropZones(); }
         this.syncSize();
+        this.focusFirstField();
     },this);
 };
 Ext.extend(MODx.Window,Ext.Window,{
@@ -79,8 +80,26 @@ Ext.extend(MODx.Window,Ext.Window,{
         });
         this.renderForm();
     }
+
+    ,focusFirstField: function() {
+        if (this.fp && this.fp.getForm() && this.fp.getForm().items.getCount() > 0) {
+            var fld = this.findFirstTextField();
+            if (fld) { fld.focus(false,200); }
+        }
+    }
+    ,findFirstTextField: function(i) {
+        i = i || 0;
+        var fld = this.fp.getForm().items.itemAt(i);
+        if (!fld) return false;
+        if (fld.isXType('combo') || fld.isXType('checkbox') || fld.isXType('radio') || fld.isXType('displayfield') || fld.isXType('statictextfield') || fld.isXType('hidden')) {
+            i = i+1;
+            fld = this.findFirstTextField(i);
+        }
+        return fld;
+    }
 	
-    ,submit: function() {
+    ,submit: function(close) {
+        close = close === false ? false : true;
         var f = this.fp.getForm();
         if (f.isValid() && this.fireEvent('beforeSubmit',f.getValues())) {
             f.submit({
@@ -96,7 +115,7 @@ Ext.extend(MODx.Window,Ext.Window,{
                         Ext.callback(this.config.success,this.config.scope || this,[frm,a]);
                     }
                     this.fireEvent('success',{f:frm,a:a});
-                    this.hide();
+                    if (close) { this.config.closeAction !== 'close' ? this.hide() : this.close(); }
                 }
             });
         }
@@ -105,13 +124,17 @@ Ext.extend(MODx.Window,Ext.Window,{
     ,createForm: function(config) {
         config = config || {};
         Ext.applyIf(config,{
-            labelAlign: this.config.labelAlign || 'right'
+            labelAlign: this.config.labelAlign || 'top'
             ,labelWidth: this.config.labelWidth || 100
+            ,labelSeparator: this.config.labelSeparator || ''
             ,frame: this.config.formFrame || true
-            ,border: false
-            ,bodyBorder: false
-            ,autoHeight: true
+            ,border: this.config.border || false
+            ,bodyBorder: this.config.bodyBorder || false
+            ,autoHeight: this.config.autoHeight || true
             ,errorReader: MODx.util.JSONReader
+            ,defaults: this.config.formDefaults || {
+                msgTarget: this.config.msgTarget || 'under'
+            }
             ,url: this.config.url
             ,baseParams: this.config.baseParams || {}
             ,fileUpload: this.config.fileUpload || false

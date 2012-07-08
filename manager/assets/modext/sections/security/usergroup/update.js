@@ -1,6 +1,3 @@
-Ext.onReady(function() {
-    MODx.load({ xtype: 'modx-page-user-group-update' });
-});
 
 /**
  * Loads the usergroup update page
@@ -21,19 +18,19 @@ MODx.page.UpdateUserGroup = function(config) {
             ,checkDirty: true
             ,keys: [{
                 key: MODx.config.keymap_save || 's'
-                ,alt: true
                 ,ctrl: true
             }]
         },'-',{
             process: 'cancel'
             ,text: _('cancel')
-            ,params: {a:MODx.action['security/permission']}
+            ,params: {a:'security/permission'}
         },'-',{
             text: _('help_ex')
             ,handler: MODx.loadHelpPane
         }]
         ,components: [{
             xtype: 'modx-panel-user-group'
+            ,record: config.record || {}
             ,renderTo: 'modx-panel-user-group-div'
             ,usergroup: MODx.request.id
         }]

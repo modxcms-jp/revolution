@@ -17,17 +17,38 @@ $modx->lexicon->load('tv_widget','tv_input_types');
 $context = (isset($scriptProperties['context']) && !empty($scriptProperties['context'])) ? $scriptProperties['context'] : $modx->context->get('key');
 if (!isset($scriptProperties['type'])) $scriptProperties['type'] = 'default';
 
-/* load smarty */
-if (!isset($modx->smarty)) {
-    $modx->getService('smarty', 'smarty.modSmarty', '', array(
-        'template_dir' => $modx->getOption('manager_path') . 'templates/' . $modx->getOption('manager_theme') . '/',
-    ));
+/* simulate controller to allow controller methods in TV Input Properties controllers */
+$modx->getService('smarty', 'smarty.modSmarty','');
+require_once MODX_CORE_PATH.'model/modx/modmanagercontroller.class.php';
+class TvPropertiesManagerController extends modManagerController {
+    public $loadFooter = false;
+    public $loadHeader = false;
+    public function checkPermissions() {
+        return $this->modx->hasPermission('view_tv');
+    }
+    public function loadCustomCssJs() {}
+    public function process(array $scriptProperties = array()) {}
+    public function getPageTitle() {return '';}
+    public function getTemplateFile() {
+        return 'empty.tpl';
+    }
+    public function getLanguageTopics() {return array();}
 }
+
+/* simulate controller with the faux class above */
+$c = new TvPropertiesManagerController($this->modx);
+$modx->controller = call_user_func_array(array($c,'getInstance'),array($this->modx,'TvPropertiesManagerController'));
+$modx->controller->render();
+
 /* get default display properties for specific tv */
 $settings = array();
 if (!empty($scriptProperties['tv'])) {
     $tv = $modx->getObject('modTemplateVar',$scriptProperties['tv']);
     if (is_object($tv) && $tv instanceof modTemplateVar) {
+        /**
+         * Backwards support for display_params
+         * @deprecated To be removed in 2.2
+         */
         $params = $tv->get('display_params');
         $ps = explode('&',$params);
         foreach ($ps as $p) {
@@ -36,10 +57,15 @@ if (!empty($scriptProperties['tv'])) {
                 $settings[$param[0]] = str_replace('%3D','=',$param[1]);
             }
         }
+        /* now get output_properties */
+        $outputProperties = $tv->get('output_properties');
+        if (!empty($outputProperties) && is_array($outputProperties)) {
+            $settings = array_merge($settings,$outputProperties);
+        }
     }
-    $modx->smarty->assign('tv',$scriptProperties['tv']);
+    $modx->controller->setPlaceholder('tv',$scriptProperties['tv']);
 }
-$modx->smarty->assign('params',$settings);
+$modx->controller->setPlaceholder('params',$settings);
 
 /* handle dynamic paths */
 $renderDirectories = array(
@@ -54,6 +80,18 @@ if (!is_array($pluginResult) && !empty($pluginResult)) { $pluginResult = array($
 if (!empty($pluginResult)) {
     $renderDirectories = array_merge($renderDirectories,$pluginResult);
 }
+
+/* load namespace caches */
+$cache = $modx->call('modNamespace','loadCache',array(&$this->modx));
+if (!empty($cache) && is_array($cache)) {
+    foreach ($cache as $namespace) {
+        $inputDir = rtrim($namespace['path'],'/').'/tv/properties/';
+        if (is_dir($inputDir)) {
+            $renderDirectories[] = $inputDir;
+        }
+    }
+}
+
 
 /* get controller */
 $o = '';
