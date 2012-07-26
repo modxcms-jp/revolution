@@ -5,9 +5,9 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author yamamoto http://kyms.jp 2012-07-27
  * @author honda http://kogus.org 2012-06-22
  * @author shimojo http://www.priqia.com/
- * @author yamamoto http://kyms.jp
  */
 $_lang['action'] = '操作内容';
 $_lang['action_desc'] = '指定したアクションにこのルールが適用されます。';
@@ -59,8 +59,8 @@ $_lang['profiles'] = 'カスタマイズプロファイル';
 $_lang['profiles_msg'] = 'フォームのカスタマイズプロファイルのリストです。プロファイルは様々なカスタマイズの規則を保持でき、一括して有効無効を切り替えられます。また、任意のユーザーグループにだけ適用させることも可能です。';
 $_lang['rank'] = 'ランク';
 $_lang['rank_desc'] = 'ルールが適用される順番を数値で指定します。数値が小さいほど、ルールは先に適用されます。';
-$_lang['region'] = 'レギオン';
-$_lang['regions'] = 'レギオン';
+$_lang['region'] = 'リージョン';
+$_lang['regions'] = 'リージョン';
 $_lang['rule'] = 'ルール';
 $_lang['rule_create'] = 'ルールを作成';
 $_lang['rule_desc'] = 'このフィールドに適用されるルールの種類';
