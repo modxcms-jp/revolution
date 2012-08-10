@@ -44,7 +44,7 @@
     <unpacked>0</unpacked>
 
     <!-- The language to install MODX for. This will set the default manager language to this. Use IANA codes. -->
-    <language>en</language>
+    <language>ja</language>
 
     <!-- Paths for your MODX core directory -->
     <core_path>/www/modx/core/</core_path>

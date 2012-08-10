@@ -44,12 +44,12 @@
     <unpacked>0</unpacked>
 
     <!-- The language to install MODX for. This will set the default manager language to this. Use IANA codes. -->
-    <language>en</language>
+    <language>ja</language>
 
     <!-- Information for your administrator account -->
     <cmsadmin>username</cmsadmin>
     <cmspassword>password</cmspassword>
-    <cmsadminemail>email@address.com</cmsadminemail>
+    <cmsadminemail>email@example.com</cmsadminemail>
 
     <!-- Paths for your MODX core directory -->
     <core_path>/www/modx/core/</core_path>
