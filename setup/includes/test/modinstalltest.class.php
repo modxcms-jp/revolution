@@ -43,6 +43,16 @@ abstract class modInstallTest {
         $this->_checkSafeMode();
         $this->_checkSuhosin();
         $this->_checkDocumentRoot();
+        
+        $this->install->settings->set('compress_js',0);
+        $this->install->settings->set('compress_css',0);
+        $this->install->settings->set('date_timezone','Asia/Tokyo');
+        $this->install->settings->set('cultureKey','ja');
+        $this->install->settings->set('fe_editor_lang','ja');
+        $this->install->settings->set('manager_lang_attribute','ja');
+        $this->install->settings->set('manager_language','ja');
+        $this->install->settings->set('compress_js',0);
+        $this->install->settings->set('compress_css',0);
 
         return $this->results;
     }
