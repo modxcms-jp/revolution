@@ -59,7 +59,7 @@ MODx.tree.Tree = function(config) {
     Ext.applyIf(config,{
         useArrows: true
         ,autoScroll: true
-        ,animate: true
+        ,animate: false
         ,enableDD: true
         ,enableDrop: true
         ,ddAppendOnly: false
