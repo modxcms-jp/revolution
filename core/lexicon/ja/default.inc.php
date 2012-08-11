@@ -12,7 +12,7 @@
  */
 $_lang['access'] = 'アクセス';
 $_lang['access_denied'] = 'アクセスは拒否されました。';
-$_lang['action'] = '操作内容';
+$_lang['action'] = 'アクション';
 $_lang['action_err_nfs'] = '[[+id]] のアクションが見つかりません。';
 $_lang['actions'] = 'アクション';
 $_lang['active_users_none'] = 'アクティブなユーザーはいません。';
