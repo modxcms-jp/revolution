@@ -5,11 +5,12 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org 2012-08-16
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
  */
-$_lang['import_allowed_extensions'] = 'Specify a comma-delimited list of file extensions to import.<br /><small><em>Leave blank to import all files according to the content types available in your site. Unknown types will be mapped as plain text.</em></small>';
+$_lang['import_allowed_extensions'] = 'インポートしたいファイルタイプを、拡張子のカンマ区切りのリストで指定します。空白を指定すると、インポートするサイトで必要なコンテンツの種類に応じて、全てのファイルをインポートします。なお未知のタイプは、プレーンテキストとしてインポートされます。';
 $_lang['import_base_path'] = 'Enter the base file path containing the files to import.<br /><small><em>Leave blank to use the target context\'s static file path setting.</em></small>';
 $_lang['import_duplicate_alias_found'] = 'id [[+id]]のリソースは既に [[+alias]]というエイリアスを使用しています。別な一意のエイリアスを指定してください。';
 $_lang['import_element'] = 'インポートするhtml要素を指定してください。';
