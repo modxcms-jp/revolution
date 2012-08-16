@@ -5,11 +5,12 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org 2012-08-15
  * @author yamamoto http://kyms.jp 2012-08-11
  * @author shimojo http://www.priqia.com/
  */
 $_lang['action'] = 'アクション';
-$_lang['action_confirm_remove'] = '本当にこのアクションを削除しますか？これはMODX管理画面のインターフェイスを壊す可能性があります。';
+$_lang['action_confirm_remove'] = '本当にこのアクションを削除しますか？　これはMODX管理画面のインターフェイスを壊す可能性があります。';
 $_lang['action_create'] = 'アクションを作成';
 $_lang['action_create_here'] = 'アクションをここに作成';
 $_lang['action_desc'] = 'アクションはMODXコントローラーの抽象概念です。それらはMODX管理画面のトップメニューを再編成するだけではなく、カスタムした管理ページを作成することもできます。';
