@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-06-22
+* @author honda http://kogus.org 2012-08-17
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -242,7 +242,7 @@ $_lang['setting_friendly_alias_word_delimiters_desc'] = 'Characters which repres
 $_lang['setting_friendly_urls'] = 'フレンドリーURLの利用';
 $_lang['setting_friendly_urls_desc'] = '静的URI機能（フレンドリーURL）の設定を行います。この機能はMODXがApache上で動作している時のみ有効です。この機能を動作させるために .htaccessファイルに簡単な編集を加える必要があります。詳細は同梱 .htaccessファイルの末尾あたりをご覧ください。';
 $_lang['setting_friendly_urls_err'] = 'フレンドリーURLを使用するかしないか選んでください。';
-$_lang['setting_friendly_urls_strict'] = 'Use Strict Friendly URLs';
+$_lang['setting_friendly_urls_strict'] = 'StrictフレンドリーURLを使用';
 $_lang['setting_friendly_urls_strict_desc'] = 'When friendly URLs are enabled, this option forces non-canonical requests that match a Resource to 301 redirect to the canonical URI for that Resource. WARNING: Do not enable if you use custom rewrite rules which do not match at least the beginning of the canonical URI. For example, a canonical URI of foo/ with custom rewrites for foo/bar.html would work, but attempts to rewrite bar/foo.html as foo/ would force a redirect to foo/ with this option enabled.';
 $_lang['setting_global_duplicate_uri_check'] = 'Check for Duplicate URIs Across All Contexts';
 $_lang['setting_global_duplicate_uri_check_desc'] = 'Select \'Yes\' to make duplicate URI checks include all Contexts in the search. Otherwise, only the Context the Resource is being saved in is checked.';
@@ -407,21 +407,21 @@ $_lang['setting_request_param_alias_desc'] = 'The name of the GET parameter to i
 $_lang['setting_request_param_id'] = 'IDを受け取るパラメータ';
 $_lang['setting_request_param_id_desc'] = 'The name of the GET parameter to identify Resource IDs when not using FURLs.';
 $_lang['setting_resolve_hostnames'] = 'ホスト名の解決';
-$_lang['setting_resolve_hostnames_desc'] = 'サイト表示時に、閲覧者のホスト名を解決しますか？　サーバーに少し負荷が増えますが、閲覧者が意識することはありません（訳注：アクセスログに於ける逆引きのことか？）。';
-$_lang['setting_resource_tree_node_name'] = 'Resource Tree Node Field';
-$_lang['setting_resource_tree_node_name_desc'] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Defaults to pagetitle, although any Resource field can be used, such as menutitle, alias, longtitle, etc.';
-$_lang['setting_resource_tree_node_tooltip'] = 'Resource Tree Tooltip Field';
-$_lang['setting_resource_tree_node_tooltip_desc'] = 'Specify the Resource field to use when rendering the nodes in the Resource Tree. Any Resource field can be used, such as menutitle, alias, longtitle, etc. If blank, will be the longtitle with a description underneath.';
+$_lang['setting_resolve_hostnames_desc'] = 'サイト表示時に、閲覧者のホストを名前解決しますか？　サーバーに少し負荷が増えますが、閲覧者が意識することはありません（訳注：アクセスログに於ける逆引きのことか？）。';
+$_lang['setting_resource_tree_node_name'] = 'リソースツリーのノード用フィールド';
+$_lang['setting_resource_tree_node_name_desc'] = 'リソースツリーでノードを表示する際に使用するフィールドを指定します。デフォルトは pagetitle ですが、menutitle や alias、longtitle など任意のリソースフィールドも指定できます。';
+$_lang['setting_resource_tree_node_tooltip'] = 'リソースツリーのツールチップ用フィールド';
+$_lang['setting_resource_tree_node_tooltip_desc'] = 'リソースツリーでノードのツールチップを表示する際に使用するフィールドを指定します。 menutitle や alias、longtitle など任意のリソースフィールドが指定できます。空欄の場合、longtitle が使用されます。';
 $_lang['setting_richtext_default'] = 'デフォルトのリッチテキストエディタ使用設定';
 $_lang['setting_richtext_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトでリッチテキストエディタを使用します。';
 $_lang['setting_search_default'] = 'デフォルトの検索可能設定';
 $_lang['setting_search_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトで検索可能となります。';
 $_lang['setting_search_default_err'] = 'リソースをデフォルトで検索可能とするか、選択してください。';
 $_lang['setting_server_offset_time'] = 'サーバの時間補正';
-$_lang['setting_server_offset_time_desc'] = 'Select the number of hours time difference between where you are and where the server is.';
-$_lang['setting_server_protocol'] = 'サーバタイプ';
+$_lang['setting_server_offset_time_desc'] = 'サーバーの時間を補正するための、数値を指定します。';
+$_lang['setting_server_protocol'] = 'サーバータイプ';
 $_lang['setting_server_protocol_desc'] = 'このサイトがSSL接続を使用している場合は、httpsを選択してください。';
-$_lang['setting_server_protocol_err'] = 'サーバタイプをhttp・httpsのどちらかで選んでください。';
+$_lang['setting_server_protocol_err'] = 'サーバータイプをhttp・httpsのどちらかで選んでください。';
 $_lang['setting_server_protocol_http'] = 'http';
 $_lang['setting_server_protocol_https'] = 'https';
 $_lang['setting_session_cookie_domain'] = 'セッションCookieのドメイン';
