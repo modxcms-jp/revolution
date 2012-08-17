@@ -5,6 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org 2012-08-17
  */
 $_lang['perm.about_desc'] = '情報のページ';
 $_lang['perm.access_permissions_desc'] = 'アクセス権限関係のページとアクション';
@@ -13,10 +14,10 @@ $_lang['perm.add_children_desc'] = '指定されたリソースのサブリソ�
 $_lang['perm.change_password_desc'] = 'パスワードを変更';
 $_lang['perm.change_profile_desc'] = 'プロフィールを変更';
 $_lang['perm.charsets_desc'] = '文字セットの一覧を表示';
-$_lang['perm.class_map_desc'] = 'To view a list of classes in the Class Map.';
+$_lang['perm.class_map_desc'] = 'クラスマップ内のクラスを一覧を表示';
 $_lang['perm.components_desc'] = 'トップメニュー「コンポーネント」を表示';
 $_lang['perm.content_types_desc'] = 'コンテンツタイプのページ';
-$_lang['perm.copy_desc'] = 'The ability to copy an object.';
+$_lang['perm.copy_desc'] = 'オブジェクトのコピー機能';
 $_lang['perm.countries_desc'] = '国の一覧を表示';
 $_lang['perm.create_desc'] = '各オブジェクトでの基本的な新規作成';
 $_lang['perm.credits_desc'] = 'クレジットを表示';
@@ -60,7 +61,7 @@ $_lang['perm.error_log_erase_desc'] = 'エラーログを削除';
 $_lang['perm.error_log_view_desc'] = 'エラーログを表示';
 $_lang['perm.export_static_desc'] = 'サイトを静的HTMLにエクスポート';
 $_lang['perm.file_create_desc'] = 'ファイルを新規作成.';
-$_lang['perm.file_list_desc'] = '指定した物理フォルダのファイルを一覧に';
+$_lang['perm.file_list_desc'] = '指定した物理フォルダのファイルを一覧';
 $_lang['perm.file_manager_desc'] = 'ファイルマネージャー機能を使用';
 $_lang['perm.file_remove_desc'] = '物理ファイルを削除';
 $_lang['perm.file_tree_desc'] = '左のナビゲーションにファイルのツリーを表示';
@@ -125,10 +126,10 @@ $_lang['perm.remove_locks_desc'] = 'サイト上に存在している全ての�
 $_lang['perm.resourcegroup_delete_desc'] = 'リソースグループを削除';
 $_lang['perm.resourcegroup_edit_desc'] = 'リソースグループを編集';
 $_lang['perm.resourcegroup_resource_edit_desc'] = 'リソースグループ内のリソースグループを編集';
-$_lang['perm.resourcegroup_resource_list_desc'] = 'To view or list Resources in a Resource Group.';
+$_lang['perm.resourcegroup_resource_list_desc'] = 'リソースグループ内のリソースを表示または一覧。';
 $_lang['perm.resourcegroup_new_desc'] = 'リソースグループを新規作成';
 $_lang['perm.resourcegroup_save_desc'] = 'リソースグループを保存';
-$_lang['perm.resourcegroup_view_desc'] = 'To list Resource Groups.';
+$_lang['perm.resourcegroup_view_desc'] = 'リソースグループを一覧';
 $_lang['perm.resource_duplicate_desc'] = 'リソースを複製';
 $_lang['perm.resource_quick_create_desc'] = 'リソースツリーに「クイック作成」を表示';
 $_lang['perm.resource_quick_update_desc'] = 'リソースツリーに「クイック編集」を表示';
@@ -150,8 +151,8 @@ $_lang['perm.settings_desc'] = 'システム設定の表示と編集を行う';
 $_lang['perm.source_delete_desc'] = 'メディアソースを削除';
 $_lang['perm.source_edit_desc'] = 'メディアソースを編集';
 $_lang['perm.source_save_desc'] = 'メディアソースを作成・保存';
-$_lang['perm.source_view_desc'] = 'To view and list Media Sources.';
-$_lang['perm.sources_desc'] = 'To manage Media Sources and Media Source Types.';
+$_lang['perm.source_view_desc'] = 'メディアソースを表示、または一覧。';
+$_lang['perm.sources_desc'] = 'メディアソース及びメディアソースタイプを管理。';
 $_lang['perm.steal_lock_desc'] = 'リソースからロックを「横取り」または削除';
 $_lang['perm.steal_locks_desc'] = 'リソースの現在のロックを上書きしてロックを「横取り」';
 $_lang['perm.tree_show_resource_ids_desc'] = 'リソースツリーにIDを表示';
@@ -163,8 +164,8 @@ $_lang['perm.unpublish_desc'] = 'リソースを非公開に';
 $_lang['perm.unpublish_document_desc'] = 'リソースを非公開に';
 $_lang['perm.usergroup_delete_desc'] = 'ユーザーグループを削除';
 $_lang['perm.usergroup_edit_desc'] = 'ユーザーグループを編集';
-$_lang['perm.usergroup_user_edit_desc'] = 'ユーザーグループ内のリソースを編集';
-$_lang['perm.usergroup_user_list_desc'] = 'To view or list Users in a User Group.';
+$_lang['perm.usergroup_user_edit_desc'] = 'ユーザーグループ内のリソースを編集。';
+$_lang['perm.usergroup_user_list_desc'] = 'ユーザーグループ内のユーザーを表示または一覧。';
 $_lang['perm.usergroup_new_desc'] = 'ユーザーグループを新規作成';
 $_lang['perm.usergroup_save_desc'] = 'リソースグループを保存';
 $_lang['perm.usergroup_view_desc'] = 'ユーザーグループを表示';
