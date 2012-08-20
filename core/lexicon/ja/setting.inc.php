@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-08-17
+* @author honda http://kogus.org 2012-08-20
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -62,10 +62,10 @@ $_lang['system_settings'] = 'システム設定';
 $_lang['usergroup'] = 'ユーザーグループ';
 $_lang['setting_access_category_enabled'] = 'カテゴリーへのアクセス権をチェックする';
 $_lang['setting_access_category_enabled_desc'] = 'カテゴリーに対するACLチェックの有効無効を切り替えるには、この設定を使用します（コンテキストごと）。<p><strong>注：この設定を「いいえ」にした場合、全てのカテゴリーへのアクセス権設定は無視されます。</strong></p>';
-$_lang['setting_access_context_enabled'] = 'Check Context Access';
-$_lang['setting_access_context_enabled_desc'] = 'Use this to enable or disable Context ACL checks. <strong>NOTE: If this option is set to no then ALL Context Access Permissions will be ignored. DO NOT disable this system-wide or for the mgr Context or you will disable access to the manager interface.</strong>';
-$_lang['setting_access_resource_group_enabled'] = 'Check Resource Group Access';
-$_lang['setting_access_resource_group_enabled_desc'] = 'Use this to enable or disable Resource Group ACL checks (per Context). <strong>NOTE: If this option is set to no then ALL Resource Group Access Permissions will be ignored!</strong>';
+$_lang['setting_access_context_enabled'] = 'コンテキストアクセス権チェック';
+$_lang['setting_access_context_enabled_desc'] = '全コンテキストへのアクセス権チェックの有無を指定します。<strong>注：このオプションが無効の場合、全てのコンテキストアクセス権設定は無視されます。DO NOT disable this system-wide or for the mgr Context or you will disable access to the manager interface.</strong>';
+$_lang['setting_access_resource_group_enabled'] = 'リソースグループのアクセス権をチェック';
+$_lang['setting_access_resource_group_enabled_desc'] = '（コンテキストごとの）リソースグループのアクセス権チェックの有無を指定します。<strong>注：このオプションが無効の場合、全てのリソースグループアクセス権設定は無視されます。</strong>';
 $_lang['setting_allow_mgr_access'] = '管理画面へのアクセス';
 $_lang['setting_allow_mgr_access_desc'] = 'ユーザーの管理画面アクセスの有無を切り替えるには、この設定を使用します。<p><strong>注：この設定が「いいえ」のユーザーは、管理画面の認証画面、またはサイトのスタートページへリダイレクトされます。</strong>';
 $_lang['setting_failed_login'] = 'ログイン失敗許可数';
@@ -76,12 +76,12 @@ $_lang['setting_login_allowed_ip'] = '有効なIPアドレス';
 $_lang['setting_login_allowed_ip_desc'] = 'IPアドレスを入力すると、このユーザはそのIPアドレスからのログインのみ有効になります。<strong>ノート: 複数のIPアドレスを指定するにはカンマ(,)で区切ります</strong>';
 $_lang['setting_login_homepage'] = 'ログインのホームページ';
 $_lang['setting_login_homepage_desc'] = 'ログイン後に遷移させたいドキュメントのIDを入力します。<strong>ノート: 公開されていて、このユーザ－がアクセスできるドキュメントのIDを入力してください。</strong>';
-$_lang['setting_access_policies_version'] = 'Access Policy Schema Version';
-$_lang['setting_access_policies_version_desc'] = 'The version of the Access Policy system. DO NOT CHANGE.';
-$_lang['setting_allow_forward_across_contexts'] = 'Allow Forwarding Across Contexts';
-$_lang['setting_allow_forward_across_contexts_desc'] = 'When true, Symlinks and modX::sendForward() API calls can forward requests to Resources in other Contexts.';
-$_lang['setting_allow_manager_login_forgot_password'] = 'Allow Forgot Password in Manager Login Screen';
-$_lang['setting_allow_manager_login_forgot_password_desc'] = 'Setting this to "No" will disable the forgot password ability on the manager login screen.';
+$_lang['setting_access_policies_version'] = 'アクセスポリシースキーマバージョン';
+$_lang['setting_access_policies_version_desc'] = 'アクセスポリシーシステムのバージョン。変更しないでください。';
+$_lang['setting_allow_forward_across_contexts'] = 'コンテキスト間での転送を許可';
+$_lang['setting_allow_forward_across_contexts_desc'] = '有効の場合、シムリンクやmodX::sendForward() APIの呼び出しは、異なるコンテキスト内のリソースへ要求を転送可能になります。';
+$_lang['setting_allow_manager_login_forgot_password'] = '管理画面ログイン時にパスワード忘れ対応機能を許可';
+$_lang['setting_allow_manager_login_forgot_password_desc'] = '「いいえ」に指定すると、管理画面へのログイン時に、パスワード忘れ対応機能を無効にします。';
 $_lang['setting_allow_tags_in_post'] = 'POSTアクションでHTMLタグを許可';
 $_lang['setting_allow_tags_in_post_desc'] = '無効に設定すると、管理画面の全てのPOSTアクションは、タグを削除します。「有効」とすることを推奨します。';
 $_lang['setting_archive_with'] = '強制的にPCLZipを使用';
@@ -192,7 +192,7 @@ $_lang['setting_error_page_err'] = 'エラーページに使用するドキュ�
 $_lang['setting_extension_packages'] = 'Extension Packages';
 $_lang['setting_extension_packages_desc'] = 'A comma separated list of packages to load on MODX instantiation. In the format packagename:pathtomodel';
 $_lang['setting_failed_login_attempts'] = 'ログイン失敗許容回数の上限';
-$_lang['setting_failed_login_attempts_desc'] = 'ユーザーが \'blocked\' 状態になるまでに、ログイン失敗を何回許容するか指定します。';
+$_lang['setting_failed_login_attempts_desc'] = 'ユーザーが \'blocked\' 状態になるまでに、何回のログイン失敗を許容するか指定します。';
 $_lang['setting_fe_editor_lang'] = 'エディタの言語';
 $_lang['setting_fe_editor_lang_desc'] = 'フロントエンドで使用されるエディタの言語を選択します。';
 $_lang['setting_feed_modx_news'] = 'MODXニュースフィードURL';
@@ -203,14 +203,14 @@ $_lang['setting_feed_modx_security'] = 'MODXセキュリティーフィードの
 $_lang['setting_feed_modx_security_desc'] = '管理画面のセキュリティ通知パネルで表示される、MODXのセキュリティ情報のURLを指定します。';
 $_lang['setting_feed_modx_security_enabled'] = 'MODXセキュリティフィードを有効';
 $_lang['setting_feed_modx_security_enabled_desc'] = '「いいえ」を選択した場合、管理画面のダッシュボードでセキュリティ通知を表示しません。';
-$_lang['setting_filemanager_path'] = 'ファイル管理領域のパス(非推奨)';
-$_lang['setting_filemanager_path_desc'] = 'Deprecated - Use Media Sources instead. IIS often does not populate the document_root setting properly, which is used by the file manager to determine what you can look at. If you\'re having problems using the file manager, make sure this path points to the root of your MODX installation.';
-$_lang['setting_filemanager_path_relative'] = 'Is File Manager Path Relative? (Deprecated)';
-$_lang['setting_filemanager_path_relative_desc'] = 'Deprecated - Use Media Sources instead. If your filemanager_path setting is relative to the MODX base_path, then please set this setting to Yes. If your filemanager_path is outside the docroot, set this to No.';
-$_lang['setting_filemanager_url'] = 'File Manager Url (Deprecated)';
-$_lang['setting_filemanager_url_desc'] = 'Deprecated - Use Media Sources instead. Optional. Set this if you want to set an explicit URL to access the files in the MODX file manager from (useful if you have changed filemanager_path to a path outside the MODX webroot). Make sure this is the web-accessible URL of the filemanager_path setting value. If leave this empty, MODX will try to automatically calculate it.';
-$_lang['setting_filemanager_url_relative'] = 'Is File Manager URL Relative? (Deprecated)';
-$_lang['setting_filemanager_url_relative_desc'] = 'Deprecated - Use Media Sources instead. If your filemanager_url setting is relative to the MODX base_url, then please set this setting to Yes. If your filemanager_url is outside the main webroot, set this to No.';
+$_lang['setting_filemanager_path'] = '（非推奨）ファイルマネージャーの管理領域パス指定';
+$_lang['setting_filemanager_path_desc'] = '非推奨です。代わりにメディアソースを使用してください。<br />IISでは多くの場合、document_rootプロパティが正しく設定されないため、この設定でファイルマネージャーの管理領域を補正できる可能性があります。ファイルマネージャーで問題が発生している場合、この設定がMODXのインストールされているルートを指しているか確認してください。';
+$_lang['setting_filemanager_path_relative'] = '（非推奨）ファイルマネージャーにIs File Manager Path Relative? (Deprecated)';
+$_lang['setting_filemanager_path_relative_desc'] = '非推奨です。代わりにメディアソースを使用してください。<br />filemanager_path に相対パスを設定している場合、「はい」を指定してください。filemanager_pathがドキュメントルート外を指す場合、「いいえ」を指定してください。';
+$_lang['setting_filemanager_url'] = '（非推奨）ファイルマネージャーURL';
+$_lang['setting_filemanager_url_desc'] = '非推奨です。代わりにメディアソースを使用してください。<br />ファイルマネージャーにアクセスする明示的なURLを指定します（filemanager_pathをMODXのウェブルート外に指定した場合に役立ちます）。filemanager_pathの値がウェブアクセス可能なURLであることを確認してください。<br />この設定が空の場合、MODXが自動算出を試みます。';
+$_lang['setting_filemanager_url_relative'] = '（非推奨）相対的なファイルマネージャーURL';
+$_lang['setting_filemanager_url_relative_desc'] = '非推奨です。代わりにメディアソースを使用してください。<br />filemanager_urlに相対URLを指定している場合、「はい」を指定してください。filemanager_urlがメインのウェブルート外を指す場合、「いいえ」を指定してください。';
 $_lang['setting_forgot_login_email'] = 'Forgot Login Email';
 $_lang['setting_forgot_login_email_desc'] = 'The template for the email that is sent when a user has forgotten their MODX username and/or password.';
 $_lang['setting_form_customization_use_all_groups'] = 'Use All User Group Memberships for Form Customization';
