@@ -5,11 +5,12 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org 2012-08-20
  */
-$_lang['error'] = 'Error!';
-$_lang['rest.err_class_remove'] = 'An error occurred while trying to remove the [[+class_key]]';
-$_lang['rest.err_class_save'] = 'An error occurred while trying to save the [[+class_key]]';
-$_lang['rest.err_field_ns'] = '[[+field]] not specified!';
-$_lang['rest.err_field_required'] = 'This field is required.';
-$_lang['rest.err_fields_required'] = 'The following fields are required: [[+fields]]';
-$_lang['rest.err_obj_nf'] = '[[+class_key]] not found!';
+$_lang['error'] = 'エラー';
+$_lang['rest.err_class_remove'] = '[[+class_key]] の削除時にエラーが発生しました。';
+$_lang['rest.err_class_save'] = '[[+class_key]] の保存時にエラーが発生しました';
+$_lang['rest.err_field_ns'] = '[[+field]] が指定されていません。';
+$_lang['rest.err_field_required'] = 'このフィールドは必須です。';
+$_lang['rest.err_fields_required'] = '次のフィールドが必須です：[[+fields]]';
+$_lang['rest.err_obj_nf'] = '[[+class_key]] が見つかりません。';
