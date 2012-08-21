@@ -5,6 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org/ 2012-08-21
  * @author yamamoto http://kyms.jp 2012-08-11
  * @author shimojo http://www.priqia.com/
  */
@@ -25,13 +26,13 @@ $_lang['lexicon_export_desc'] = 'ここでは、選択したレキシコンを�
 $_lang['lexicon_topics'] = 'レキシコン';
 $_lang['lexicon_topics_desc'] = 'ここでレキシコンを管理することができます。';
 $_lang['lexicon_import'] = 'レキシコンをインポート';
-$_lang['lexicon_import_desc'] = 'You may import a file to load into a specified Lexicon Topic for a namespace. Your file must return a $_lang associative array of strings, similar to the core/lexicon files. If the topic in the namespace already exists, it will be overwritten.';
-$_lang['lexicon_import_err_ns'] = 'Lexicon Topic file not specified.';
-$_lang['lexicon_import_err_upload'] = 'An error occurred while trying to upload the new Lexicon Topic file. Check your web server permissions in trying to upload to the tmp directory, and validate that the file you are trying to upload is a valid file.';
+$_lang['lexicon_import_desc'] = 'ネームスペースを指定して、レキシコントピックにファイルからロードすることもできます。ファイルは core/lexicon にあるファイルと同じく、$_lang 連想配列を返す必要があります。同じネームスペースのトピックがすでに存在する場合、上書きされます。';
+$_lang['lexicon_import_err_ns'] = 'レキシコントピックファイルが指定されていません。';
+$_lang['lexicon_import_err_upload'] = '新しいレキシコンファイルのアップロード時に、エラーが発生しました。tmpディレクトリへのWebサーバーのパーミッションや、アップロード対象ファイルの有効性を確認してください。';
 $_lang['lexicon_management'] = 'レキシコン';
 $_lang['lexicon_management_desc'] = 'レキシコンは翻訳を管理する仕組みです。レキシコンの原本はlexiconディレクトリにファイル形式で収録されています。';
-$_lang['lexicon_rlfb_msg'] = 'Successfully regenerated [[+num]] strings.';
+$_lang['lexicon_rlfb_msg'] = '[[+total]] の文字列の再生成に成功しました。';
 $_lang['reload_from_base'] = '全ての項目を元に戻す';
-$_lang['reload_success'] = 'Successfully reloaded [[+total]] strings.';
+$_lang['reload_success'] = '[[+total]] の文字列の再読み込みに成功しました。';
 $_lang['search_by_key'] = 'キーで検索:';
 $_lang['topic'] = 'トピック';
