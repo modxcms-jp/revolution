@@ -5,10 +5,10 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogs.org 2012-08-21
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
- * @author honda http://kogs.org
  */
 $_lang['access'] = 'アクセス';
 $_lang['cache_output'] = 'キャッシュ出力';
@@ -160,5 +160,5 @@ $_lang['weblink_create_here'] = 'ここにウェブリンクを作成';
 $_lang['weblink_help'] = 'このウェブリンクによって参照させたいオブジェクトのアドレスを設定します。';
 $_lang['weblink_message'] = 'ウェブリンクは、インターネット上のあらゆるオブジェクトに対するショートカットのようなものです。オブジェクトとは、MODX内のリソース・他サイトのページや画像などを含みます。基本的にはリンク先のオブジェクトへリダイレクトします。<p>';
 $_lang['weblink_new'] = '新しいウェブリンク';
-$_lang['weblink_response_code'] = 'Response Code';
-$_lang['weblink_response_code_help'] = 'The HTTP response code that should be sent for the weblink.';
+$_lang['weblink_response_code'] = 'レスポンスコード';
+$_lang['weblink_response_code_help'] = 'ウェブリンクが送出するHTTPのレスポンスコード。';
