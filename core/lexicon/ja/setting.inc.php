@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-08-20
+* @author honda http://kogus.org 2012-08-24
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -145,7 +145,7 @@ $_lang['setting_compress_css_desc'] = 'このオプションが有効の場合�
 $_lang['setting_compress_js'] = '圧縮したJavaScriptを使用';
 $_lang['setting_compress_js_desc'] = 'このオプションが有効の場合、管理画面用のJavaScriptライブラリでその圧縮版を使用します。これにより、管理画面での負荷の軽減と、実効速度の向上が得られます。このオプションは、貴方がコアに変更を加えている場合のみ、無効にします。';
 $_lang['setting_compress_js_groups'] = 'JavaScript圧縮時にグループを使用';
-$_lang['setting_compress_js_groups_desc'] = 'Group the core MODX manager JavaScript using minify\'s groupsConfig. suhosinその他の制限要因がある場合に、有効にします。';
+$_lang['setting_compress_js_groups_desc'] = 'Group the core MODX manager JavaScript using minify\'s groupsConfig. suhosin その他の制限要因がある場合に、有効にします。';
 $_lang['setting_compress_js_max_files'] = 'JavaScriptファイル圧縮時最大ファイル数の閾値';
 $_lang['setting_compress_js_max_files_desc'] = 'compress_js設定が有効の場合、MODXはここに設定した数のJavaScriptファイルを一度に圧縮しようとします。管理画面のGoogle Minifyで問題が発生した場合、小さな値を指定してください。';
 $_lang['setting_concat_js'] = '連結したJavaScriptライブラリを使用';
@@ -190,7 +190,7 @@ $_lang['setting_error_page'] = 'エラーページ';
 $_lang['setting_error_page_desc'] = 'ドキュメントが存在しない場合のエラーページ(404 ページ)として表示する、ドキュメントのIDを入力してください。<strong>注意: 既に存在するドキュメントで、かつ公開されている必要があります。</strong>';
 $_lang['setting_error_page_err'] = 'エラーページに使用するドキュメントIDを指定してください。';
 $_lang['setting_extension_packages'] = 'Extension Packages';
-$_lang['setting_extension_packages_desc'] = 'A comma separated list of packages to load on MODX instantiation. In the format packagename:pathtomodel';
+$_lang['setting_extension_packages_desc'] = 'MODXインスタンス生成時にロードするパッケージを、カンマ区切りのリストで指定。書式は "packagename:pathtomodel" となります。';
 $_lang['setting_failed_login_attempts'] = 'ログイン失敗許容回数の上限';
 $_lang['setting_failed_login_attempts_desc'] = 'ユーザーが \'blocked\' 状態になるまでに、何回のログイン失敗を許容するか指定します。';
 $_lang['setting_fe_editor_lang'] = 'エディタの言語';
@@ -225,8 +225,8 @@ $_lang['setting_friendly_alias_restrict_chars'] = 'エイリアスの文字の�
 $_lang['setting_friendly_alias_restrict_chars_desc'] = 'エイリアスに使用する文字の制限方法を指定します。"pattern"の場合、正規表現によるパターンで制限を行います。"legal"の場合、任意の有効なURL文字のみに制限されます。"alpha"の場合はアルファベットのみ、そして"alphanumeric"の場合はアルファベットと数字のみに制限されます。';
 $_lang['setting_friendly_alias_restrict_chars_pattern'] = 'エイリアスの文字の制限パターン';
 $_lang['setting_friendly_alias_restrict_chars_pattern_desc'] = 'エイリアスの文字を制限する有効な正規表現パターンを指定します。';
-$_lang['setting_friendly_alias_strip_element_tags'] = 'FURL Alias Strip Element Tags';
-$_lang['setting_friendly_alias_strip_element_tags_desc'] = 'Determines if Element tags should be stripped from a Resource alias.';
+$_lang['setting_friendly_alias_strip_element_tags'] = 'フレンドリーURLのエイリアスからエレメントタグを除去';
+$_lang['setting_friendly_alias_strip_element_tags_desc'] = 'リソースの要素名からエレメントタグを取り除くか指定します。';
 $_lang['setting_friendly_alias_translit'] = 'エイリアスの翻字設定';
 $_lang['setting_friendly_alias_translit_desc'] = '機種依存文字やヨーロッパ圏のウムラウト(アクセント記号付きの文字)などを「翻字」したい場合に当設定を用います。The method of transliteration to use on an alias specified for a Resource. Empty or "none" is the default which skips transliteration. Other possible values are "iconv" (if available) or a named transliteration table provided by a custom transliteration service class.';
 $_lang['setting_friendly_alias_translit_class'] = 'FURL Alias Transliteration Service Class';
