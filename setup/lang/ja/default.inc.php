@@ -3,9 +3,9 @@
  * Japanese language files for Revolution 2.2 setup
  *
  * @package setup
- * @author honda http://kogus.org 2012-08-16
+ * @author yamamoto http://kyms.jp 2012-08-28
  * @author KUROI Enogu http://twitter.com/enogu
- * @author yamamoto http://kyms.jp
+ * @author honda http://kogus.org
  */
 $_lang['additional_css'] = '';
 $_lang['addons'] = 'アドオン';
