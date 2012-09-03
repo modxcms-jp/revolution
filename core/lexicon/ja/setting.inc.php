@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-08-24
+* @author honda http://kogus.org 2012-09-03
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -318,10 +318,10 @@ $_lang['setting_manager_use_tabs'] = '管理画面内でタブを使用';
 $_lang['setting_manager_use_tabs_desc'] = '有効の場合、管理画面でコンテンツの配置にタブを使用します。無効の場合はポータルを使用します。';
 $_lang['setting_manager_week_start'] = '週の開始曜日';
 $_lang['setting_manager_week_start_desc'] = '週の開始曜日を数字で指定します。0（または空白）は日曜日、1は月曜日となります。';
-$_lang['setting_modRequest.class'] = 'Request Handler Class';
+$_lang['setting_modRequest.class'] = 'リクエストハンドラクラス';
 $_lang['setting_modRequest.class_desc'] = '';
-$_lang['setting_modx_browser_default_sort'] = 'File Browser Default Sort';
-$_lang['setting_modx_browser_default_sort_desc'] = 'The default sort method when using the popup File Browser in the manager. Available values are: name, size, lastmod (last modified).';
+$_lang['setting_modx_browser_default_sort'] = 'ファイルブラウザーのデフォルトソートフィールド';
+$_lang['setting_modx_browser_default_sort_desc'] = '管理画面でポップアップのファイルブラウザーを使用している場合の、デフォルトのソートフィールドを指定。指定可能な値は name, size, lastmod (最終更新日時) です。';
 $_lang['setting_modx_charset'] = 'エンコード';
 $_lang['setting_modx_charset_desc'] = '使用したいエンコードを選択してください。日本語も含め、ほとんどの言語ではデフォルト設定のUTF-8が利用できます。';
 $_lang['setting_new_file_permissions'] = '新ファイルのパーミッション';
@@ -384,10 +384,10 @@ $_lang['setting_phpthumb_nooffsitelink_text_message'] = 'phpThumb Offsite Linkin
 $_lang['setting_phpthumb_nooffsitelink_text_message_desc'] = 'A message that is rendered instead of the thumbnail when an offsite linking attempt is rejected.';
 $_lang['setting_phpthumb_nooffsitelink_valid_domains'] = 'phpThumb Offsite Linking Valid Domains';
 $_lang['setting_phpthumb_nooffsitelink_valid_domains_desc'] = 'A comma-delimited list of hostnames that are valid referrers for offsite linking.';
-$_lang['setting_phpthumb_nooffsitelink_watermark_src'] = 'phpThumb Offsite Linking Watermark Source';
-$_lang['setting_phpthumb_nooffsitelink_watermark_src_desc'] = 'Optional. A valid file system path to a file to use as a watermark source when your images are rendered offsite by phpThumb.';
+$_lang['setting_phpthumb_nooffsitelink_watermark_src'] = 'phpThumb 外部サイトからのリンク時の透かし画像';
+$_lang['setting_phpthumb_nooffsitelink_watermark_src_desc'] = 'オプション。A valid file system path to a file to use as a watermark source when your images are rendered offsite by phpThumb.';
 $_lang['setting_phpthumb_zoomcrop'] = 'phpThumb Zoom-Crop';
-$_lang['setting_phpthumb_zoomcrop_desc'] = 'The default zc setting for phpThumb when used in MODX. Defaults to 0 to prevent zoom cropping.';
+$_lang['setting_phpthumb_zoomcrop_desc'] = 'phpThumbのズームクロップ設定。デフォルトは、ズームクロップを行わないよう「0」に設定されています。';
 $_lang['setting_publish_default'] = 'リソースのデフォルト：公開';
 $_lang['setting_publish_default_desc'] = '「はい」を選択すると、新規リソースで「公開する」設定がデフォルトで有効になります。';
 $_lang['setting_publish_default_err'] = '新しいドキュメントの公開状態を設定してください。';
@@ -400,12 +400,12 @@ $_lang['setting_rb_base_url_desc'] = 'リソースディレクトリ(通常はas
 $_lang['setting_rb_base_url_err'] = 'リソースブラウザのベースURLを指定してください。';
 $_lang['setting_request_controller'] = 'コントローラのファイル名';
 $_lang['setting_request_controller_desc'] = 'リクエストコントローラのファイル名をここで指定します。通常は「index.php」です。';
-$_lang['setting_request_method_strict'] = 'Strict Request Method';
-$_lang['setting_request_method_strict_desc'] = 'If enabled, requests via the Request ID Parameter will be ignored with FURLs enabled, and those via Request Alias Parameter will be ignored without FURLs enabled.';
+$_lang['setting_request_method_strict'] = 'ストリクトなリクエストメソッド';
+$_lang['setting_request_method_strict_desc'] = 'この設定が有効な場合、フレンドリーURLが有効な状態ではリクエストのIDパラメーターは無視されます。また、フレンドリーURLが無効の状態では、リクエストのエイリアスパラメーターが無視されます。';
 $_lang['setting_request_param_alias'] = 'エイリアスを受け取るパラメータ';
-$_lang['setting_request_param_alias_desc'] = 'The name of the GET parameter to identify Resource aliases when redirecting with FURLs.';
+$_lang['setting_request_param_alias_desc'] = 'リソースのフレンドリーURLに転送する際、ターゲットとなるエイリアス名を受け取るGETパラメーターの名前を指定します。';
 $_lang['setting_request_param_id'] = 'IDを受け取るパラメータ';
-$_lang['setting_request_param_id_desc'] = 'The name of the GET parameter to identify Resource IDs when not using FURLs.';
+$_lang['setting_request_param_id_desc'] = 'フレンドリーURLを使用しない場合に、リソースIDを受け取るGETパラメーターの名前を指定します。';
 $_lang['setting_resolve_hostnames'] = 'ホスト名の解決';
 $_lang['setting_resolve_hostnames_desc'] = 'サイト表示時に、閲覧者のホストを名前解決しますか？　サーバーに少し負荷が増えますが、閲覧者が意識することはありません（訳注：アクセスログに於ける逆引きのことか？）。';
 $_lang['setting_resource_tree_node_name'] = 'リソースツリーのノード用フィールド';
@@ -432,8 +432,8 @@ $_lang['setting_session_cookie_path'] = 'セッションCookieパス';
 $_lang['setting_session_cookie_path_desc'] = 'サイト固有のセッションCookieを識別するために、任意のパスを指定します。';
 $_lang['setting_session_cookie_secure'] = 'セキュアなセッションCookieの使用';
 $_lang['setting_session_cookie_secure_desc'] = 'httpsでの接続時のみセッションCookieが有効になります。';
-$_lang['setting_session_cookie_httponly'] = 'Session Cookie HttpOnly';
-$_lang['setting_session_cookie_httponly_desc'] = 'Use this setting to set the HttpOnly flag on session cookies.';
+$_lang['setting_session_cookie_httponly'] = 'セッションCookieのHttpOnly';
+$_lang['setting_session_cookie_httponly_desc'] = 'セッションCookieのHttpOnlyフラグを設定します。';
 $_lang['setting_session_gc_maxlifetime'] = 'セッションのガベージコレクション実行期限';
 $_lang['setting_session_gc_maxlifetime_desc'] = '\'modSessionHandler\'を使用して、PHPのINI設定"session.gc_maxlifetime"を設定します。';
 $_lang['setting_session_handler_class'] = 'セッションハンドラのクラス名';
@@ -467,8 +467,8 @@ $_lang['setting_site_unavailable_page_desc'] = 'メンテナンスモード時�
 $_lang['setting_site_unavailable_page_err'] = 'メンテナンスモード時の表示に使用するドキュメントIDを指定してください。';
 $_lang['setting_strip_image_paths'] = 'src属性に相対パスを渡す';
 $_lang['setting_strip_image_paths_desc'] = 'この設定を「はい」にした場合、ファイルブラウザで選択したファイル（画像・Flash・その他メディアファイルなど）のsrc指定を相対パスで書き出します。CMSでコンテンツを管理する場合は一般的には絶対パスが無難ですが、MODXでサイトを管理する場合はbaseタグを併用することで相対パスで効率よく運用することができます。';
-$_lang['setting_symlink_merge_fields'] = 'Merge Resource Fields in Symlinks';
-$_lang['setting_symlink_merge_fields_desc'] = 'If set to Yes, will automatically merge non-empty fields with target resource when forwarding using Symlinks.';
+$_lang['setting_symlink_merge_fields'] = 'シムリンクによるフィールドのマージ';
+$_lang['setting_symlink_merge_fields_desc'] = '「はい」を指定すると、シムリンク側のフィールドに入力された値と、転送先のフィールド値が自動的にマージされます。';
 $_lang['setting_topmenu_show_descriptions'] = 'トップメニューの説明を表示';
 $_lang['setting_topmenu_show_descriptions_desc'] = '「いいえ」とすると、管理画面上部のトップメニューで、説明が非表示になります。';
 $_lang['setting_tree_default_sort'] = 'リソースツリーのデフォルトソートフィールド';
