@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-08-16
+ * @author honda http://kogus.org 2012-09-14
  * @author enogu http://www.kuroienogu.net/
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
@@ -116,16 +116,16 @@ $_lang['user_group_aw'] = 'アクセスウィザード';
 $_lang['user_group_aw_desc'] = '注：いずれかのオプションをチェックしてユーザーグループを追加した場合、追加後にセッションをクリアする必要があります。';
 $_lang['user_group_aw_contexts'] = 'コンテキスト';
 $_lang['user_group_aw_contexts_desc'] = 'このユーザーグループが表示可能なコンテキストを、カンマ区切りのリストで指定。';
-$_lang['user_group_aw_manager_policy'] = 'Manager Policy';
-$_lang['user_group_aw_manager_policy_desc'] = 'The Policy to give the User Group for editing in the manager. Select (no policy) if you do not want to grant manager access.';
+$_lang['user_group_aw_manager_policy'] = '管理画面ポリシー';
+$_lang['user_group_aw_manager_policy_desc'] = 'ポリシーは、管理画面での編集をユーザーグループに与えます。管理画面へのアクセス権を付与したくない場合、(no policy)を選択してください。';
 $_lang['user_group_aw_users'] = 'ユーザー';
-$_lang['user_group_aw_users_desc'] = 'A comma-separated list of usernames to add to this User Group. You can use the format username:role to set the role; otherwise, Member will be assumed.';
+$_lang['user_group_aw_users_desc'] = 'このユーザーグループに追加する、ユーザー名のカンマ区切りリストを指定。You can use the format username:role to set the role; otherwise, Member will be assumed.';
 $_lang['user_group_aw_resource_groups'] = 'リソースグループ';
-$_lang['user_group_aw_resource_groups_desc'] = 'A comma-separated list of Resource Groups to give access to in the Contexts specified above.';
+$_lang['user_group_aw_resource_groups_desc'] = '上で指定したコンテキストでのアクセスを与える、リソースグループのカンマ区切りリストを指定。';
 $_lang['user_group_aw_categories'] = 'エレメントのカテゴリー';
-$_lang['user_group_aw_categories_desc'] = 'A comma-separated list of Element Categories to give access to in the Contexts specified above.';
-$_lang['user_group_aw_parallel'] = 'Create Parallel Resource Group';
-$_lang['user_group_aw_parallel_desc'] = 'If checked, will automatically create a Resource Group with the same name, and give this User Group view access to it in the Contexts specified above.';
+$_lang['user_group_aw_categories_desc'] = '上で指定したコンテキストでのアクセスを与える、エレメントのカテゴリーのカンマ区切りリストを指定。';
+$_lang['user_group_aw_parallel'] = 'パラレルリソースグループの作成';
+$_lang['user_group_aw_parallel_desc'] = 'チェックした場合、同じ名前のリソースグループを自動的に作成し、上で指定されたコンテキストに、このユーザーグループの表示権限を付与します。';
 $_lang['user_group_category_access'] = 'カテゴリーのアクセス';
 $_lang['user_group_category_access_msg'] = 'エレメントが所属するカテゴリーへのアクセス権を加えることができます。';
 $_lang['user_group_category_authority_desc'] = 'The minimum Role that will have access to the Permissions in the selected Policy for this context. Roles with stronger Authority (lower numbers) will inherit this access as well. Most situations can leave this at "Member".';
@@ -152,8 +152,8 @@ $_lang['user_group_resourcegroup_resource_group_desc'] = 'アクセスを許可�
 $_lang['user_group_source_access'] = 'メディアソースのアクセス';
 $_lang['user_group_source_access_msg'] = 'ユーザーグループにメディアソースへのアクセス権を加えることができます。';
 $_lang['user_group_source_authority_desc'] = 'このポリシーを適用する最低限のロール。より強い権限を持ったロール(特権レベルの数字が小さいもの)はこのポリシーを継承します。多くの場合、この項目はメンバー(特権レベル9999)によるアクセスの制限に使われるでしょう。';
-$_lang['user_group_source_err_ae'] = 'User Group already has access to that Media Source.';
+$_lang['user_group_source_err_ae'] = 'ユーザーグループは、すでにそのメディアソースへのアクセス権を与えられています。';
 $_lang['user_group_source_policy_desc'] = 'The Policy to apply to this Media Source for this User Group. This will grant all Users in this User Group with the selected minimum Role all the Permissions in the Policy.';
-$_lang['user_group_source_remove_confirm'] = 'Are you sure you want to remove this Media Source from this User Group?';
-$_lang['user_group_source_source_desc'] = 'The Media Source to grant access to.';
+$_lang['user_group_source_remove_confirm'] = 'このユーザーグループから、このメディアソースを削除してもよろしいですか？';
+$_lang['user_group_source_source_desc'] = 'メディアソースへのアクセス許可を付与します。';
 $_lang['user_group_user_access_msg'] = 'このユーザーグループへ加えるユーザーを選択してください。';

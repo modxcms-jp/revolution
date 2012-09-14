@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-08-21
+ * @author honda http://kogus.org 2012-09-14
  * @author shimojo http://www.priqia.com/
  */
 $_lang['as_system_settings'] = 'システム設定';
@@ -47,8 +47,8 @@ $_lang['resolver_add'] = 'リゾルバを追加';
 $_lang['resolver_create'] = 'リゾルバを作成';
 $_lang['resolver_name_desc'] = 'リゾルバの名前（管理目的で使用します）。';
 $_lang['resolver_remove'] = 'リゾルバを削除';
-$_lang['resolver_remove_confirm'] = 'Are you sure you want to delete this resolver?';
-$_lang['resolver_source_desc'] = 'The absolute path of the source of the resolver. If it is a file resolver, select the directory of the files you\'d like to copy. If a PHP Script, specify the script. Example: <br /><br />/public_html/modx/_build/components/demo/';
+$_lang['resolver_remove_confirm'] = 'このリゾルバを削除してもよろしいですか？';
+$_lang['resolver_source_desc'] = 'リゾルバのソースを絶対パスで指定します。ファイルリゾルバの場合、コピーしたいファイルのディレクトリを指定します。PHPスクリプトの場合、スクリプトを指定します。例: <br /><br />/public_html/modx/_build/components/demo/';
 $_lang['resolver_target_desc'] = 'The absolute path target for where the resolver should put files or actions. Usually you won\'t have to change this. Example: <br /><br />return MODX_ASSETS_PATH . "snippets/";';
 $_lang['resolver_type_desc'] = 'File resolvers make sure to copy all the files in the source directory to the target. PHP Script resolvers execute the source file as PHP.';
 $_lang['resolvers'] = 'リゾルバ';
@@ -58,7 +58,7 @@ $_lang['type'] = 'タイプ';
 $_lang['unique_key'] = 'ユニークキー';
 $_lang['unique_key_desc'] = 'A unique key identifying how to search for the object. Can be a string or comma-delimited list. Examples: <br />"name" for modPlugin<br />"templatename" for modTemplate<br />Or more complex, "pluginid,evtid" for modPluginEvent';
 $_lang['update_object'] = 'オブジェクトをアップデート';
-$_lang['update_object_desc'] = 'If checked, this will update the object if it is found. If not checked, it will not save the object if it is already found.';
+$_lang['update_object_desc'] = 'チェックした場合、発見したオブジェクトをアップデートします。チェックしない場合は、発見済みのオブジェクトを保存しません。';
 $_lang['use_wizard'] = 'ウィザードを使用';
 $_lang['use_xml'] = 'XMLファイルからビルド';
 $_lang['vehicle'] = 'ビークル';

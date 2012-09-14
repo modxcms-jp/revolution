@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-09-03
+* @author honda http://kogus.org 2012-09-14
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -248,17 +248,17 @@ $_lang['setting_global_duplicate_uri_check'] = 'Check for Duplicate URIs Across 
 $_lang['setting_global_duplicate_uri_check_desc'] = 'Select \'Yes\' to make duplicate URI checks include all Contexts in the search. Otherwise, only the Context the Resource is being saved in is checked.';
 $_lang['setting_hidemenu_default'] = 'リソースのデフォルト：メニューに表示しない';
 $_lang['setting_hidemenu_default_desc'] = '「はい」を選択すると、新規リソースの「メニューに表示しない」設定がデフォルトで有効になります。';
-$_lang['setting_inline_help'] = 'Show Inline Help Text for Fields';
-$_lang['setting_inline_help_desc'] = 'If \'Yes\', then fields will display their help text directly below the field. If \'No\', all fields will have tooltip-based help.';
-$_lang['setting_link_tag_scheme'] = 'URL生成スキームURL Generation Scheme';
+$_lang['setting_inline_help'] = 'フィールドにインラインのヘルプを表示';
+$_lang['setting_inline_help_desc'] = '「はい」の場合、フィールドの下に直接ヘルプが表示されます。「いいえ」の場合、全てのフィールドのヘルプはツールチップベースになります。';
+$_lang['setting_link_tag_scheme'] = 'URL生成スキーム';
 $_lang['setting_link_tag_scheme_desc'] = '[[~id]]タグからURLを生成する際のスキームを指定。利用可能なオプションは<a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\\modX::makeUrl()">このページのmakeUrl()の解説</a>を参照して下さい。';
-$_lang['setting_locale'] = 'Locale';
-$_lang['setting_locale_desc'] = 'Set the locale for the system. Leave blank to use the default. See <a href="http://php.net/setlocale" target="_blank">the PHP documentation</a> for more information.';
+$_lang['setting_locale'] = 'ロケール';
+$_lang['setting_locale_desc'] = 'システムロケールを設定します。空白の場合、システムのデフォルトが使用されます。詳細については <a href="http://php.net/setlocale" target="_blank">the PHP documentation</a> を参照してください。';
 $_lang['setting_lock_ttl'] = 'Lock Time-to-Live';
 $_lang['setting_lock_ttl_desc'] = 'The number of seconds a lock on a Resource will remain for if the user is inactive.';
-$_lang['setting_log_level'] = 'Logging Level';
+$_lang['setting_log_level'] = 'ロギングレベル';
 $_lang['setting_log_level_desc'] = 'The default logging level; the lower the level, the fewer messages that are logged. Available options: 0 (FATAL), 1 (ERROR), 2 (WARN), 3 (INFO), and 4 (DEBUG).';
-$_lang['setting_log_target'] = 'Logging Target';
+$_lang['setting_log_target'] = 'ロギングターゲット';
 $_lang['setting_log_target_desc'] = 'デフォルトのログ出力先を指定します。利用可能なオプションは \'FILE\', \'HTML\', \'ECHO\' で、指定しない場合、\'FILE\' がデフォルトとなります。';
 $_lang['setting_mail_charset'] = 'メールの文字セット';
 $_lang['setting_mail_charset_desc'] = 'メールでの（デフォルトの）文字セットを指定します。例えば「UTF-8」など。';
@@ -269,21 +269,21 @@ $_lang['setting_mail_use_smtp_desc'] = '有効に設定すると、mail関数で
 $_lang['setting_mail_smtp_auth'] = 'SMTP認証';
 $_lang['setting_mail_smtp_auth_desc'] = 'SMTP認証をセットします。mail_smtp_userとmail_smtp_passwordの設定を利用します。';
 $_lang['setting_mail_smtp_helo'] = 'SMTPようこそメッセージ';
-$_lang['setting_mail_smtp_helo_desc'] = 'Sets the SMTP HELO of the message (Defaults to the hostname).';
+$_lang['setting_mail_smtp_helo_desc'] = 'SMTP HELO コマンドのメッセージを設定します（デフォルトはホスト名です）。';
 $_lang['setting_mail_smtp_hosts'] = 'SMTPのホスト';
-$_lang['setting_mail_smtp_hosts_desc'] = 'Sets the SMTP hosts. All hosts must be separated by a semicolon. You can also specify a different port for each host by using this format: [hostname:port] (e.g. "smtp1.example.com:25;smtp2.example.com"). Hosts will be tried in order.';
-$_lang['setting_mail_smtp_keepalive'] = 'SMTP Keep-Alive';
-$_lang['setting_mail_smtp_keepalive_desc'] = 'Prevents the SMTP connection from being closed after each mail sending. Not recommended.';
+$_lang['setting_mail_smtp_hosts_desc'] = 'SMTPホストを指定します。複数のホストを指定する場合、セミコロンで区切ります。また、以下の書式を使ってホスト毎に異なるポートも指定できます。<br />[ホスト名：ポート番号]（例： "smtp1.example.com：25; smtp2.example.com"）<br />ホストは指定された順に接続が試みられます。';
+$_lang['setting_mail_smtp_keepalive'] = 'SMTP キープアライブ';
+$_lang['setting_mail_smtp_keepalive_desc'] = '※非推奨：メール送信ごとのSMTP再接続を防止します。';
 $_lang['setting_mail_smtp_pass'] = 'SMTPのパスワード';
 $_lang['setting_mail_smtp_pass_desc'] = 'SMTP認証で用いるパスワードを指定します。';
 $_lang['setting_mail_smtp_port'] = 'SMTPのポート';
 $_lang['setting_mail_smtp_port_desc'] = 'SMTPサーバーのデフォルトポート番号を指定します。';
-$_lang['setting_mail_smtp_prefix'] = 'SMTPコネクションの添え字';
-$_lang['setting_mail_smtp_prefix_desc'] = 'Sets connection prefix. Options are "", "ssl" or "tls"';
+$_lang['setting_mail_smtp_prefix'] = 'SMTP接続の接頭辞';
+$_lang['setting_mail_smtp_prefix_desc'] = '接続の接頭辞を "", "ssl" または "tls" から指定します。';
 $_lang['setting_mail_smtp_single_to'] = 'SMTP Single To';
 $_lang['setting_mail_smtp_single_to_desc'] = 'Provides the ability to have the TO field process individual emails, instead of sending to entire TO addresses.';
 $_lang['setting_mail_smtp_timeout'] = 'SMTPのタイムアウト';
-$_lang['setting_mail_smtp_timeout_desc'] = 'Sets the SMTP server timeout in seconds. This function will not work in win32 servers.';
+$_lang['setting_mail_smtp_timeout_desc'] = 'SMTPサーバーのタイムアウトを秒で設定します（Win32サーバーでは動作しません）。';
 $_lang['setting_mail_smtp_user'] = 'SMTPのユーザー';
 $_lang['setting_mail_smtp_user_desc'] = 'SMTP認証時に使用するユーザーです。';
 $_lang['setting_manager_direction'] = 'テキストの方向';
