@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  * @author yamamoto http://kyms.jp 2012-08-07
- * @author honda http://kogus.org 2012-05-23
+ * @author honda http://kogus.org 2012-09-21
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  */
@@ -32,7 +32,7 @@ $_lang['tv_err_exists_name'] = '[[+name]]という名前のテンプレート変
 $_lang['tv_err_invalid_name'] = 'テンプレート変数名に無効な文字列が使用されています。';
 $_lang['tv_err_locked'] = 'テンプレート変数がロックされました。';
 $_lang['tv_err_nf'] = 'テンプレート変数が見つかりませんでした。';
-$_lang['tv_err_nfs'] = 'キー「[[+id]]」に関するテンプレート変数は見つかりません';
+$_lang['tv_err_nfs'] = 'キー「[[+id]]」に関するテンプレート変数は見つかりません。';
 $_lang['tv_err_ns'] = 'テンプレート変数が指定されていません。';
 $_lang['tv_err_reserved_name'] = 'テンプレート変数にはリソースフィールドと同じ名前を設定することはできません。';
 $_lang['tv_err_save_access_permissions'] = 'テンプレート変数のアクセス権を設定中にエラーが発生しました。';

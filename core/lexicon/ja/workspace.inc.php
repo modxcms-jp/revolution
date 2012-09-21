@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-08-20
+ * @author honda http://kogus.org 2012-09-21
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
@@ -33,7 +33,7 @@ $_lang['dir_err_core_comp'] = 'core/components/ ディレクトリは [[+path]] 
 $_lang['download'] = 'ダウンロード';
 $_lang['download_success'] = 'エクストラは正常にダウンロードされました。';
 $_lang['downloaded'] = 'ダウンロード済み';
-$_lang['downloading'] = 'ダウンロードしています';
+$_lang['downloading'] = 'ダウンロードしています。';
 $_lang['download_extras'] = 'プロバイダから取得';
 $_lang['downloads'] = 'ダウンロード';
 $_lang['downloads_view'] = '{downloads} ダウンロード';
@@ -106,7 +106,7 @@ $_lang['package_obtain_method'] = 'どのようにパッケージを取得する
 $_lang['package_preview_view'] = 'パッケージ {name} プレビュー';
 $_lang['package_remove'] = 'パッケージを削除';
 $_lang['package_remove_action_button'] = '削除';
-$_lang['package_remove_confirm'] = '本当にこのパッケージを削除しますか？復活できません。';
+$_lang['package_remove_confirm'] = '本当にこのパッケージを削除しますか？　復活できません。';
 $_lang['package_remove_err_tdir'] = '転送ディレクトリが削除できません。権限をチェックしてください。';
 $_lang['package_remove_err_tdir_nf'] = '転送ディレクトリが見つからなかったため、"core/packages" ディレクトリから削除できませんでした。';
 $_lang['package_remove_err_tzip'] = '転送zipファイルが削除できません。権限をチェックしてください。';

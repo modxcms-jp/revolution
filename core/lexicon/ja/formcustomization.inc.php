@@ -6,7 +6,7 @@
  * @package modx
  * @subpackage lexicon
  * @author yamamoto http://kyms.jp 2012-07-27
- * @author honda http://kogus.org 2012-06-22
+ * @author honda http://kogus.org 2012-09-21
  * @author shimojo http://www.priqia.com/
  */
 $_lang['action'] = 'アクション';
@@ -65,7 +65,7 @@ $_lang['rule'] = 'ルール';
 $_lang['rule_create'] = 'ルールを作成';
 $_lang['rule_desc'] = 'このフィールドに適用されるルールの種類';
 $_lang['rule_description_desc'] = 'オプション。ルールの詳細';
-$_lang['rule_err_ae'] = 'そのフィールドにはすでにルールが設定されています';
+$_lang['rule_err_ae'] = 'そのフィールドにはすでにルールが設定されています。';
 $_lang['rule_err_duplicate'] = 'ルールの複製中にエラーが発生しました。';
 $_lang['rule_err_nf'] = 'ルールが見つかりません。';
 $_lang['rule_err_ns'] = 'ルールが指定されていません。';
@@ -74,7 +74,7 @@ $_lang['rule_err_save'] = 'ルールの保存中にエラーが発生しまし�
 $_lang['rule_remove'] = 'ルールを削除';
 $_lang['rule_remove_confirm'] = '本当にこのルールを削除しますか？';
 $_lang['rule_remove_multiple'] = '複数のルールを削除';
-$_lang['rule_remove_multiple_confirm'] = '本当にこれらのルールを削除しますか？元には戻せません。';
+$_lang['rule_remove_multiple_confirm'] = '本当にこれらのルールを削除しますか？　元には戻せません。';
 $_lang['rule_update'] = 'ルールを編集';
 $_lang['rule_value_desc'] = 'ルールに値を設定します。';
 $_lang['rules'] = 'ルール';

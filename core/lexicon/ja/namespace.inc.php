@@ -5,14 +5,14 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
+ * @author honda http://kogus.org 2012-09-21
  * @author yama http://kyms.jp/ 2012-08-19
  * @author shimojo http://www.priqia.com/
- * @author honda http://kogus.org/
  */
 $_lang['namespace'] = 'ネームスペース';
 $_lang['namespace_create'] = 'ネームスペースを作成';
 $_lang['namespace_err_create'] = 'ネームスペースの作成時に、エラーが発生しました。';
-$_lang['namespace_err_nf'] = 'ネームスペースは見つかりません';
+$_lang['namespace_err_nf'] = 'ネームスペースは見つかりません。';
 $_lang['namespace_err_nfs'] = 'ネームスペース「%s」は見つかりません。';
 $_lang['namespace_err_ns'] = 'ネームスペースが指定されていません。.';
 $_lang['namespace_err_remove'] = 'ネームスペースの削除時に、エラーが発生しました。';

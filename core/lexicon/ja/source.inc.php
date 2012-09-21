@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-08-17
+ * @author honda http://kogus.org 2012-09-21
  * @author enogu http://www.kuroienogu.net/
  * @author yamamoto http://kyms.jp
  */
@@ -20,7 +20,7 @@ $_lang['policy'] = 'ポリシー';
 $_lang['source'] = 'メディアソース';
 $_lang['source_access_add'] = 'ユーザーグループ追加';
 $_lang['source_access_remove'] = 'アクセス権限の削除';
-$_lang['source_access_remove_confirm'] = 'このアクセス権限エントリーを本当に削除しますか?';
+$_lang['source_access_remove_confirm'] = 'このアクセス権限エントリーを本当に削除しますか？';
 $_lang['source_access_update'] = 'アクセス権限の編集';
 $_lang['source_create'] = '新規メディアソース';
 $_lang['source_description_desc'] = 'メディアソースの説明文を設定します。';
@@ -31,11 +31,11 @@ $_lang['source_err_nfs'] = '指定されたIDのメディアソースは存在�
 $_lang['source_err_ns'] = 'メディアソースを指定してください。';
 $_lang['source_err_ns_name'] = 'メディアソースの名前を指定してください。';
 $_lang['source_name_desc'] = 'メディアソースの名前を設定します。';
-$_lang['source_properties.intro_msg'] = 'このメディアソースのプロパティは以下の画面で設定します';
+$_lang['source_properties.intro_msg'] = 'このメディアソースのプロパティは以下の画面で設定します。';
 $_lang['source_remove'] = 'メディアソースの削除';
-$_lang['source_remove_confirm'] = 'このメディアソースを本当に削除しますか?続行すると、このメディアソースに関連付けられているテンプレート変数が正常に機能しなくなります。';
+$_lang['source_remove_confirm'] = 'このメディアソースを本当に削除しますか？　続行すると、このメディアソースに関連付けられているテンプレート変数が正常に機能しなくなります。';
 $_lang['source_remove_multiple'] = 'メディアソースの一括削除';
-$_lang['source_remove_multiple_confirm'] = 'これらのメディアソースを本当に削除しますか?続行すると、指定されたメディアソースに関連付けられているテンプレート変数が正常に機能しなくなります。';
+$_lang['source_remove_multiple_confirm'] = 'これらのメディアソースを本当に削除しますか？　続行すると、指定されたメディアソースに関連付けられているテンプレート変数が正常に機能しなくなります。';
 $_lang['source_update'] = 'メディアソースの編集';
 $_lang['source_type'] = 'ソースタイプ';
 $_lang['source_type_desc'] = 'メディアソースとして使用するストレージの種類を選択します。MODXは対応したメディアソースドライバを選択することで異なるサービスに保存したデータも提供できます。';
@@ -45,7 +45,7 @@ $_lang['source_type.s3'] = 'Amazon S3';
 $_lang['source_type.s3_desc'] = 'メディアの取得元としてAmazon S3のバケットを使用します。';
 $_lang['source_types'] = 'ソースタイプの管理';
 $_lang['source_types.intro_msg'] = 'お使いのMODX環境で使用できるメディアソースの種類は以下の通りです。';
-$_lang['source.access.intro_msg'] = 'メディアソースにはユーザーグループごとにアクセスポリシーを強制することができます。ユーザーグループの指定を省略すると、マネージャーを使用できる全てのユーザーに同じ設定が適用されます。';
+$_lang['source.access.intro_msg'] = 'メディアソースにはユーザーグループごとにアクセスポリシーを強制することができます。ユーザーグループの指定を省略すると、管理画面を使用できる全てのユーザーに同じ設定が適用されます。';
 $_lang['sources'] = 'メディアソース';
 $_lang['sources.intro_msg'] = 'メディアソースを管理します。';
 $_lang['user_group'] = 'ユーザーグループ';

@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-08-17
+ * @author honda http://kogus.org 2012-09-21
  */
 $_lang['perm.about_desc'] = '情報のページ';
 $_lang['perm.access_permissions_desc'] = 'アクセス権限関係のページとアクション';
@@ -16,7 +16,7 @@ $_lang['perm.change_profile_desc'] = 'プロフィールを変更';
 $_lang['perm.charsets_desc'] = '文字セットの一覧を表示';
 $_lang['perm.class_map_desc'] = 'クラスマップ内のクラスを一覧を表示';
 $_lang['perm.components_desc'] = 'トップメニュー「コンポーネント」を表示';
-$_lang['perm.content_types_desc'] = 'コンテンツタイプのページ';
+$_lang['perm.content_types_desc'] = 'コンテントタイプのページ';
 $_lang['perm.copy_desc'] = 'オブジェクトのコピー機能';
 $_lang['perm.countries_desc'] = '国の一覧を表示';
 $_lang['perm.create_desc'] = '各オブジェクトでの基本的な新規作成';
@@ -77,7 +77,7 @@ $_lang['perm.languages_desc'] = '言語を表示・編集';
 $_lang['perm.lexicons_desc'] = 'レキシコン管理機能を表示・編集';
 $_lang['perm.list_desc'] = 'オブジェクトを「一覧」にする基本的な権限。一覧とはオブジェクトを集める手段を意味する。';
 $_lang['perm.load_desc'] = 'オブジェクトを「読み込む」基本的な権限、または全てのインスタンスを返却できる権限。';
-$_lang['perm.logout_desc'] = 'ログアウトできます';
+$_lang['perm.logout_desc'] = 'ログアウトできます。';
 $_lang['perm.logs_desc'] = 'エラーログや管理画面操作ログなどを表示';
 $_lang['perm.menu_reports_desc'] = 'トップメニュー「レポート」を表示';
 $_lang['perm.menu_security_desc'] = 'トップメニュー「権限管理」を表示';

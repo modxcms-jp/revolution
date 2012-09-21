@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-09-14
+* @author honda http://kogus.org 2012-09-21
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -124,7 +124,7 @@ $_lang['setting_cache_format'] = 'キャッシュのフォーマット';
 $_lang['setting_cache_format_desc'] = '0 = PHP、1 = JSON、2 = シリアライズ。いずれかを数値で指定します。';
 $_lang['setting_cache_handler'] = 'キャッシュのハンドラクラス';
 $_lang['setting_cache_handler_desc'] = 'キャッシュに使用するハンドラクラス名を指定します。';
-$_lang['setting_cache_lang_js'] = 'レキシコンJavascript文字列のキャッシュ';
+$_lang['setting_cache_lang_js'] = 'レキシコンJavaScript文字列のキャッシュ';
 $_lang['setting_cache_lang_js_desc'] = '有効の場合、管理画面インターフェース用のJavaScriptに読み込まれたレキシコン文字列を、キャッシュするサーバーヘッダを使用します。';
 $_lang['setting_cache_lexicon_topics'] = 'レキシコンのキャッシュ';
 $_lang['setting_cache_lexicon_topics_desc'] = '有効にすると、全てのレキシコントピックをキャッシュし、多言語対応のためのロード時間を大幅に削減します。この設定に「はい」を選択することを、強くおすすめします。';
@@ -211,8 +211,8 @@ $_lang['setting_filemanager_url'] = '（非推奨）ファイルマネージャ�
 $_lang['setting_filemanager_url_desc'] = '非推奨です。代わりにメディアソースを使用してください。<br />ファイルマネージャーにアクセスする明示的なURLを指定します（filemanager_pathをMODXのウェブルート外に指定した場合に役立ちます）。filemanager_pathの値がウェブアクセス可能なURLであることを確認してください。<br />この設定が空の場合、MODXが自動算出を試みます。';
 $_lang['setting_filemanager_url_relative'] = '（非推奨）相対的なファイルマネージャーURL';
 $_lang['setting_filemanager_url_relative_desc'] = '非推奨です。代わりにメディアソースを使用してください。<br />filemanager_urlに相対URLを指定している場合、「はい」を指定してください。filemanager_urlがメインのウェブルート外を指す場合、「いいえ」を指定してください。';
-$_lang['setting_forgot_login_email'] = 'Forgot Login Email';
-$_lang['setting_forgot_login_email_desc'] = 'The template for the email that is sent when a user has forgotten their MODX username and/or password.';
+$_lang['setting_forgot_login_email'] = 'ログイン情報送信メール';
+$_lang['setting_forgot_login_email_desc'] = 'ユーザーが自分のMODXアカウントまたはパスワードを忘れた場合に送信される、Eメールのテンプレート。';
 $_lang['setting_form_customization_use_all_groups'] = 'Use All User Group Memberships for Form Customization';
 $_lang['setting_form_customization_use_all_groups_desc'] = 'If set to true, FC will use *all* Sets for *all* User Groups a member is in when applying Form Customization Sets. Otherwise, it will only use the Set belonging to the User\'s Primary Group. Note: setting this to Yes might cause bugs with conflicting FC Sets.';
 $_lang['setting_forward_merge_excludes'] = 'sendForward Exclude Fields on Merge';
@@ -375,7 +375,7 @@ $_lang['setting_phpthumb_nohotlink_text_message_desc'] = '外部サーバーか�
 $_lang['setting_phpthumb_nohotlink_valid_domains'] = 'phpThumb 読み込みを許可するドメイン';
 $_lang['setting_phpthumb_nohotlink_valid_domains_desc'] = '外部からのA comma-delimited list of hostnames that are valid in src URLs.';
 $_lang['setting_phpthumb_nooffsitelink_enabled'] = 'phpThumb サムネイル直リンクの無効化';
-$_lang['setting_phpthumb_nooffsitelink_enabled_desc'] = 'Disables the ability for others to use phpThumb to render images on their own sites.';
+$_lang['setting_phpthumb_nooffsitelink_enabled_desc'] = '外部のサーバーからphpThumbを使った画像の表示を無効にします。';
 $_lang['setting_phpthumb_nooffsitelink_erase_image'] = 'phpThumb Offsite Linking Erase Image';
 $_lang['setting_phpthumb_nooffsitelink_erase_image_desc'] = 'Indicates if an image linked from a remote server should be erased when not allowed.';
 $_lang['setting_phpthumb_nooffsitelink_require_refer'] = 'phpThumb Offsite Linking Require Referrer';
@@ -411,7 +411,7 @@ $_lang['setting_resolve_hostnames_desc'] = 'サイト表示時に、閲覧者の
 $_lang['setting_resource_tree_node_name'] = 'リソースツリーのノード用フィールド';
 $_lang['setting_resource_tree_node_name_desc'] = 'リソースツリーでノードを表示する際に使用するフィールドを指定します。デフォルトは pagetitle ですが、menutitle や alias、longtitle など任意のリソースフィールドも指定できます。';
 $_lang['setting_resource_tree_node_tooltip'] = 'リソースツリーのツールチップ用フィールド';
-$_lang['setting_resource_tree_node_tooltip_desc'] = 'リソースツリーでノードのツールチップを表示する際に使用するフィールドを指定します。 menutitle や alias、longtitle など任意のリソースフィールドが指定できます。空欄の場合、longtitle が使用されます。';
+$_lang['setting_resource_tree_node_tooltip_desc'] = 'リソースツリーでノードのツールチップを表示する際に使用するフィールドを指定します。 menutitle や alias、longtitle など任意のリソースフィールドが指定できます。指定しない場合、longtitle が使用されます。';
 $_lang['setting_richtext_default'] = 'デフォルトのリッチテキストエディタ使用設定';
 $_lang['setting_richtext_default_desc'] = '「はい」を選択すると、新しいリソースではデフォルトでリッチテキストエディタを使用します。';
 $_lang['setting_search_default'] = 'デフォルトの検索可能設定';
@@ -480,7 +480,7 @@ $_lang['setting_tvs_below_content_desc'] = '「はい」を選択すると、リ
 $_lang['setting_ui_debug_mode'] = '管理画面のUIデバッグモード';
 $_lang['setting_ui_debug_mode_desc'] = '管理画面で標準のテーマを使用している場合に、UIのJavaScriptがデバッグ情報を出力します。<br />※使用するブラウザが"console.log"の出力に対応している必要があります。';
 $_lang['setting_udperms_allowroot'] = 'ルートの使用許可';
-$_lang['setting_udperms_allowroot_desc'] = 'サイトのルートディレクトリにユーザーがドキュメント/フォルダを作成できるようにしますか? ';
+$_lang['setting_udperms_allowroot_desc'] = 'サイトのルートディレクトリにユーザーがドキュメント/フォルダを作成できるようにしますか？';
 $_lang['setting_unauthorized_page'] = '権限外告知のページ';
 $_lang['setting_unauthorized_page_desc'] = 'ユーザーがアクセスを許可されていないドキュメントを要求したとき表示するドキュメントのIDを入力してください。 <strong>注意: 実在するドキュメントのIDを指定してください。また公開中でしかもPublicなアクセスが可能であるものに限ります</strong>';
 $_lang['setting_unauthorized_page_err'] = '権限外告知に利用するドキュメントIDを指定してください。';

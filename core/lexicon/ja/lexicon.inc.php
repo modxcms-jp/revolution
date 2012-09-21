@@ -5,14 +5,14 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org/ 2012-08-21
+ * @author honda http://kogus.org 2012-09-21
  * @author yamamoto http://kyms.jp 2012-08-11
  * @author shimojo http://www.priqia.com/
  */
 $_lang['duplicate'] = '複製';
 $_lang['entry'] = 'エントリー';
 $_lang['entry_create'] = 'エントリー作成';
-$_lang['entry_err_ae'] = 'すでに存在するエントリーです';
+$_lang['entry_err_ae'] = 'すでに存在するエントリーです。';
 $_lang['entry_err_nf'] = 'エントリーが見つかりません。';
 $_lang['entry_err_ns'] = 'エントリーが指定されていません。';
 $_lang['entry_err_save'] = 'エントリーの保存中にエラーが発生しました。';

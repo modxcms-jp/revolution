@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-09-14
+ * @author honda http://kogus.org 2012-09-21
  * @author enogu http://www.kuroienogu.net/
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
@@ -26,12 +26,12 @@ $_lang['access_context_err_ns'] = 'コンテキストのアクセス制御リス
 $_lang['access_context_err_remove'] = 'コンテキストのアクセス制御リストの削除中にエラーが発生しました。';
 $_lang['access_context_remove'] = 'コンテキストアクセス権の削除';
 $_lang['access_context_update'] = 'コンテキストアクセス権の編集';
-$_lang['access_err_ae'] = 'アクセス制御リストは既に存在しています';
-$_lang['access_err_create_md'] = 'アクセス制御リストを生成できません。データが消失しています';
-$_lang['access_err_nf'] = 'アクセス制御リストを特定できませんでした';
+$_lang['access_err_ae'] = 'アクセス制御リストは既に存在しています。';
+$_lang['access_err_create_md'] = 'アクセス制御リストを生成できません。データが消失しています。';
+$_lang['access_err_nf'] = 'アクセス制御リストを特定できませんでした。';
 $_lang['access_err_remove'] = 'アクセス制御リスト削除中のエラー';
 $_lang['access_err_save'] = 'アクセス制御リスト保存中のエラー';
-$_lang['access_grid_empty'] = '表示するアクセス制御リストが存在しません';
+$_lang['access_grid_empty'] = '表示するアクセス制御リストが存在しません。';
 $_lang['access_grid_paginate'] = '{0} - {1} 中 {2}のアクセス制御リストを表示';
 $_lang['access_permissions'] = 'アクセス許可';
 $_lang['access_permissions_add_document_group'] = 'ドキュメントグループを作成';
@@ -52,7 +52,7 @@ $_lang['access_permissions_user_groups'] = 'ユーザーグループ:';
 $_lang['access_permissions_user_group_access'] = 'このユーザーグループがアクセス権を持つリソースグループ：';
 $_lang['access_permissions_user_message'] = 'ユーザーが所属するグループを選択できます。<br>ユーザーグループのリストはドラッグ&ドロップで並べ替えることができます。一番上(ランク0)のユーザーグループがこのユーザーのプライマリーグループとなります。この設定はダッシュボードの表示内容などに影響を与えます。';
 $_lang['access_permission_denied'] = 'このドキュメントにアクセスする権限がありません。';
-$_lang['access_permission_parent_denied'] = 'ここにドキュメントを作成する権限がありません';
+$_lang['access_permission_parent_denied'] = 'ここにドキュメントを作成する権限がありません。';
 $_lang['access_policy_err_nf'] = 'アクセスポリシーが見つかりませんでした。.';
 $_lang['access_policy_err_ns'] = 'アクセスポリシーが指定されていません。';
 $_lang['access_policy_grid_empty'] = '表示するポリシーがありません。';
@@ -68,7 +68,7 @@ $_lang['access_source_remove'] = 'メディアソースアクセス権の削除'
 $_lang['access_source_update'] = 'メディアソースアクセス権の編集';
 $_lang['access_to_contexts'] = 'コンテキストへアクセス';
 $_lang['access_to_resource_groups'] = 'リソースグループへアクセス';
-$_lang['access_type_err_ns'] = 'ターゲットタイプもしくはIDタイプが特定されていません';
+$_lang['access_type_err_ns'] = 'ターゲットタイプもしくはIDタイプが特定されていません。';
 $_lang['acl_add'] = '許可グループを追加';
 $_lang['authority'] = '特権レベル';
 $_lang['authority_err_ns'] = 'ミニマムロールを指定してください。';
