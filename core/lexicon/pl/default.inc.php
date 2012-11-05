@@ -1,6 +1,6 @@
 <?php
 /**
- * Default English lexicon topic
+ * Default Polish lexicon topic
  *
  * @language pl
  * @package modx
@@ -1006,6 +1006,9 @@ $_lang['quick_create'] = '<abbr title="Otwiera okno edycji podstawowych pól zas
 #$_lang['quick_create_chunk'] = 'Quick Create Chunk';
 $_lang['quick_create_chunk'] = 'Quick Create Chunk';
 
+#$_lang['quick_create_file'] = 'Quick Create File';
+$_lang['quick_create_file'] = 'Szybko utwórz plik'; #
+
 #$_lang['quick_create_plugin'] = 'Quick Create Plugin';
 $_lang['quick_create_plugin'] = 'Quick Create Plugin';
 
@@ -1021,8 +1024,14 @@ $_lang['quick_create_template'] = 'Quick Create Template';
 #$_lang['quick_create_tv'] = 'Quick Create TV';
 $_lang['quick_create_tv'] = 'Quick Create TV';
 
+#$_lang['quick_update'] = 'Quick Update';
+$_lang['quick_update'] = 'Quick Update';
+
 #$_lang['quick_update_chunk'] = 'Quick Update Chunk';
 $_lang['quick_update_chunk'] = 'Quick Update Chunk';
+
+#$_lang['quick_update_file'] = 'Quick Update File';
+$_lang['quick_update_file'] = 'Szybko zmień plik'; #
 
 #$_lang['quick_update_plugin'] = 'Quick Update Plugin';
 $_lang['quick_update_plugin'] = 'Quick Update Plugin';
