@@ -191,6 +191,7 @@ $_lang['ext_refresh'] = '再読み込み';
 $_lang['ext_showgroups'] = 'グループの表示';
 $_lang['ext_sortasc'] = '昇順でソート';
 $_lang['ext_sortdesc'] = '降順でソート';
+$_lang['ext_splittip'] = 'Drag to resize.';
 $_lang['ext_tabclose'] = 'このタブを閉じる';
 $_lang['ext_timeinv'] = '{0} は有効な時間ではありません。';
 $_lang['ext_timemax'] = 'このフィールの時間は {0} と同じかそれより前である必要があります。';
