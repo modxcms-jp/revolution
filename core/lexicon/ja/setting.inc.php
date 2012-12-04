@@ -73,7 +73,7 @@ $_lang['setting_failed_login_desc'] = 'ここにログインの失敗を許可�
 $_lang['setting_login_allowed_days'] = '有効な日';
 $_lang['setting_login_allowed_days_desc'] = 'このユーザがログインできる日を選択します。';
 $_lang['setting_login_allowed_ip'] = '有効なIPアドレス';
-$_lang['setting_login_allowed_ip_desc'] = 'IPアドレスを入力すると、このユーザはそのIPアドレスからのログインのみ有効になります。<strong>ノート: 複数のIPアドレスを指定するにはカンマ（,）で区切ります</strong>';
+$_lang['setting_login_allowed_ip_desc'] = 'IPアドレスを入力すると、このユーザはそのIPアドレスからのログインのみ有効になります。<strong>ノート: 複数のIPアドレスを指定するにはカンマ（ , ）で区切ります</strong>';
 $_lang['setting_login_homepage'] = 'ログインのホームページ';
 $_lang['setting_login_homepage_desc'] = 'ログイン後に遷移させたいドキュメントのIDを入力します。<strong>ノート: 公開されていて、このユーザ－がアクセスできるドキュメントのIDを入力してください。</strong>';
 $_lang['setting_access_policies_version'] = 'アクセスポリシースキーマバージョン';
@@ -251,7 +251,7 @@ $_lang['setting_hidemenu_default_desc'] = '「はい」を選択すると、新�
 $_lang['setting_inline_help'] = 'フィールドにインラインのヘルプを表示';
 $_lang['setting_inline_help_desc'] = '「はい」の場合、フィールドの下に直接ヘルプが表示されます。「いいえ」の場合、全てのフィールドのヘルプはツールチップベースになります。';
 $_lang['setting_link_tag_scheme'] = 'URL生成スキーム';
-$_lang['setting_link_tag_scheme_desc'] = '[[~id]]タグからURLを生成する際のスキームを指定。利用可能なオプションは<a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\\modX::makeUrl()">このページのmakeUrl(）の解説</a>を参照してください。';
+$_lang['setting_link_tag_scheme_desc'] = '[[~id]]タグからURLを生成する際のスキームを指定。利用可能なオプションは<a href="http://api.modx.com/revolution/2.2/db_core_model_modx_modx.class.html#\\modX::makeUrl()">このページのmakeUrl() の解説</a>を参照してください。';
 $_lang['setting_locale'] = 'ロケール';
 $_lang['setting_locale_desc'] = 'システムロケールを設定します。空白の場合、システムのデフォルトが使用されます。詳細については <a href="http://php.net/setlocale" target="_blank">the PHP documentation</a> を参照してください。';
 $_lang['setting_lock_ttl'] = 'Lock Time-to-Live';
