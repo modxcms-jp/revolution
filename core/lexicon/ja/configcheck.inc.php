@@ -5,16 +5,16 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-09-21
+ * @author honda http://kogus.org 2012-12-04
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/
  * @author yamamoto http://kyms.jp
  */
-$_lang['configcheck_admin'] = 'このメッセージをシステム管理者に報告してください';
-$_lang['configcheck_allowtagsinpost_context_enabled'] = 'allow_tags_in_post Context Setting Enabled outside `mgr`';
-$_lang['configcheck_allowtagsinpost_context_enabled_msg'] = 'The allow_tags_in_post Context Setting is enabled in your installation outside the mgr Context. MODX recommends this setting be disabled unless you need to explicitly allow users to submit MODX tags, numeric entities, or HTML script tags via the POST method to a form in your site. This should generally be disabled except in the mgr Context.';
-$_lang['configcheck_allowtagsinpost_system_enabled'] = 'allow_tags_in_post System Setting Enabled';
-$_lang['configcheck_allowtagsinpost_system_enabled_msg'] = 'The allow_tags_in_post System Setting is enabled in your installation. MODX recommends this setting be disabled unless you need to explicitly allow users to submit MODX tags, numeric entities, or HTML script tags via the POST method to a form in your site. It is better to enable this via Context Settings for specific Contexts.';
+$_lang['configcheck_admin'] = 'このメッセージをシステム管理者に報告してください。';
+$_lang['configcheck_allowtagsinpost_context_enabled'] = 'allow_tags_in_post設定が`mgr`コンテキスト外で有効です。';
+$_lang['configcheck_allowtagsinpost_context_enabled_msg'] = 'allow_tags_in_post設定が、管理画面用コンテキスト`mgr`外で有効になっています。<br />サイト内のフォームからPOSTメソッドを用いて、MODXタグ、数値実体参照、またはHTMLのscriptタグを送信する必要がない限り、この設定を無効にすることを推奨します。一般的に管理画面用の`mgr`コンテキスト以外では、無効とすべきです。';
+$_lang['configcheck_allowtagsinpost_system_enabled'] = 'allow_tags_in_postシステム設定が有効です。';
+$_lang['configcheck_allowtagsinpost_system_enabled_msg'] = 'このMODXではallow_tags_in_post設定が有効になっています。<br />サイト内のフォームからPOSTメソッドを用いて、MODXタグ、数値実体参照、またはHTMLのscriptタグを送信する必要がない限り、この設定を無効にすることを推奨します。<br />有効にする場合、特定のコンテキスト設定を介して限定することを推奨します。';
 $_lang['configcheck_cache'] = 'キャッシュディレクトリに書き込みができません。';
 $_lang['configcheck_cache_msg'] = 'キャッシュディレクトリにキャッシュファイルを保存できませんでした。キャッシュが利用できないため、MODXならではの軽快なレスポンスを得られません。/core/cache/web/resources/ ディレクトリを書き込み可能にしてください。';
 $_lang['configcheck_configinc'] = '設定ファイルがまだ書き込み可能になっています。';

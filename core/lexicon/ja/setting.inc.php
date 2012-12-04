@@ -5,7 +5,7 @@
 * @language ja
 * @package modx
 * @subpackage lexicon
-* @author honda http://kogus.org 2012-09-21
+* @author honda http://kogus.org 2012-12-04
 * @author Nick http://smallworld.west-tokyo.com
 * @author shimojo http://www.priqia.com/
 * @author yamamoto http://kyms.jp
@@ -83,7 +83,7 @@ $_lang['setting_allow_forward_across_contexts_desc'] = '有効の場合、シム
 $_lang['setting_allow_manager_login_forgot_password'] = '管理画面ログイン時にパスワード忘れ対応機能を許可';
 $_lang['setting_allow_manager_login_forgot_password_desc'] = '「いいえ」に指定すると、管理画面へのログイン時に、パスワード忘れ対応機能を無効にします。';
 $_lang['setting_allow_tags_in_post'] = 'POSTアクションでタグの受け渡しを許可';
-$_lang['setting_allow_tags_in_post_desc'] = '無効に設定すると、管理画面の全てのPOSTアクションにおいてHTMLタグ・MODXタグ・ナンバーエンティティを削除します。「有効」とすることを推奨します。';
+$_lang['setting_allow_tags_in_post_desc'] = '無効とすると、すべてのPOSTリクエストで、MODXタグ、数値実体参照、またはHTMLのscriptタグが取り除かれます。デフォルトでこの設定が有効な管理画面用コンテキスト`mgr`以外では、無効とすることを推奨します。';
 $_lang['setting_archive_with'] = '強制的にPCLZipを使用';
 $_lang['setting_archive_with_desc'] = 'この設定が有効の場合、zipアーカイブに対して、ZipArchiveの代わりにPCLZipを使用します。<br />この設定は、ZipArchiveのextractToエラー時、またはパッケージの展開に問題がある場合に有効にしてください。';
 $_lang['setting_auto_menuindex'] = 'メニューインデックスを自動インクリメント';
