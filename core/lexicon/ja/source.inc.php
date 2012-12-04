@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-09-21
+ * @author honda http://kogus.org 2012-12-04
  * @author enogu http://www.kuroienogu.net/
  * @author yamamoto http://kyms.jp
  */
@@ -49,7 +49,7 @@ $_lang['source.access.intro_msg'] = 'メディアソースにはユーザーグ�
 $_lang['sources'] = 'メディアソース';
 $_lang['sources.intro_msg'] = 'メディアソースを管理します。';
 $_lang['user_group'] = 'ユーザーグループ';
-$_lang['prop_file.allowedFileTypes_desc'] = 'ここに拡張子(ピリオドは不要)を指定することで、表示されるファイルの種類を制限できます。複数の拡張子を指定するときはカンマ区切りで列挙してください。';
+$_lang['prop_file.allowedFileTypes_desc'] = 'ここに拡張子（ピリオドは不要）を指定することで、表示されるファイルの種類を制限できます。複数の拡張子を指定するときはカンマ区切りで列挙してください。';
 $_lang['prop_file.basePath_desc'] = 'ソースの場所を示すファイルパス。';
 $_lang['prop_file.basePathRelative_desc'] = 'ベースパスがMODXのインストールされたディレクトリの外にある場合、"はい"にしてください。';
 $_lang['prop_file.baseUrl_desc'] = 'このソースにアクセスするためのURL';

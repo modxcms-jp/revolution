@@ -5,7 +5,7 @@
  * @language ja
  * @package modx
  * @subpackage lexicon
- * @author honda http://kogus.org 2012-09-21
+ * @author honda http://kogus.org 2012-12-04
  * @author yamamoto http://kyms.jp 2012-08-11
  * @author Nick http://smallworld.west-tokyo.com
  * @author shimojo http://www.priqia.com/

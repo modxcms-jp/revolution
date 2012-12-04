@@ -5,7 +5,7 @@
  * @package modx
  * @subpackage lexicon
  * @language ja
- * @author honda http://kogus.org 2012-08-16
+ * @author honda http://kogus.org 2012-12-04
  * @author yamamoto http://kyms.jp
  */
 $_lang['dashboard'] = 'ダッシュボード';
@@ -19,7 +19,7 @@ $_lang['dashboard_duplicate'] = 'ダッシュボードを複製';
 $_lang['dashboard_remove'] = 'ダッシュボードを削除';
 $_lang['dashboard_remove_confirm'] = 'このダッシュボードを削除してもよろしいですか？';
 $_lang['dashboard_update'] = 'ダッシュボード構成を編集';
-$_lang['dashboard_err_ae_name'] = '"[[+name]]"という名前のダッシュボードはすでに存在しています！　別の名前を指定して下さい';
+$_lang['dashboard_err_ae_name'] = '"[[+name]]"という名前のダッシュボードはすでに存在しています！　別の名前を指定してください';
 $_lang['dashboard_err_duplicate'] = 'ダッシュボードの複製時、エラーが発生しました。';
 $_lang['dashboard_err_nf'] = 'ダッシュボードはありません。';
 $_lang['dashboard_err_ns'] = 'ダッシュボードが指定されていません。';
@@ -40,7 +40,7 @@ $_lang['user_group_filter'] = 'By ユーザーグループ';
 $_lang['widget'] = 'ウィジェット';
 $_lang['widget_content'] = 'ウィジェットの内容';
 $_lang['widget_create'] = 'ウィジェットを作成';
-$_lang['widget_err_ae_name'] = '"[[+name]]"という名前のウィジェットはすでに存在しています！　別の名前を指定して下さい';
+$_lang['widget_err_ae_name'] = '"[[+name]]"という名前のウィジェットはすでに存在しています！　別の名前を指定してください';
 $_lang['widget_err_nf'] = 'ウィジェットはありません。';
 $_lang['widget_err_ns'] = 'ウィジェットが指定されていません！';
 $_lang['widget_err_ns_name'] = 'ウィジェットの名前を指定してください。';
@@ -64,9 +64,9 @@ $_lang['widget_php'] = 'インラインPHPウィジェット';
 $_lang['widget_place'] = 'ウィジェットの場所';
 $_lang['widget_size'] = 'サイズ';
 $_lang['widget_size_desc'] = 'ウィジェットのサイズを指定します。"ハーフ"はウィジェット表示エリアの半分の横幅、"フル"はエリアの横幅いっぱいに表示されます。また、"ダブル"はエリアの横幅いっぱいに、2段分の高さで表示されます。';
-$_lang['widget_size_double'] = 'ダブル(最大)';
-$_lang['widget_size_full'] = 'フル(横幅いっぱい)';
-$_lang['widget_size_half'] = 'ハーフ(半分の横幅)';
+$_lang['widget_size_double'] = 'ダブル（最大）';
+$_lang['widget_size_full'] = 'フル（横幅いっぱい）';
+$_lang['widget_size_half'] = 'ハーフ（半分の横幅）';
 $_lang['widget_snippet'] = 'スニペット';
 $_lang['widget_type'] = 'ウィジェットのタイプ';
 $_lang['widget_type_desc'] = 'ウィジェットには以下のタイプがあります。"スニペット"ウィジェットは、MODXのスニペットの実行結果を返します。"HTML"ウィジェットは、入力されたHTMLコードをそのまま出力します。 "ファイル"ウィジェットは、ファイルから直接読み込まれます。ファイルは、直接出力を返すか、modDashboardWidgetClassクラスを継承している必要があります。 "インラインPHP"ウィジェットはスニペットに似ていて、実行したいPHPコードを直接記入できます。';
