@@ -12,7 +12,7 @@
 */
 $_lang['active_of'] = '[[+active]] of [[+total]]';
 $_lang['active_permissions'] = '有効な権限';
-$_lang['no_policy_option'] = ' (ポリシーなし） ';
+$_lang['no_policy_option'] = ' （ポリシーなし） ';
 $_lang['permission'] = '権限';
 $_lang['permission_add'] = '権限を追加';
 $_lang['permission_add_template'] = 'テンプレートに権限を付加';

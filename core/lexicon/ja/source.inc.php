@@ -49,6 +49,8 @@ $_lang['source.access.intro_msg'] = 'メディアソースにはユーザーグ�
 $_lang['sources'] = 'メディアソース';
 $_lang['sources.intro_msg'] = 'メディアソースを管理します。';
 $_lang['user_group'] = 'ユーザーグループ';
+
+/* file source type */
 $_lang['prop_file.allowedFileTypes_desc'] = 'ここに拡張子（ピリオドは不要）を指定することで、表示されるファイルの種類を制限できます。複数の拡張子を指定するときはカンマ区切りで列挙してください。';
 $_lang['prop_file.basePath_desc'] = 'ソースの場所を示すファイルパス。';
 $_lang['prop_file.basePathRelative_desc'] = 'ベースパスがMODXのインストールされたディレクトリの外にある場合、"いいえ"にしてください。';
@@ -59,6 +61,8 @@ $_lang['prop_file.imageExtensions_desc'] = '画像ファイルの拡張子のリ
 $_lang['prop_file.skipFiles_desc'] = '表示しないファイル名のリストをカンマ区切りで設定します。MODXはいずれかのパターンに当てはまるファイル、およびディレクトリを表示しません。';
 $_lang['prop_file.thumbnailQuality_desc'] = 'サムネイル画像の品質を0-100の間で設定します。';
 $_lang['prop_file.thumbnailType_desc'] = 'サムネイル画像の種類を設定します。';
+
+/* s3 source type */
 $_lang['bucket'] = 'バケット';
 $_lang['prop_s3.bucket_desc'] = 'Amazon S3のバケットからデータをロードします。';
 $_lang['prop_s3.key_desc'] = 'バケットの認証に用いるAmazon Key';
