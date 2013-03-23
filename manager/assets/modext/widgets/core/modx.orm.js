@@ -6,7 +6,7 @@ MODx.orm.Tree = function(config) {
         ,width: 400
         ,useArrows:true
         ,autoScroll:true
-        ,animate:false
+        ,animate:true
         ,enableDD: false
         ,border: false
         ,containerScroll: true
