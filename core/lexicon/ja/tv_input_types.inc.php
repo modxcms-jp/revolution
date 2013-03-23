@@ -13,7 +13,7 @@
 $_lang['autotag'] = 'タグ（ピッカー入力）';
 $_lang['text'] = '一行テキスト';
 $_lang['textarea'] = '複数行テキスト';
-$_lang['textareamini'] = '複数行テキスト (ミニ）';
+$_lang['textareamini'] = '複数行テキスト （ミニ）';
 $_lang['richtext'] = 'リッチテキスト';
 $_lang['dropdown'] = 'ドロップダウンリスト';
 $_lang['listbox'] = 'リストボックス（単一選択）';

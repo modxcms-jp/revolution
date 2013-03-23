@@ -43,7 +43,7 @@ $_lang['disabled_dates_desc'] = '無効にしたい日付のパターンをコ�
 指定の例：<br />
 - 厳密に特定の年月日を無効とします：2003-03-08,2003-09-16<br />
 - 年に関係なく、特定の月日を無効とします: 03-08,09-16<br />
-- 先頭部分が一致する日付を無効にします (2ケタの年表記を使用している場合に便利です）。：^03-08<br />
+- 先頭部分が一致する日付を無効にします （2ケタの年表記を使用している場合に便利です）。：^03-08<br />
 - 2006年の3月を全て無効にします：03-..-2006<br />
 - 全ての年で3月を無効にします：^03<br />
 ※注：条件には正確なフォーマットを指定する必要があります。また、正規表現による処理を行うため、日付の表記に "." 文字を使用している場合、エスケープする必要があります。';
@@ -60,7 +60,7 @@ $_lang['earliest_time_desc'] = '選択可能な最も早い時間を指定しま
 $_lang['email'] = 'メールアドレス';
 $_lang['file'] = 'ファイル';
 $_lang['height'] = '高さ';
-$_lang['hidden'] = 'Hidden(隠しフィールド）';
+$_lang['hidden'] = 'Hidden（隠しフィールド）';
 $_lang['htmlarea'] = 'HTML Area';
 $_lang['htmltag'] = 'HTMLタグ';
 $_lang['image'] = '画像';
@@ -74,8 +74,8 @@ $_lang['latest_date'] = '最も新しい日付';
 $_lang['latest_date_desc'] = '選択可能な最も新しい日付を指定します。';
 $_lang['latest_time'] = '最も遅い時刻';
 $_lang['latest_time_desc'] = '選択可能な最も遅い時刻を指定します。';
-$_lang['listbox'] = 'リストボックス (単一選択）';
-$_lang['listbox-multiple'] = 'リストボックス (複数選択）';
+$_lang['listbox'] = 'リストボックス （単一選択）';
+$_lang['listbox-multiple'] = 'リストボックス （複数選択）';
 $_lang['lower_case'] = '小文字';
 $_lang['max_length'] = '最大の長さ';
 $_lang['min_length'] = '最小の長さ';
@@ -93,8 +93,8 @@ $_lang['option'] = 'ラジオボタン';
 $_lang['parent_resources'] = '親リソース';
 $_lang['radio_columns'] = '列数';
 $_lang['radio_columns_desc'] = 'ラジオボタンを指定した列数に分けて表示します。';
-$_lang['rawtext'] = '変換無しテキスト (非推奨）';
-$_lang['rawtextarea'] = '変換無し複数行テキスト (非推奨）';
+$_lang['rawtext'] = '変換無しテキスト （非推奨）';
+$_lang['rawtextarea'] = '変換無し複数行テキスト （非推奨）';
 $_lang['required'] = '入力必須としない';
 $_lang['required_desc'] = '「いいえ」を指定した場合、空白以外の有効な値が入力されなければリソースは保存できません。';
 $_lang['resourcelist'] = 'リソースリスト';
@@ -124,7 +124,7 @@ $_lang['tag_name'] = 'タグ名';
 $_lang['target'] = 'ターゲット';
 $_lang['text'] = 'テキスト';
 $_lang['textarea'] = '複数行テキスト';
-$_lang['textareamini'] = '複数テキスト (ミニ）';
+$_lang['textareamini'] = '複数テキスト （ミニ）';
 $_lang['textbox'] = 'テキストボックス';
 $_lang['time_increment'] = '時刻の間隔';
 $_lang['time_increment_desc'] = '時刻リストでの各項目の間隔を、分数で指定します（デフォルトは15）。';

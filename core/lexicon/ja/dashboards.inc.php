@@ -74,6 +74,7 @@ $_lang['widget_unplace'] = 'ウィジェットを削除';
 $_lang['widget_update'] = 'ウィジェットの設定を編集';
 $_lang['widgets'] = 'ウィジェット';
 $_lang['widgets.intro_msg'] = 'ダッシュボード用ウィジェットの作成や削除を行います。';
+
 $_lang['w_configcheck'] = '設定チェック';
 $_lang['w_configcheck_desc'] = '現在の設定が安全かチェックし、問題点を表示します。';
 $_lang['w_newsfeed'] = 'MODXニュースフィード';
