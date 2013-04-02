@@ -126,6 +126,9 @@ $_lang['setting_blocked_minutes_desc'] = 'ユーザーがログイン失敗許�
 $_lang['setting_cache_action_map'] = 'アクションマップキャッシュを有効';
 $_lang['setting_cache_action_map_desc'] = '「はい」を選択すると、アクション（またはコントローラーマップ）をキャッシュして、管理画面のページ読み込み時間を減らします。';
 
+$_lang['setting_cache_alias_map'] = 'コンテキストのエイリアスマップキャッシュを有効';
+$_lang['setting_cache_alias_map_desc'] = '有効にすると、すべてのリソースのURIは、コンテキストにキャッシュされます。小規模なサイトで有効にして、パフォーマンスを向上させるために大規模なサイトでは無効にします。';
+
 $_lang['setting_cache_context_settings'] = 'コンテキスト設定キャッシュを有効';
 $_lang['setting_cache_context_settings_desc'] = '「はい」を選択すると、コンテキストの設定をキャッシュして、読み込み時間を減らします。';
 
@@ -610,7 +613,7 @@ $_lang['setting_session_cookie_secure'] = 'セキュアなセッションCookie�
 $_lang['setting_session_cookie_secure_desc'] = 'httpsでの接続時のみセッションCookieが有効になります。';
 
 $_lang['setting_session_cookie_httponly'] = 'Session Cookie HttpOnly';
-$_lang['setting_session_cookie_httponly_desc'] = 'Use this setting to set the HttpOnly flag on session cookies.';
+$_lang['setting_session_cookie_httponly_desc'] = 'セッションCookieにHTTPOnlyフラグを設定するには、この設定を使用します。';
 
 $_lang['setting_session_gc_maxlifetime'] = 'セッションのガベージコレクション実行期限';
 $_lang['setting_session_gc_maxlifetime_desc'] = '\'modSessionHandler\'を使用して、PHPのINI設定"session.gc_maxlifetime"を設定します。';
