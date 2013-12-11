@@ -1,7 +1,3 @@
-Ext.onReady(function() {
-    MODx.load({ xtype: 'modx-page-import-resource' });
-});
-
 MODx.page.ImportResource = function(config) {
     config = config || {};
     Ext.applyIf(config,{
@@ -9,7 +5,7 @@ MODx.page.ImportResource = function(config) {
         ,buttons: [{
             process: 'import', text: _('import_resources'), method: 'remote'
         },{
-            process: 'cancel', text: _('cancel'), params: {a:'welcome'}
+            process: 'cancel', text: _('cancel'), params: {a:MODx.action['welcome']}
         }]
         ,components: [{
             xtype: 'modx-panel-import-resources'

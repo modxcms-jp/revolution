@@ -91,14 +91,6 @@ $xpdo_meta_map['modNamespace']= array (
       'cardinality' => 'many',
       'owner' => 'local',
     ),
-    'ExtensionPackages' => 
-    array (
-      'class' => 'modExtensionPackage',
-      'local' => 'name',
-      'foreign' => 'namespace',
-      'cardinality' => 'many',
-      'owner' => 'local',
-    ),
     'Actions' => 
     array (
       'class' => 'modAction',

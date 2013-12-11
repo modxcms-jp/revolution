@@ -11,7 +11,7 @@ $xpdo_meta_map['modFormCustomizationSet']= array (
   'fields' => 
   array (
     'profile' => 0,
-    'action' => '',
+    'action' => 0,
     'description' => '',
     'active' => 0,
     'template' => 0,
@@ -32,11 +32,11 @@ $xpdo_meta_map['modFormCustomizationSet']= array (
     ),
     'action' => 
     array (
-      'dbtype' => 'nvarchar',
-      'precision' => '255',
-      'phptype' => 'string',
+      'dbtype' => 'integer',
+      'precision' => '11',
+      'phptype' => 'integer',
       'null' => false,
-      'default' => '',
+      'default' => 0,
       'index' => 'index',
     ),
     'description' => 

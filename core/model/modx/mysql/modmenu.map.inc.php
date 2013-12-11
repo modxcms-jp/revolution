@@ -12,14 +12,13 @@ $xpdo_meta_map['modMenu']= array (
   array (
     'text' => '',
     'parent' => '',
-    'action' => '',
+    'action' => 0,
     'description' => '',
     'icon' => '',
     'menuindex' => 0,
     'params' => '',
     'handler' => '',
     'permissions' => '',
-    'namespace' => 'core',
   ),
   'fieldMeta' => 
   array (
@@ -43,11 +42,12 @@ $xpdo_meta_map['modMenu']= array (
     ),
     'action' => 
     array (
-      'dbtype' => 'varchar',
-      'precision' => '255',
-      'phptype' => 'string',
+      'dbtype' => 'int',
+      'precision' => '11',
+      'attributes' => 'unsigned',
+      'phptype' => 'integer',
       'null' => false,
-      'default' => '',
+      'default' => 0,
       'index' => 'index',
     ),
     'description' => 
@@ -96,15 +96,6 @@ $xpdo_meta_map['modMenu']= array (
       'null' => false,
       'default' => '',
     ),
-    'namespace' => 
-    array (
-      'dbtype' => 'varchar',
-      'precision' => '100',
-      'phptype' => 'string',
-      'null' => false,
-      'default' => 'core',
-      'index' => 'index',
-    ),
   ),
   'indexes' => 
   array (
@@ -149,22 +140,6 @@ $xpdo_meta_map['modMenu']= array (
       'columns' => 
       array (
         'action' => 
-        array (
-          'length' => '',
-          'collation' => 'A',
-          'null' => false,
-        ),
-      ),
-    ),
-    'namespace' => 
-    array (
-      'alias' => 'namespace',
-      'primary' => false,
-      'unique' => false,
-      'type' => 'BTREE',
-      'columns' => 
-      array (
-        'namespace' => 
         array (
           'length' => '',
           'collation' => 'A',

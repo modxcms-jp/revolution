@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -67,7 +67,13 @@ class modError {
      */
     function __construct(modX &$modx, $message = '') {
         $this->modx =& $modx;
-        $this->message = $message;
+        if (is_string($message)) {
+            $this->message = $message;
+        } elseif (is_array($message) && isset($message['message'])) {
+            $this->message = $message['message'];
+        } else {
+            $this->message = '';
+        }
         $this->errors = array ();
     }
 

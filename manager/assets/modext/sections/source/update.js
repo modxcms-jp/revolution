@@ -3,9 +3,9 @@ MODx.page.UpdateSource = function(config) {
 	Ext.applyIf(config,{
        formpanel: 'modx-panel-source'
        ,actions: {
-            'new': 'source/create'
-            ,edit: 'source/update'
-            ,cancel: 'source'
+            'new': MODx.action['source/create']
+            ,edit: MODx.action['source/update']
+            ,cancel: MODx.action['source']
        }
        ,buttons: [{
             process: 'update', text: _('save'), method: 'remote'
@@ -16,7 +16,7 @@ MODx.page.UpdateSource = function(config) {
                 ,ctrl: true
             }]
         },'-',{
-            process: 'cancel', text: _('cancel'), params: {a:'source/index'}
+            process: 'cancel', text: _('cancel'), params: {a:MODx.action['source/index']}
         },'-',{
             text: _('help_ex')
             ,handler: MODx.loadHelpPane

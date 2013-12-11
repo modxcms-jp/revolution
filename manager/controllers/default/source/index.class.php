@@ -8,7 +8,7 @@
  * @package modx
  * @subpackage manager.controllers
  */
-class SourceManagerController extends modManagerController {
+class SourceIndexManagerController extends modManagerController {
     /**
      * Check for any permissions or requirements to load page
      * @return bool
@@ -58,13 +58,5 @@ class SourceManagerController extends modManagerController {
      */
     public function getLanguageTopics() {
         return array('source','namespace');
-    }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Media+Sources';
     }
 }

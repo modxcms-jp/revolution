@@ -424,11 +424,11 @@ abstract class ResourceManagerController extends modManagerController {
                 $modx->registry->addRegister('resource_reload', 'registry.modDbRegister', array('directory' => 'resource_reload'));
                 $this->reg = $modx->registry->resource_reload;
                 if($this->reg->connect()) {
-                    $topic = '/resourcereload/' . $scriptProperties['reload'] . '/';
+                    $topic = '/resourcereload/' . $scriptProperties['reload'];
                     $this->reg->subscribe($topic);
-                    $reloadData = $this->reg->read(array('poll_limit'=> 1, 'remove_read'=> true));
-                    if(is_array($reloadData) && is_string(reset($reloadData))) {
-                        $reloadData = @unserialize(reset($reloadData));
+                    $msgs = $this->reg->read(array('poll_limit'=> 1, 'remove_read'=> true));
+                    if(is_array($msgs)) {
+                        $reloadData = reset($msgs);
                     }
                     if(!is_array($reloadData)) {
                         $reloadData = array();
@@ -476,11 +476,4 @@ abstract class ResourceManagerController extends modManagerController {
         return $this->resourceArray['resourceGroups'];
     }
 
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Resources';
-    }
 }

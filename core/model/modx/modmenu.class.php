@@ -77,15 +77,9 @@ class modMenu extends modAccessibleObject {
         $this->xpdo->lexicon->load('menu','topmenu');
 
         $c = $this->xpdo->newQuery('modMenu');
-        $c->select($this->xpdo->getSelectColumns('modMenu', 'modMenu'));
-
-        /* 2.2 and earlier support */
         $c->leftJoin('modAction','Action');
-        $c->select(array(
-            'action_controller' => 'Action.controller',
-            'action_namespace' => 'Action.namespace',
-        ));
-
+        $c->select($this->xpdo->getSelectColumns('modMenu', 'modMenu'));
+        $c->select($this->xpdo->getSelectColumns('modAction', 'Action', '', array('controller', 'namespace')));
         $c->where(array(
             'modMenu.parent' => $start,
         ));
@@ -97,17 +91,11 @@ class modMenu extends modAccessibleObject {
         /** @var modMenu $menu */
         foreach ($menus as $menu) {
             $ma = $menu->toArray();
-            $action = $menu->get('action');
 
             /* if 3rd party menu item, load proper text */
-            if (!empty($action)) {
+            if ($menu->get('action')) {
                 $namespace = $menu->get('namespace');
-
-                /* allow 2.2 and earlier actions */
-                $deprecatedNamespace = $menu->get('action_namespace');
-                if (!empty($deprecatedNamespace)) $namespace = $deprecatedNamespace;
-
-                if (!empty($namespace) && $namespace != 'core') {
+                if ($namespace != null && $namespace != 'core') {
                     $this->xpdo->lexicon->load($namespace.':default');
                     $ma['text'] = $this->xpdo->lexicon($menu->get('text'));
                 } else {

@@ -15,9 +15,9 @@ MODx.page.CreateStatic = function(config) {
         ,which_editor: 'none'
         ,action: 'create'
         ,actions: {
-            'new': 'resource/create'
-            ,edit: 'resource/update'
-            ,cancel: 'welcome'
+            'new': MODx.action['resource/create']
+            ,edit: MODx.action['resource/update']
+            ,cancel: MODx.action['welcome']
         }
         ,buttons: this.getButtons(config)
         ,loadStay: true
@@ -54,7 +54,7 @@ Ext.extend(MODx.page.CreateStatic,MODx.Component,{
         btns.push({
             process: 'cancel'
             ,text: _('cancel')
-            ,params: { a: 'welcome' }
+            ,params: { a: MODx.action['welcome'] }
             ,id: 'modx-abtn-cancel'
         });
         btns.push('-');

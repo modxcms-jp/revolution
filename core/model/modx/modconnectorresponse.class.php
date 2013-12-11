@@ -83,20 +83,20 @@ class modConnectorResponse extends modResponse {
      *
      * {@inheritdoc}
      */
-    public function outputContent(array $options = array()) {        
+    public function outputContent(array $options = array()) {
         /* variable pointer for easier access */
         $modx =& $this->modx;
 
         /* backwards compat */
         $error =& $this->modx->error;
         /* prevent browsing of subdirectories for security */
-        $target = str_replace('../','',$options['action']);
+        $target = str_replace('../','', htmlspecialchars($options['action']));
 
         $siteId = $this->modx->user->getUserToken($this->modx->context->get('key'));
         $isLogin = $target == 'login';
 
         /* ensure headers are sent for proper authentication */
-        if (!$isLogin && !isset($_SERVER['HTTP_MODAUTH']) && !isset($_REQUEST['HTTP_MODAUTH'])) {
+        if (!$isLogin && !isset($_SERVER['HTTP_MODAUTH']) && (!isset($_REQUEST['HTTP_MODAUTH']) || empty($_REQUEST['HTTP_MODAUTH']))) {
             $this->responseCode = 401;
             $this->body = $modx->error->failure($modx->lexicon('access_denied'),array('code' => 401));
 

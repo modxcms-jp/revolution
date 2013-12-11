@@ -55,12 +55,11 @@ $xpdo_meta_map = array (
     7 => 'modEvent',
     8 => 'modFormCustomizationProfileUserGroup',
     9 => 'modNamespace',
-    10 => 'modExtensionPackage',
-    11 => 'modPluginEvent',
-    12 => 'modSession',
-    13 => 'modSystemSetting',
-    14 => 'modTemplateVarTemplate',
-    15 => 'modUserSetting',
+    10 => 'modPluginEvent',
+    11 => 'modSession',
+    12 => 'modSystemSetting',
+    13 => 'modTemplateVarTemplate',
+    14 => 'modUserSetting',
   ),
   'modAccessibleObject' => 
   array (

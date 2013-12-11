@@ -1,10 +1,3 @@
-Ext.onReady(function() {
-    MODx.load({
-        xtype: 'modx-page-context-update'
-        ,context: MODx.request.key
-    });
-});
-
 /** 
  * @class MODx.page.UpdateContext
  * @extends MODx.Component
@@ -16,10 +9,10 @@ MODx.page.UpdateContext = function(config) {
     Ext.applyIf(config,{
         formpanel: 'modx-panel-context'
         ,actions: {
-            'new': 'context/create'
-            ,edit: 'context/update'
-            ,'delete': 'context/delete'
-            ,cancel: 'context/view'
+            'new': MODx.action['context/create']
+            ,edit: MODx.action['context/update']
+            ,'delete': MODx.action['context/delete']
+            ,cancel: MODx.action['context/view']
         }
         ,buttons: [{
             process: 'update'
@@ -34,7 +27,7 @@ MODx.page.UpdateContext = function(config) {
             process: 'cancel'
             ,text: _('cancel')
             ,params: {
-                a: 'context'
+                a: MODx.action['context']
             }
         },'-',{
             text: _('help_ex')

@@ -150,12 +150,4 @@ class ElementChunkCreateManagerController extends modManagerController {
     public function getLanguageTopics() {
         return array('chunk','category','propertyset','element');
     }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Chunks';
-    }
 }

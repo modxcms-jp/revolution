@@ -25,6 +25,10 @@ class ContextManagerController extends modManagerController {
         $mgrUrl = $this->modx->getOption('manager_url',null,MODX_MANAGER_URL);
         $this->addJavascript($mgrUrl.'assets/modext/widgets/system/modx.grid.context.js');
         $this->addJavascript($mgrUrl.'assets/modext/sections/context/list.js');
+        $this->addHtml("<script>
+            Ext.onReady(function(){
+                MODx.load({ xtype: 'modx-page-contexts' });
+            });</script>");
     }
 
     /**
@@ -57,13 +61,5 @@ class ContextManagerController extends modManagerController {
      */
     public function getLanguageTopics() {
         return array('context');
-    }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Contexts';
     }
 }

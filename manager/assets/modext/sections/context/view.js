@@ -1,10 +1,3 @@
-Ext.onReady(function() {
-	MODx.load({
-	   xtype: 'page-context-view'
-	   ,key: MODx.request.key
-	});
-});
-
 /**
  * @class MODx.page.ViewContext
  * @extends MODx.Component
@@ -16,10 +9,10 @@ MODx.page.ViewContext = function(config) {
 	Ext.applyIf(config,{
 		form: 'context_data'
 		,actions: {
-            'new': 'context/create'
-            ,'edit': 'context/update'
-            ,'delete': 'context/delete'
-            ,'cancel': 'context/view'
+            'new': MODx.action['context/create']
+            ,edit: MODx.action['context/update']
+            ,'delete': MODx.action['context/delete']
+            ,cancel: MODx.action['context/view']
         }
         ,buttons: this.getButtons()
 	});
@@ -32,7 +25,7 @@ Ext.extend(MODx.page.ViewContext,MODx.Component,{
 	        process: 'create'
 	        ,text: _('new')
 	        ,params: {
-	            a: 'context/create'
+	            a: MODx.action['context/create']
 	        }
 	    },{
 	        process: 'edit'
@@ -59,7 +52,7 @@ Ext.extend(MODx.page.ViewContext,MODx.Component,{
 	        process: 'cancel'
 	        ,text: _('cancel')
 	        ,params: {
-	            a: 'context'
+	            a: MODx.action['context']
 	        }
 	    });
         b.push('-',{

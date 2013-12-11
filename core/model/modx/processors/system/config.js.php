@@ -8,7 +8,6 @@
  * custom context by its action
  *
  * @var modX $modx
- * @var array $scriptProperties
  * @package modx
  * @subpackage processors.system
  */
@@ -57,32 +56,24 @@ $c = array(
 /* if custom context, load into MODx.config */
 if (isset($scriptProperties['action']) && $scriptProperties['action'] != '' && isset($modx->actionMap[$scriptProperties['action']])) {
 
-    /* pre-2.3 actions */
-    if (intval($scriptProperties['action']) > 0) {
-        $action = $modx->actionMap[$scriptProperties['action']];
-        $c['namespace'] = $action['namespace'];
-        $c['namespace_path'] = $action['namespace_path'];
-        $c['namespace_assets_path'] = $action['namespace_assets_path'];
-        $baseHelpUrl = $modx->getOption('base_help_url',$scriptProperties,'http://rtfm.modx.com/display/revolution20/');
-        $c['help_url'] = $baseHelpUrl.ltrim($action['help_url'],'/');
-    } else {
-        $namespace = $modx->getOption('namespace',$scriptProperties,'core');
-        /** @var modNamespace $namespace */
-        $namespace = $this->modx->getObject('modNamespace',$namespace);
-        if ($namespace) {
-            $c['namespace'] = $namespace->get('name');
-            $c['namespace_path'] = $namespace->get('path');
-            $c['namespace_assets_path'] = $namespace->get('assets_url');
-        }
-    }
+    $action = $modx->actionMap[$scriptProperties['action']];
+    $c['namespace'] = $action['namespace'];
+    $c['namespace_path'] = $action['namespace_path'];
+    $c['namespace_assets_path'] = $action['namespace_assets_path'];
+    $baseHelpUrl = $modx->getOption('base_help_url',$scriptProperties,'http://rtfm.modx.com/display/revolution20/');
+    $c['help_url'] = $baseHelpUrl.ltrim($action['help_url'],'/');
 }
 
-$c = array_merge($modx->config,$workingContext->config,$c);
+$actions = $modx->request->getAllActionIDs();
 
-unset($c['password'],$c['username'],$c['mail_smtp_pass'],$c['mail_smtp_user'],$c['proxy_password'],$c['proxy_username']);
+$c = array_merge($modx->config,$workingContext->config,$modx->_userConfig,$c);
+
+unset($c['password'],$c['username'],$c['mail_smtp_pass'],$c['mail_smtp_user'],$c['proxy_password'],$c['proxy_username'],$c['connections'],$c['connection_init'],$c['connection_mutable'],$c['dbname'],$c['database'],$c['driverOptions'],$c['dsn'],$c['session_name']);
 
 $o = "Ext.namespace('MODx'); MODx.config = ";
 $o .= $modx->toJSON($c);
+$o .= '; MODx.action = ';
+$o .= $modx->toJSON($actions);
 $o .= '; MODx.perm = {};';
 if ($modx->user) {
     if ($modx->hasPermission('directory_create')) { $o .= 'MODx.perm.directory_create = true;'; }

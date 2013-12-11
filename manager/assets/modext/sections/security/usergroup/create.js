@@ -11,9 +11,9 @@ MODx.page.CreateUserGroup = function(config) {
     Ext.applyIf(config,{
         formpanel: 'modx-panel-user-group'
         ,actions: {
-            'new': 'security/usergroup/create'
-            ,edit: 'security/usergroup/update'
-            ,cancel: 'security/permission'
+            'new': MODx.action['security/usergroup/create']
+            ,edit: MODx.action['security/usergroup/update']
+            ,cancel: MODx.action['security/permission']
         }
         ,buttons: [{
             process: 'create'
@@ -27,7 +27,7 @@ MODx.page.CreateUserGroup = function(config) {
         },'-',{
             process: 'cancel'
             ,text: _('cancel')
-            ,params: {a:'security/permission'}
+            ,params: {a:MODx.action['security/permission']}
         },'-',{
             text: _('help_ex')
             ,handler: MODx.loadHelpPane

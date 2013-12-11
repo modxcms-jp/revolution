@@ -169,7 +169,6 @@ MODx.grid.ElementProperties = function(config) {
     MODx.grid.ElementProperties.superclass.constructor.call(this,config);
     this.on('afteredit', this.propertyChanged, this);
     this.on('afterRemoveRow', this.propertyChanged, this);
-    this.on('celldblclick',this.onDirty,this);
     this.on('render',function() {
         this.mask = new Ext.LoadMask(this.getEl());
     },this);
@@ -861,12 +860,12 @@ MODx.window.UpdateElementProperty = function(config) {
                     ,fieldLabel: _('area')
                     ,description: MODx.expandHelp ? '' : _('property_area_desc')
                     ,name: 'area'
-                    ,id: 'modx-cep-area'
+                    ,id: 'modx-uep-area'
                     ,anchor: '100%'
                     ,allowBlank: true
                 },{
                     xtype: MODx.expandHelp ? 'label' : 'hidden'
-                    ,forId: 'modx-cep-area'
+                    ,forId: 'modx-uep-area'
                     ,html: _('property_area_desc')
                     ,cls: 'desc-under'
                 }]

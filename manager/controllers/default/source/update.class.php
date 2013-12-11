@@ -162,12 +162,4 @@ class SourceUpdateManagerController extends modManagerController {
     public function getLanguageTopics() {
         return array('source','namespace','propertyset');
     }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Media+Sources';
-    }
 }

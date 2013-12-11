@@ -73,6 +73,7 @@ class modResourceSearchProcessor extends modObjectGetListProcessor {
     }
 
     public function beforeIteration(array $list) {
+        $this->actions = $this->modx->request->getAllActionIDs();
         $this->charset = $this->modx->getOption('modx_charset',null,'UTF-8');
         $this->canEdit = $this->modx->hasPermission('edit_document');
         return $list;
@@ -86,7 +87,7 @@ class modResourceSearchProcessor extends modObjectGetListProcessor {
         if ($this->canEdit) {
             $objectArray['menu'][] = array(
                 'text' => $this->modx->lexicon('resource_edit'),
-                'params' => array('a' => 'resource/update'),
+                'params' => array('a' => $this->actions['resource/update']),
             );
         }
         return $objectArray;

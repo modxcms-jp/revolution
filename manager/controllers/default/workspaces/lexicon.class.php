@@ -25,6 +25,10 @@ class WorkspacesLexiconManagerController extends modManagerController {
         $this->addJavascript($mgrUrl.'assets/modext/workspace/lexicon/lexicon.grid.js');
         $this->addJavascript($mgrUrl.'assets/modext/workspace/lexicon/lexicon.panel.js');
         $this->addJavascript($mgrUrl.'assets/modext/workspace/lexicon/index.js');
+        $this->addHtml("<script>
+            Ext.onReady(function() {
+                MODx.add('modx-page-lexicon-management');
+            });</script>");
     }
 
     /**
@@ -57,13 +61,5 @@ class WorkspacesLexiconManagerController extends modManagerController {
      */
     public function getLanguageTopics() {
         return array('package_builder','lexicon','namespace');
-    }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Internationalization';
     }
 }

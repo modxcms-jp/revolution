@@ -116,6 +116,9 @@ Ext.extend(MODx.tree.Directory,MODx.tree.Tree,{
             tb.doLayout();
         }
         this.searchBar = tb;
+        this.on('resize', function(){
+            this.sourceCombo.setWidth(this.getWidth() - 12);
+        }, this);
     }
     ,changeSource: function(sel) {
         var s = sel.getValue();
@@ -194,7 +197,7 @@ Ext.extend(MODx.tree.Directory,MODx.tree.Tree,{
     }
 
     ,editFile: function(itm,e) {
-        this.loadAction('a=system/file/edit&file='+this.cm.activeNode.attributes.id+'&source='+this.config.source);
+        this.loadAction('a='+MODx.action['system/file/edit']+'&file='+this.cm.activeNode.attributes.id+'&source='+this.getSource());
     }
 
     ,quickUpdateFile: function(itm,e) {
@@ -231,7 +234,7 @@ Ext.extend(MODx.tree.Directory,MODx.tree.Tree,{
 
     ,createFile: function(itm,e) {
         var d = this.cm.activeNode && this.cm.activeNode.attributes ? this.cm.activeNode.attributes.id : '';
-        this.loadAction('a=system/file/create&directory='+d+'&source='+this.getSource());
+        this.loadAction('a='+MODx.action['system/file/create']+'&directory='+d+'&source='+this.getSource());
     }
 
     ,quickCreateFile: function(itm,e) {
@@ -467,6 +470,7 @@ Ext.extend(MODx.tree.Directory,MODx.tree.Tree,{
             }
         } else {
             this.refresh();
+            this.fireEvent('afterUpload');
         }
     }    
     ,beforeUpload: function() {

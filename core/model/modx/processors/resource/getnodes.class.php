@@ -12,6 +12,7 @@ class modResourceGetNodesProcessor extends modProcessor {
     public $contextKey = false;
     public $startNode = 0;
     public $items = array();
+    public $actions = array();
     public $permissions = array();
 
     public function checkPermissions() {
@@ -67,10 +68,11 @@ class modResourceGetNodesProcessor extends modProcessor {
     }
 
     /**
-     * Prepare the tree nodes, by getting the permissions
+     * Prepare the tree nodes, by getting the action IDs and permissions
      * @return void
      */
     public function prepare() {
+        $this->actions = $this->modx->request->getAllActionIDs();
         $this->permissions = array(
             'save_document' => $this->modx->hasPermission('save_document') ? 'psave' : '',
             'view_document' => $this->modx->hasPermission('view_document') ? 'pview' : '',
@@ -255,7 +257,7 @@ class modResourceGetNodesProcessor extends modProcessor {
             'children' => array(),
             'allowDrop' => false,
             'cls' => 'search-results-node search-more-node',
-            'page' => '?a=search&q='.urlencode($s),
+            'page' => '?a='.$this->actions['search'].'&q='.urlencode($s),
         );
 
         $this->items[] = $searchNode;
@@ -330,7 +332,7 @@ class modResourceGetNodesProcessor extends modProcessor {
             'cls' => implode(' ',$class),
             'qtip' => $context->get('description') != '' ? strip_tags($context->get('description')) : '',
             'type' => 'modContext',
-            'page' => !$this->getProperty('noHref') ? '?a=context/update&key='.$context->get('key') : '',
+            'page' => !$this->getProperty('noHref') ? '?a='.$this->actions['context/update'].'&key='.$context->get('key') : '',
         );
     }
 
@@ -371,7 +373,7 @@ class modResourceGetNodesProcessor extends modProcessor {
         if (!empty($this->permissions['publish_document'])) $class[] = $this->permissions['publish_document'];
         if (!empty($this->permissions['unpublish_document'])) $class[] = $this->permissions['unpublish_document'];
         if ($hasChildren) $class[] = 'haschildren';
-        if ($this->getProperty('currentResource') == $resource->id && $this->getProperty('currentAction') == 'resource/update') {
+        if ($this->getProperty('currentResource') == $resource->id && $this->getProperty('currentAction') == $this->actions['resource/update']) {
             $class[] = 'active-node';
         }
 
@@ -409,7 +411,7 @@ class modResourceGetNodesProcessor extends modProcessor {
             'hide_children_in_tree' => $resource->hide_children_in_tree,
             'qtip' => $qtip,
             'preview_url' => $this->modx->makeUrl($resource->get('id'), $resource->get('context_key'), '', 'full'),
-            'page' => empty($noHref) ? '?a='.(!empty($this->permissions['edit_document']) ? 'resource/update' : 'resource/data').'&id='.$resource->id : '',
+            'page' => empty($noHref) ? '?a='.(!empty($this->permissions['edit_document']) ? $this->actions['resource/update'] : $this->actions['resource/data']).'&id='.$resource->id : '',
             'allowDrop' => true,
         );
         if (!$hasChildren) {

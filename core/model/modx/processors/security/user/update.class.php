@@ -63,7 +63,6 @@ class modUserUpdateProcessor extends modObjectUpdateProcessor {
         $this->setDefaultProperties(array(
             'class_key' => $this->classKey,
         ));
-        $this->classKey = $this->getProperty('class_key');
         return parent::initialize();
     }
 
@@ -243,7 +242,7 @@ class modUserUpdateProcessor extends modObjectUpdateProcessor {
     public function cleanup() {
         $passwordNotifyMethod = $this->getProperty('passwordnotifymethod');
         if (!empty($passwordNotifyMethod) && !empty($this->newPassword) && $passwordNotifyMethod  == 's') {
-            return $this->success($this->modx->lexicon('user_created_password_message',array(
+            return $this->success($this->modx->lexicon('user_updated_password_message',array(
                 'password' => $this->newPassword,
             )),$this->object);
         } else {

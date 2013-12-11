@@ -2,7 +2,6 @@
 /**
  * Import a Form Customization Set from an XML file
  *
- * @var modX $modx
  * @package modx
  * @subpackage processors.security.forms.set
  */
@@ -13,7 +12,7 @@ if (!function_exists('simplexml_load_string')) {
     return $modx->error->failure($modx->lexicon('simplexml_err_nf'));
 }
 
-/* @var modFormCustomizationProfile $profile */
+/* get profile */
 if (empty($scriptProperties['profile'])) return $modx->error->failure($modx->lexicon('profile_err_ns'));
 $profile = $modx->getObject('modFormCustomizationProfile',$scriptProperties['profile']);
 if ($profile == null) return $modx->error->failure($modx->lexicon('profile_err_nf'));
@@ -25,11 +24,11 @@ if ($_FILE['error'] != 0) return $modx->error->failure($modx->lexicon('set_impor
 $o = file_get_contents($_FILE['tmp_name']);
 if (empty($o)) return $modx->error->failure($modx->lexicon('set_import_err_upload'));
 
-/* @var SimpleXMLElement $xml */
+/* verify and load xml */
 $xml = @simplexml_load_string($o);
 if (empty($xml)) return $modx->error->failure($modx->lexicon('set_import_err_xml'));
 
-/* @var modFormCustomizationSet $set create set object */
+/* create set object */
 $set = $modx->newObject('modFormCustomizationSet');
 $set->set('profile',$profile->get('id'));
 $set->set('description',(string)$xml->description);
@@ -37,12 +36,18 @@ $set->set('constraint_field',(string)$xml->constraint_field);
 $set->set('constraint',(string)$xml->constraint);
 $set->set('constraint_class','modResource');
 $set->set('active',(int)$xml->active);
-$set->set('action',(string)$xml->action);
+
+/* set action */
+$action = $modx->getObject('modAction',array(
+    'controller' => (string)$xml->action,
+    'namespace' => 'core',
+));
+if (empty($action)) return $modx->error->failure($modx->lexicon('set_import_action_err_nf'));
+$set->set('action',$action->get('id'));
 
 /* set template */
 $templatePk = (string)$xml->template;
 if (!empty($templatePk)) {
-    /** @var modTemplate $template */
     $template = $modx->getObject('modTemplate',array(
         'templatename' => $templatePk,
     ));
@@ -58,9 +63,8 @@ $rules = array();
 foreach ($xml->fields->field as $field) {
     $visible = (int)$field->visible;
     if (empty($visible)) {
-        /** @var modActionDom $rule */
         $rule = $modx->newObject('modActionDom');
-        $rule->set('action',$set->get('action'));
+        $rule->set('action',$action->get('id'));
         $rule->set('name',(string)$field->name);
         $rule->set('container','modx-panel-resource');
         $rule->set('rule','fieldVisible');
@@ -117,7 +121,7 @@ foreach ($xml->fields->field as $field) {
 /* calculate tabs rules */
 foreach ($xml->tabs->tab as $tab) {
     $tabField = $modx->getObject('modActionField',array(
-        'action' => $set->get('action'),
+        'action' => $action->get('id'),
         'name' => (string)$tab->name,
         'type' => 'tab',
     ));
@@ -134,7 +138,7 @@ foreach ($xml->tabs->tab as $tab) {
         $rule->set('constraint_field',$set->get('constraint_field'));
         $rule->set('constraint',$set->get('constraint'));
         $rule->set('active',true);
-        if ($set->get('action') == 'resource/create') {
+        if ($action && $action->get('controller') == 'resource/create') {
             $rule->set('for_parent',true);
         }
         $rule->set('rank',1);
@@ -152,7 +156,7 @@ foreach ($xml->tabs->tab as $tab) {
             $rule->set('constraint_field',$set->get('constraint_field'));
             $rule->set('constraint',$set->get('constraint'));
             $rule->set('active',true);
-            if ($set->get('action') == 'resource/create') {
+            if ($action && $action->get('controller') == 'resource/create') {
                 $rule->set('for_parent',true);
             }
             $rule->set('rank',2);
@@ -170,7 +174,7 @@ foreach ($xml->tabs->tab as $tab) {
             $rule->set('constraint_field',$set->get('constraint_field'));
             $rule->set('constraint',$set->get('constraint'));
             $rule->set('active',true);
-            if ($set->get('action') == 'resource/create') {
+            if ($action && $action->get('controller') == 'resource/create') {
                 $rule->set('for_parent',true);
             }
             $rule->set('rank',3);
@@ -181,7 +185,6 @@ foreach ($xml->tabs->tab as $tab) {
 
 /* calculate TV rules */
 foreach ($xml->tvs->tv as $tvData) {
-    /** @var modTemplateVar $tv */
     $tv = $modx->getObject('modTemplateVar',array(
         'name' => (string)$tvData->name,
     ));
@@ -202,7 +205,7 @@ foreach ($xml->tvs->tv as $tvData) {
         $rule->set('constraint_field',$set->get('constraint_field'));
         $rule->set('constraint',$set->get('constraint'));
         $rule->set('active',true);
-        if ($set->get('action') == 'resource/create') {
+        if ($action && $action->get('controller') == 'resource/create') {
             $rule->set('for_parent',true);
         }
         $rule->set('rank',12);
@@ -220,7 +223,7 @@ foreach ($xml->tvs->tv as $tvData) {
         $rule->set('constraint_field',$set->get('constraint_field'));
         $rule->set('constraint',$set->get('constraint'));
         $rule->set('active',true);
-        if ($set->get('action') == 'resource/create') {
+        if ($action && $action->get('controller') == 'resource/create') {
             $rule->set('for_parent',true);
         }
         $rule->set('rank',11);
@@ -239,7 +242,7 @@ foreach ($xml->tvs->tv as $tvData) {
         $rule->set('constraint_field',$set->get('constraint_field'));
         $rule->set('constraint',$set->get('constraint'));
         $rule->set('active',true);
-        if ($set->get('action') == 'resource/create') {
+        if ($action && $action->get('controller') == 'resource/create') {
             $rule->set('for_parent',true);
         }
         $rule->set('rank',10);
@@ -257,7 +260,7 @@ foreach ($xml->tvs->tv as $tvData) {
         $rule->set('constraint_field',$set->get('constraint_field'));
         $rule->set('constraint',$set->get('constraint'));
         $rule->set('active',true);
-        if ($set->get('action') == 'resource/create') {
+        if ($action && $action->get('controller') == 'resource/create') {
             $rule->set('for_parent',true);
         }
         /* add 20 to rank to make sure happens after tab create */

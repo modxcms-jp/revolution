@@ -2,7 +2,7 @@
 /**
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -41,6 +41,11 @@ class modParser {
      */
     protected $_processingTag = false;
     /**
+     * If the parser is currently processing an element
+     * @var bool $_processingElement
+     */
+    protected $_processingElement = false;
+    /**
      * If the parser is currently processing an uncacheable tag
      * @var bool $_processingUncacheable
      */
@@ -64,7 +69,7 @@ class modParser {
      */
     public function isProcessingUncacheable() {
         $result = false;
-        if ($this->isProcessingTag()) $result = (boolean) $this->_processingUncacheable;
+        if ($this->isProcessingTag() || $this->isProcessingElement()) $result = (boolean) $this->_processingUncacheable;
         return $result;
     }
 
@@ -74,7 +79,7 @@ class modParser {
      */
     public function isRemovingUnprocessed() {
         $result = false;
-        if ($this->isProcessingTag()) $result = (boolean) $this->_removingUnprocessed;
+        if ($this->isProcessingTag() || $this->isProcessingElement()) $result = (boolean) $this->_removingUnprocessed;
         return $result;
     }
 
@@ -84,6 +89,24 @@ class modParser {
      */
     public function isProcessingTag() {
         return (boolean) $this->_processingTag;
+    }
+
+    /**
+     * Returns true if the parser is currently processing an element
+     * @return bool
+     */
+    public function isProcessingElement() {
+        return (boolean) $this->_processingElement;
+    }
+
+    public function setProcessingElement($arg = null) {
+        if (is_bool($arg)) {
+            $this->_processingElement = $arg;
+        } elseif ($arg === null) {
+            $this->_processingElement = !$this->_processingElement ? true : false;
+        } else {
+            $this->_processingElement = (boolean)$arg;
+        }
     }
 
     /**
@@ -189,6 +212,9 @@ class modParser {
      * @return int The number of processed tags
      */
     public function processElementTags($parentTag, & $content, $processUncacheable= false, $removeUnprocessed= false, $prefix= "[[", $suffix= "]]", $tokens= array (), $depth= 0) {
+        $_processingTag = $this->_processingTag;
+        $_processingUncacheable = $this->_processingUncacheable;
+        $_removingUnprocessed = $this->_removingUnprocessed;
         $this->_processingTag = true;
         $this->_processingUncacheable = (boolean) $processUncacheable;
         $this->_removingUnprocessed = (boolean) $removeUnprocessed;
@@ -233,7 +259,10 @@ class modParser {
                 $processed+= $this->processElementTags($parentTag, $content, $processUncacheable, $removeUnprocessed, $prefix, $suffix, $tokens, $depth);
             }
         }
-        $this->_processingTag = false;
+
+        $this->_removingUnprocessed = $_removingUnprocessed;
+        $this->_processingUncacheable = $_processingUncacheable;
+        $this->_processingTag = $_processingTag;
         return $processed;
     }
 
@@ -780,6 +809,7 @@ abstract class modTag {
      */
     public function process($properties= null, $content= null) {
         $this->modx->getParser();
+        $this->modx->parser->setProcessingElement(true);
         $this->getProperties($properties);
         $this->getTag();
         $this->filterInput();
@@ -1236,12 +1266,20 @@ class modLinkTag extends modTag {
                     array(),
                     $maxIterations
                 );
-                if (isset ($this->modx->aliasMap[$this->_output])) {
-                    $this->_output= $this->modx->aliasMap[$this->_output];
+                $context = '';
+                if ($this->modx->getOption('friendly_urls', null, false)) {
+                    if (array_key_exists('context', $this->_properties)) {
+                        $context = $this->_properties['context'];
+                    }
+                    if ($context) {
+                        $resource = $this->modx->findResource($this->_output, $context);
+                        if ($resource) {
+                            $this->_output = $resource;
+                        }
+                    }
                 }
                 if (!empty($this->_output)) {
                     $qs = '';
-                    $context = '';
                     $scheme = $this->modx->getOption('link_tag_scheme',null,-1);
                     $options = array();
                     if (is_array($this->_properties) && !empty($this->_properties)) {
@@ -1260,7 +1298,7 @@ class modLinkTag extends modTag {
                             unset($this->_properties['use_weblink_target']);
                         }
                         foreach ($this->_properties as $propertyKey => $propertyValue) {
-                            if (in_array($propertyKey, array('context', 'scheme'))) continue;
+                            if (in_array($propertyKey, array('context', 'scheme', 'use_weblink_target'))) continue;
                             $qs[]= "{$propertyKey}={$propertyValue}";
                         }
                         if ($qs= implode('&', $qs)) {

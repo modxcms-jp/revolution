@@ -21,7 +21,13 @@ class ContextViewManagerController extends modManagerController {
      * @return void
      */
     public function loadCustomCssJs() {
-        
+        $this->addHtml("<script>
+            Ext.onReady(function() {
+                MODx.load({
+                   xtype: 'page-context-view'
+                   ,key: MODx.request.key
+                });
+            });</script>");
     }
 
     /**
@@ -73,13 +79,5 @@ class ContextViewManagerController extends modManagerController {
      */
     public function getLanguageTopics() {
         return array('context');
-    }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Contexts';
     }
 }

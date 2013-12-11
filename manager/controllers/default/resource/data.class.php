@@ -121,12 +121,4 @@ class ResourceDataManagerController extends ResourceManagerController {
     public function getLanguageTopics() {
         return array('resource');
     }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Resources';
-    }
 }

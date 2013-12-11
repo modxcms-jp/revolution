@@ -2,7 +2,7 @@
 /*
  * MODX Revolution
  *
- * Copyright 2006-2012 by MODX, LLC.
+ * Copyright 2006-2013 by MODX, LLC.
  *
  * All rights reserved.
  *
@@ -27,8 +27,6 @@
  */
 /**
  * An extendable class for handling REST requests.
- *
- * @deprecated To be removed in 2.3. See modRestService instead.
  *
  * @package modx
  * @subpackage rest

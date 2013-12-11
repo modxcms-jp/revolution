@@ -71,12 +71,4 @@ class SystemDashboardsManagerController extends modManagerController {
     public function getLanguageTopics() {
         return array('dashboards');
     }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Dashboards';
-    }
 }

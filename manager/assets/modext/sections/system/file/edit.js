@@ -24,7 +24,7 @@ MODx.page.EditFile = function(config) {
     btns.push({
         process: 'cancel'
         ,text: _('cancel')
-        ,params: {a:'welcome'}
+        ,params: {a:MODx.action['welcome']}
     });
 
     Ext.applyIf(config,{

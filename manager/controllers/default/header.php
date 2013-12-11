@@ -32,9 +32,6 @@ foreach ($menus as $menu) {
         foreach ($exploded as $permission) $permissions[trim($permission)]= true;
         if (!empty($permissions) && !$modx->hasPermission($permissions)) continue;
     }
-    if ($menu['namespace'] != 'core') {
-        $menu['action'] .= '&namespace='.$menu['namespace'];
-    }
 
     $menuTpl = '<li id="limenu-'.$menu['text'].'" class="top'.'">'."\n";
     if (!empty($menu['handler'])) {
@@ -68,10 +65,6 @@ function _modProcessMenus(modX &$modx,&$output,$menus,&$childrenCt,$showDescript
         }
         $smTpl = '<li>'."\n";
 
-        if ($menu['namespace'] != 'core') {
-            $menu['action'] .= '&namespace='.$menu['namespace'];
-        }
-
         $description = !empty($menu['description']) ? '<span class="description">'.$menu['description'].'</span>'."\n" : '';
 
         if (!empty($menu['handler'])) {
@@ -91,6 +84,8 @@ function _modProcessMenus(modX &$modx,&$output,$menus,&$childrenCt,$showDescript
         $childrenCt++;
     }
 }
+$emptySub = '<ul class="modx-subsubnav">'."\n".'</ul>'."\n";
+$output = str_replace($emptySub, '', $output);
 $this->setPlaceholder('navb',$output);
 
 /* assign logged in text and link */

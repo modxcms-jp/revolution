@@ -32,10 +32,10 @@ MODx.tree.Resource = function(config) {
         var el = Ext.get('modx-resource-tree');
         el.createChild({tag: 'div', id: 'modx-resource-tree_tb'});
         el.createChild({tag: 'div', id: 'modx-resource-tree_filter'});
+        this.addSearchToolbar();
     },this);
     this.addEvents('loadCreateMenus');
     this.on('afterSort',this._handleAfterDrop,this);
-    this.addSearchToolbar();
 };
 Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
     forms: {}
@@ -89,6 +89,9 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         tb.add(tf);
         tb.doLayout();
         this.searchBar = tb;
+        this.on('resize', function(){
+            tf.setWidth(this.getWidth() - 12);
+        }, this);
     }
 
     ,search: function(nv) {
@@ -523,7 +526,7 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
                 text: _('edit_context')
                 ,handler: function() {
                     var at = this.cm.activeNode.attributes;
-                    this.loadAction('a=context/update&key='+at.pk);
+                    this.loadAction('a='+MODx.action['context/update']+'&key='+at.pk);
                 }
             });
         }
@@ -553,11 +556,11 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         return m;
     }
 
-    ,overviewResource: function() {this.loadAction('a=resource/data')}
+    ,overviewResource: function() {this.loadAction('a='+MODx.action['resource/data'])}
     ,quickUpdateResource: function(itm,e) {
         Ext.getCmp("modx-resource-tree").quickUpdate(itm,e,itm.classKey);
     }
-    ,editResource: function() {this.loadAction('a=resource/update');}
+    ,editResource: function() {this.loadAction('a='+MODx.action['resource/update']);}
 
     ,_getModResourceMenu: function(n) {
         var a = n.attributes;
@@ -648,7 +651,10 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         var at = this.cm.activeNode.attributes;
         var p = itm.usePk ? itm.usePk : at.pk;
         Ext.getCmp('modx-resource-tree').loadAction(
-            'a=resource/create&class_key=' + itm.classKey + '&parent=' + p + (at.ctx ? '&context_key='+at.ctx : '')
+            'a='+MODx.action['resource/create']
+            + '&class_key='+itm.classKey
+            + '&parent='+p
+            + (at.ctx ? '&context_key='+at.ctx : '')
         );
     }
     ,createResource: function(itm,e) {
@@ -690,13 +696,13 @@ Ext.extend(MODx.tree.Resource,MODx.tree.Tree,{
         }
         m.push({
             text: _('create')
-            ,handler: Ext.emptyFn
+            ,handler: function() {return false;}
             ,menu: {items: ct}
         });
         if (ui && ui.hasClass('pqcreate')) {
             m.push({
                text: _('quick_create')
-               ,handler: Ext.emptyFn
+                ,handler: function() {return false;}
                ,menu: {items: qct}
             });
         }

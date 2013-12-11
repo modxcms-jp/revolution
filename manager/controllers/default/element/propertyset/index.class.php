@@ -5,7 +5,7 @@
  * @package modx
  * @subpackage manager.controllers
  */
-class ElementPropertySetManagerController extends modManagerController {
+class ElementPropertySetIndexManagerController extends modManagerController {
     /**
      * Check for any permissions or requirements to load page
      * @return bool
@@ -24,6 +24,10 @@ class ElementPropertySetManagerController extends modManagerController {
         $this->addJavascript($mgrUrl.'assets/modext/widgets/element/modx.grid.element.properties.js');
         $this->addJavascript($mgrUrl.'assets/modext/widgets/element/modx.panel.property.set.js');
         $this->addJavascript($mgrUrl.'assets/modext/sections/element/propertyset/index.js');
+        $this->addHtml("<script>
+            Ext.onReady(function() {
+                MODx.load({ xtype: 'modx-page-property-sets' });
+            });</script>");
     }
 
     /**
@@ -56,13 +60,5 @@ class ElementPropertySetManagerController extends modManagerController {
      */
     public function getLanguageTopics() {
         return array('element','category','propertyset');
-    }
-
-    /**
-     * Get the Help URL
-     * @return string
-     */
-    public function getHelpUrl() {
-        return 'Properties+and+Property+Sets';
     }
 }

@@ -1,7 +1,3 @@
-Ext.onReady(function() {
-    MODx.load({ xtype: 'modx-page-import-html' });
-});
-
 MODx.page.ImportHTML = function(config) {
     config = config || {};
     Ext.applyIf(config,{
@@ -9,7 +5,7 @@ MODx.page.ImportHTML = function(config) {
         ,buttons: [{
             process: 'import', text: _('import_site'), method: 'remote'
         },{
-            process: 'cancel', text: _('cancel'), params: {a:'welcome'}
+            process: 'cancel', text: _('cancel'), params: {a:MODx.action['welcome']}
         }]
         ,components: [{
             xtype: 'modx-panel-import-html'
