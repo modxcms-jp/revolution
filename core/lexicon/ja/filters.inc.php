@@ -14,6 +14,7 @@ $_lang['ago_day'] = '[[+time]] 日';
 $_lang['ago_days'] = '[[+time]] 日';
 $_lang['ago_hour'] = '[[+time]] 時間';
 $_lang['ago_hours'] = '[[+time]] 時間';
+$_lang['ago_minute'] = '1 分';
 $_lang['ago_minutes'] = '[[+time]] 分';
 $_lang['ago_month'] = '[[+time]] 月';
 $_lang['ago_months'] = '[[+time]] 月';

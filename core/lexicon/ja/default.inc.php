@@ -504,6 +504,7 @@ $_lang['untitled_template'] = '無題のテンプレート';
 $_lang['untitled_tv'] = '無題のテンプレート変数';
 $_lang['untitled_weblink'] = '無題のウェブリンク';
 $_lang['untitled_symlink'] = '無題のシムリンク';
+$_lang['unsaved_changes'] = 'There are unsaved changes. Are you sure you want to leave this page?';
 $_lang['update'] = '更新';
 $_lang['updated'] = '更新済み';
 $_lang['upload'] = 'アップロード';
