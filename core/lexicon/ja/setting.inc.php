@@ -328,17 +328,17 @@ $_lang['setting_friendly_alias_word_delimiter'] = 'エイリアス自動生成�
 $_lang['setting_friendly_alias_word_delimiter_desc'] = 'フレンドリーURL用のエイリアスを自動生成する際に、単語を区切る文字を指定します。';
 
 $_lang['setting_friendly_alias_word_delimiters'] = 'エイリアス自動生成時の区切り文字';
-$_lang['setting_friendly_alias_word_delimiters_desc'] = 'Characters which represent word delimiters when processing friendly URL alias slugs. These characters will be converted and consolidated to the preferred FURL alias word delimiter.';
+$_lang['setting_friendly_alias_word_delimiters_desc'] = 'フレンドリーURLのエイリアススラッグを生成する際に単語の区切りを意味する文字。これらの文字は希望のFURLエイリアスの区切り文字に変換・統合されます。';
 
 $_lang['setting_friendly_urls'] = 'フレンドリーURLの利用';
 $_lang['setting_friendly_urls_desc'] = '静的URI機能（フレンドリーURL）の設定を行います。この機能はMODXがApache上で動作している時のみ有効です。<br />この機能を動作させるために .htaccessファイルに簡単な編集を加える必要があります。詳細は同梱 .htaccessファイルの末尾あたりをご覧ください。';
 $_lang['setting_friendly_urls_err'] = 'フレンドリーURLを使用するかしないか選んでください。';
 
 $_lang['setting_friendly_urls_strict'] = '厳格なフレンドリーURLを適用';
-$_lang['setting_friendly_urls_strict_desc'] = 'When friendly URLs are enabled, this option forces non-canonical requests that match a Resource to 301 redirect to the canonical URI for that Resource. WARNING: Do not enable if you use custom rewrite rules which do not match at least the beginning of the canonical URI. For example, a canonical URI of foo/ with custom rewrites for foo/bar.html would work, but attempts to rewrite bar/foo.html as foo/ would force a redirect to foo/ with this option enabled.';
+$_lang['setting_friendly_urls_strict_desc'] = 'フレンドリーURLが有効の場合、このオプションはリソースの正規URIに301リダイレクトするため、リソースに合致する非正規リクエストを強制的に実行します。注意: 最低でも正規のURIの先頭と一致しないカスタムのリライト規則を使用している場合は有効にしないでください。例えば、foo/bar.html 用にカスタムリライトした foo/ の正規URI は動作するはずですが、 foo/ はこのオプションが有効化されているfoo/ に強制的にリダイレクトされるので、foo/bar.html を書き換えようとします。';
 
 $_lang['setting_global_duplicate_uri_check'] = 'すべてのコンテキスト間で重複URIをチェック';
-$_lang['setting_global_duplicate_uri_check_desc'] = 'Select \'Yes\' to make duplicate URI checks include all Contexts in the search. Otherwise, only the Context the Resource is being saved in is checked.';
+$_lang['setting_global_duplicate_uri_check_desc'] = '検索内のすべてのコンテキスト間で重複URIをチェックをする場合は「はい」を選択してください。それ以外の場合は、リソースが保存されているコンテキストのみをチェックします。';
 
 $_lang['setting_hidemenu_default'] = 'リソースのデフォルト：メニューに表示しない';
 $_lang['setting_hidemenu_default_desc'] = '「はい」を選択すると、新規リソースの「メニューに表示しない」設定がデフォルトで有効になります。';
