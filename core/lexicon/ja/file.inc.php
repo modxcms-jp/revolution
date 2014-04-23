@@ -119,3 +119,4 @@ $_lang['upf_upload_err'] = 'アップロードエラー';
 $_lang['upf_uploading'] = 'アップロード中...';
 $_lang['upf_uploading_desc'] = 'アップロード中: {1} ファイル中 {0} ファイル完了。';
 $_lang['upload_files'] = 'ここにファイルをアップロード';
+$_lang['no_file_err'] = 'No file was uploaded.';
